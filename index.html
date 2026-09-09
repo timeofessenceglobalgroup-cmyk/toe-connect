@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOE Connect — Business Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --matte-black:#0E0E0C;
+    --charcoal:#242220;
+    --white:#FBFAF7;
+    --gold:#C9A227;
+    --gold-light:#E8C468;
+    --line:rgba(251,250,247,0.14);
+    --line-dark:rgba(14,14,12,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Jost',sans-serif;
+    background:var(--white);
+    color:var(--matte-black);
+    line-height:1.5;
+  }
+  h1,h2,h3,.wordmark{font-family:'Fraunces',serif;}
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;}
+
+  /* header */
+  header{
+    background:var(--matte-black);
+    color:var(--white);
+    padding:22px 48px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .wordmark{font-size:22px;font-weight:500;letter-spacing:0.2px;}
+  .wordmark span{color:var(--gold-light);}
+  nav{display:flex;gap:36px;align-items:center;}
+  nav a{font-size:14px;color:rgba(251,250,247,0.78);transition:color .15s;}
+  nav a:hover{color:var(--gold-light);}
+  .nav-cta{
+    border:1px solid var(--gold);
+    color:var(--gold-light) !important;
+    padding:9px 20px;
+    border-radius:2px;
+  }
+  .nav-cta:hover{background:var(--gold);color:var(--matte-black) !important;}
+
+  /* hero */
+  .hero{
+    background:var(--matte-black);
+    color:var(--white);
+    padding:88px 48px 64px;
+    text-align:center;
+  }
+  .hero-eyebrow{
+    font-size:14px;
+    color:var(--gold-light);
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:52px;
+    font-weight:500;
+    line-height:1.12;
+    max-width:820px;
+    margin:0 auto 20px;
+  }
+  .hero p{
+    font-size:17px;
+    color:rgba(251,250,247,0.72);
+    max-width:520px;
+    margin:0 auto 40px;
+  }
+  .search-bar{
+    background:var(--white);
+    border-radius:3px;
+    max-width:720px;
+    margin:0 auto;
+    display:flex;
+    padding:6px;
+    gap:6px;
+  }
+  .search-bar input, .search-bar select{
+    border:none;
+    background:transparent;
+    font-family:'Jost',sans-serif;
+    font-size:15px;
+    padding:14px 16px;
+    color:var(--matte-black);
+    outline:none;
+  }
+  .search-bar input{flex:1.4;border-right:1px solid var(--line-dark);}
+  .search-bar select{flex:1;border-right:1px solid var(--line-dark);}
+  .search-bar button{
+    background:var(--gold);
+    color:var(--matte-black);
+    border:none;
+    padding:14px 28px;
+    font-family:'Jost',sans-serif;
+    font-size:15px;
+    font-weight:500;
+    border-radius:2px;
+    cursor:pointer;
+  }
+  .search-bar button:hover{background:var(--gold-light);}
+
+  /* category rail */
+  .categories{
+    background:var(--charcoal);
+    padding:20px 48px;
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .chip{
+    font-size:13px;
+    color:rgba(251,250,247,0.75);
+    border:1px solid var(--line);
+    padding:8px 18px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .chip.active{background:var(--gold);border-color:var(--gold);color:var(--matte-black);font-weight:500;}
+
+  /* listings */
+  .listings{padding:64px 48px 40px;max-width:1180px;margin:0 auto;}
+  .listings-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:32px;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .listings-head h2{font-size:26px;font-weight:500;}
+  .listings-head p{font-size:14px;color:#5c5a54;}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:28px;
+  }
+  .card{
+    border:1px solid #E4E1D8;
+    border-top:3px solid var(--gold);
+  }
+  .card-photo{
+    height:150px;
+    background:var(--charcoal);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--gold-light);
+    font-family:'Fraunces',serif;
+    font-size:15px;
+  }
+  .card-body{padding:20px;}
+  .card-tag{
+    font-size:12px;
+    color:var(--gold);
+    margin-bottom:8px;
+    font-weight:500;
+  }
+  .card h3{font-size:19px;font-weight:500;margin-bottom:4px;}
+  .card-loc{font-size:13px;color:#7a776f;margin-bottom:12px;}
+  .card-desc{font-size:14px;color:#3a3833;margin-bottom:18px;}
+  .card-link{
+    font-size:13px;
+    font-weight:500;
+    border-top:1px solid #E4E1D8;
+    padding-top:14px;
+    display:block;
+  }
+  .featured-flag{
+    font-size:11px;
+    color:var(--matte-black);
+    background:var(--gold-light);
+    padding:3px 10px;
+    display:inline-block;
+    margin-bottom:8px;
+  }
+
+  /* cta band */
+  .cta-band{
+    background:var(--white);
+    border-top:1px solid #E4E1D8;
+    border-bottom:1px solid #E4E1D8;
+    padding:56px 48px;
+    text-align:center;
+    margin-top:24px;
+  }
+  .cta-band h2{font-size:28px;font-weight:500;margin-bottom:12px;}
+  .cta-band p{font-size:15px;color:#5c5a54;max-width:480px;margin:0 auto 26px;}
+  .cta-band a{
+    background:var(--matte-black);
+    color:var(--white);
+    padding:14px 32px;
+    font-size:14px;
+    font-weight:500;
+    border-radius:2px;
+    display:inline-block;
+  }
+  .cta-band a:hover{background:var(--charcoal);}
+
+  /* footer */
+  footer{
+    background:var(--matte-black);
+    color:rgba(251,250,247,0.6);
+    padding:40px 48px;
+    font-size:13px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  footer .foot-brand{color:var(--gold-light);font-family:'Fraunces',serif;font-size:16px;}
+  footer a{opacity:0.85;}
+  footer a:hover{color:var(--gold-light);}
+  .foot-links{display:flex;gap:24px;}
+  .disclaimer-bar{background:var(--charcoal);color:rgba(251,250,247,0.5);font-size:11px;padding:14px 48px;text-align:center;}
+
+  @media(max-width:860px){
+    header,.hero,.categories,.listings,.cta-band,footer{padding-left:22px;padding-right:22px;}
+    .hero h1{font-size:36px;}
+    .search-bar{flex-direction:column;}
+    .search-bar input,.search-bar select{border-right:none;border-bottom:1px solid var(--line-dark);}
+    .grid{grid-template-columns:1fr;}
+    nav{display:none;}
+    footer{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">TOE <span>Connect</span></div>
+  <nav>
+    <a href="index.html">Browse categories</a>
+    <a href="tips.html">I wish I knew</a>
+    <a href="submit.html" class="nav-cta">Get listed</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">A Time of Essence Global Group directory · Free to list, always</div>
+  <h1>Find Black-owned businesses across Wisconsin</h1>
+  <p>Search a growing network of Wisconsin entrepreneurs, service providers, and creatives — many available in person, some serving clients virtually across state lines.</p>
+  <div class="search-bar">
+    <input type="text" placeholder="Search by business name or keyword">
+    <select>
+      <option>All categories</option>
+      <option>Beauty & wellness</option>
+      <option>Legal & financial</option>
+      <option>Notary & documents</option>
+      <option>Travel & events</option>
+      <option>Consulting</option>
+      <option>Childcare & daycare</option>
+      <option>Home health & senior care</option>
+      <option>Food & catering</option>
+      <option>Real estate</option>
+      <option>Fitness & personal training</option>
+      <option>Photography & creative services</option>
+      <option>Medical & dental care</option>
+    </select>
+    <button>Search</button>
+  </div>
+</section>
+
+<div class="categories">
+  <div class="chip active" data-cat="all">All</div>
+  <div class="chip" data-cat="Beauty & wellness">Beauty & wellness</div>
+  <div class="chip" data-cat="Legal & financial">Legal & financial</div>
+  <div class="chip" data-cat="Notary & documents">Notary & documents</div>
+  <div class="chip" data-cat="Travel & events">Travel & events</div>
+  <div class="chip" data-cat="Consulting">Consulting</div>
+  <div class="chip" data-cat="Health & insurance">Health & insurance</div>
+  <div class="chip" data-cat="Retail & products">Retail & products</div>
+  <div class="chip" data-cat="Childcare & daycare">Childcare & daycare</div>
+  <div class="chip" data-cat="Home health & senior care">Home health & senior care</div>
+  <div class="chip" data-cat="Food & catering">Food & catering</div>
+  <div class="chip" data-cat="Real estate">Real estate</div>
+  <div class="chip" data-cat="Fitness & personal training">Fitness & personal training</div>
+  <div class="chip" data-cat="Photography & creative services">Photography & creative services</div>
+  <div class="chip" data-cat="Medical & dental care">Medical & dental care</div>
+</div>
+
+<section class="listings">
+  <div class="listings-head">
+    <h2>Milwaukee, WI</h2>
+    <p><span id="count">39</span> businesses listed</p>
+  </div>
+  <div style="display:flex;gap:10px;margin-bottom:28px;">
+    <div class="chip active" data-loc="all" style="border-color:#D8D5CA;color:var(--matte-black);">All locations</div>
+    <div class="chip" data-loc="wi" style="border-color:#D8D5CA;color:var(--matte-black);">In-person</div>
+    <div class="chip" data-loc="remote" style="border-color:#D8D5CA;color:var(--matte-black);">Also serves remotely</div>
+  </div>
+  <div class="grid" id="grid">
+    <p id="grid-status" style="grid-column:1/-1;font-size:14px;color:#7a776f;">Loading listings…</p>
+  </div>
+</section>
+
+<script>
+  // Fallback sample data — used only if the live Airtable function isn't reachable yet
+  // (e.g. testing this file locally before deploying to Netlify).
+  const SAMPLE_LISTINGS = [
+    { name: 'Harmony Mobile Notary', category: 'Notary & documents', city: 'Milwaukee, WI', description: 'Mobile notary and apostille services, evenings and weekends available.', servesRemotely: false, supporter: true },
+    { name: 'Root & Bloom Studio', category: 'Beauty & wellness', city: 'Wauwatosa, WI', description: 'Natural hair care and scalp treatments by appointment.', servesRemotely: false, supporter: false },
+    { name: 'Clearline Business Advisors', category: 'Consulting', city: 'Milwaukee, WI', description: 'Bookkeeping and small business strategy for solo founders.', servesRemotely: false, supporter: false },
+    { name: 'Journeys by Renee', category: 'Travel & events', city: 'Brookfield, WI', description: 'Group and destination travel planning, from booking to itinerary.', servesRemotely: false, supporter: false },
+    { name: 'Legacy Life & Health Group', category: 'Health & insurance', city: 'Milwaukee, WI', description: 'Life and health insurance guidance for families and small businesses.', servesRemotely: false, supporter: false },
+    { name: 'Ivy & Oak Candle Co.', category: 'Retail & products', city: 'West Allis, WI', description: 'Small-batch soy candles, handmade and shipped statewide.', servesRemotely: false, supporter: false },
+    { name: 'Little Sprouts Learning Home', category: 'Childcare & daycare', city: 'Milwaukee, WI', description: 'Licensed in-home daycare, ages 6 weeks to 5 years, state-certified.', servesRemotely: false, supporter: false },
+    { name: 'Southern Table Catering', category: 'Food & catering', city: 'Milwaukee, WI', description: 'Full-service catering for events, weddings, and corporate lunches.', servesRemotely: false, supporter: false },
+    { name: 'Bright Path Career Coaching', category: 'Consulting', city: 'Milwaukee, WI', description: 'Career coaching and resume strategy for professionals, in person or by video call.', servesRemotely: true, supporter: false }
+  ];
+
+  const catChips = document.querySelectorAll('.categories .chip');
+  const locChips = document.querySelectorAll('[data-loc].chip');
+  const grid = document.getElementById('grid');
+  const count = document.getElementById('count');
+
+  let allListings = [];
+  let activeCat = 'all';
+  let activeLoc = 'all';
+
+  function cardHTML(item) {
+    const flag = item.supporter ? '<div class="featured-flag">Supporter</div>' : '';
+    const loc = item.servesRemotely ? `${item.city} · also serves clients virtually` : item.city;
+    return `
+      <div class="card" data-cat="${item.category}" data-loc="${item.servesRemotely ? 'remote' : 'wi'}">
+        <div class="card-photo">Photo</div>
+        <div class="card-body">
+          ${flag}
+          <div class="card-tag">${item.category}</div>
+          <h3>${item.name}</h3>
+          <div class="card-loc">${loc}</div>
+          <div class="card-desc">${item.description}</div>
+          <a href="#" class="card-link">View profile →</a>
+        </div>
+      </div>`;
+  }
+
+  function render() {
+    const filtered = allListings.filter(item => {
+      const catMatch = activeCat === 'all' || item.category === activeCat;
+      const locMatch = activeLoc === 'all' || (activeLoc === 'remote' ? item.servesRemotely : !item.servesRemotely);
+      return catMatch && locMatch;
+    });
+    grid.innerHTML = filtered.length
+      ? filtered.map(cardHTML).join('')
+      : '<p style="grid-column:1/-1;font-size:14px;color:#7a776f;">No listings match those filters yet.</p>';
+    count.textContent = filtered.length;
+  }
+
+  async function loadListings() {
+    try {
+      const res = await fetch('/.netlify/functions/get-listings');
+      if (!res.ok) throw new Error('Function returned an error');
+      const data = await res.json();
+      allListings = data.listings || [];
+    } catch (err) {
+      // Airtable function not reachable yet (e.g. local file preview) — fall back to sample data.
+      allListings = SAMPLE_LISTINGS;
+    }
+    render();
+  }
+
+  catChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      catChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeCat = chip.dataset.cat;
+      render();
+    });
+  });
+
+  locChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      locChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeLoc = chip.dataset.loc;
+      render();
+    });
+  });
+
+  loadListings();
+</script>
+
+<section class="cta-band">
+  <h2>Own a business? Get listed — no cost, ever.</h2>
+  <p>This directory exists so new and just-starting business owners never have to pay to be found. If your business is established and wants to support that mission, you can add a voluntary contribution at signup.</p>
+  <a href="submit.html">Submit your business — it's free</a>
+</section>
+
+<footer>
+  <div>
+    <div class="foot-brand">TOE Connect</div>
+    <div style="margin-top:6px;">A directory by Time of Essence Global Group, LLC</div>
+  </div>
+  <div class="foot-links">
+    <a href="#">Browse</a>
+    <a href="#">Get listed</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+<div class="disclaimer-bar">Listings are reviewed before approval, but businesses are responsible for maintaining their own licenses, certifications, and conduct. Verification reflects information available at time of review and is not a guarantee.</div>
+
+</body>
+</html>

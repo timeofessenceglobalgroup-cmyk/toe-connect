@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOE Connect — I wish I knew</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --matte-black:#0E0E0C;
+    --charcoal:#242220;
+    --white:#FBFAF7;
+    --gold:#C9A227;
+    --gold-light:#E8C468;
+    --line:rgba(251,250,247,0.14);
+    --line-dark:rgba(14,14,12,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Jost',sans-serif;background:var(--white);color:var(--matte-black);line-height:1.5;}
+  h1,h2,h3,.wordmark{font-family:'Fraunces',serif;}
+  a{color:inherit;text-decoration:none;}
+
+  header{
+    background:var(--matte-black);color:var(--white);
+    padding:22px 48px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .wordmark{font-size:22px;font-weight:500;}
+  .wordmark span{color:var(--gold-light);}
+  nav{display:flex;gap:36px;align-items:center;}
+  nav a{font-size:14px;color:rgba(251,250,247,0.78);transition:color .15s;}
+  nav a:hover, nav a.current{color:var(--gold-light);}
+  .nav-cta{border:1px solid var(--gold);color:var(--gold-light) !important;padding:9px 20px;border-radius:2px;}
+  .nav-cta:hover{background:var(--gold);color:var(--matte-black) !important;}
+
+  .hero{background:var(--matte-black);color:var(--white);padding:72px 48px 52px;text-align:center;}
+  .hero-eyebrow{font-size:14px;color:var(--gold-light);margin-bottom:16px;}
+  .hero h1{font-size:44px;font-weight:500;max-width:680px;margin:0 auto 18px;line-height:1.18;}
+  .hero p{font-size:16px;color:rgba(251,250,247,0.72);max-width:480px;margin:0 auto;}
+
+  .topics{
+    background:var(--charcoal);padding:18px 48px;display:flex;gap:14px;
+    overflow-x:auto;justify-content:center;flex-wrap:wrap;
+  }
+  .chip{font-size:13px;color:rgba(251,250,247,0.75);border:1px solid var(--line);padding:8px 18px;border-radius:20px;white-space:nowrap;}
+  .chip.active{background:var(--gold);border-color:var(--gold);color:var(--matte-black);font-weight:500;}
+
+  .tips-wrap{max-width:820px;margin:0 auto;padding:56px 24px 20px;}
+  .tips-wrap h2{font-size:24px;font-weight:500;margin-bottom:8px;}
+  .tips-wrap>p{font-size:14px;color:#5c5a54;margin-bottom:36px;}
+
+  .tip-card{
+    border:1px solid #E4E1D8;border-left:3px solid var(--gold);
+    padding:24px 28px;margin-bottom:18px;display:flex;gap:20px;
+  }
+  .tip-mark{font-family:'Fraunces',serif;font-size:40px;color:var(--gold);line-height:1;flex-shrink:0;}
+  .tip-body p.tip-text{font-size:16px;color:var(--matte-black);margin-bottom:10px;line-height:1.55;}
+  .tip-meta{font-size:13px;color:#7a776f;}
+  .tip-meta b{color:var(--matte-black);font-weight:500;}
+  .tip-cat{font-size:11px;color:var(--gold);font-weight:500;margin-bottom:8px;letter-spacing:0.2px;}
+
+  .share-band{
+    background:#F6F4EC;border:1px solid #E4E1D8;
+    max-width:820px;margin:32px auto 80px;padding:40px 36px;text-align:center;
+  }
+  .share-band h2{font-size:24px;font-weight:500;margin-bottom:10px;}
+  .share-band p{font-size:14px;color:#5c5a54;max-width:420px;margin:0 auto 24px;}
+  .share-band a{
+    background:var(--matte-black);color:var(--white);padding:14px 30px;
+    font-size:14px;font-weight:500;border-radius:2px;display:inline-block;
+  }
+  .share-band a:hover{background:var(--charcoal);}
+
+  footer{
+    background:var(--matte-black);color:rgba(251,250,247,0.6);padding:40px 48px;
+    font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;
+  }
+  footer .foot-brand{color:var(--gold-light);font-family:'Fraunces',serif;font-size:16px;}
+  .foot-links{display:flex;gap:24px;}
+  .disclaimer-bar{background:var(--charcoal);color:rgba(251,250,247,0.5);font-size:11px;padding:14px 48px;text-align:center;}
+  footer a:hover{color:var(--gold-light);}
+
+  @media(max-width:860px){
+    header,.hero,.topics,.tips-wrap,footer{padding-left:22px;padding-right:22px;}
+    .hero h1{font-size:32px;}
+    nav{display:none;}
+    footer{flex-direction:column;}
+    .tip-card{flex-direction:column;gap:10px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">TOE <span>Connect</span></div>
+  <nav>
+    <a href="index.html">Browse categories</a>
+    <a href="tips.html" class="current">I wish I knew</a>
+    <a href="submit.html" class="nav-cta">Get listed</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">By business owners, for business owners</div>
+  <h1>I wish I knew...</h1>
+  <p>Real lessons from the entrepreneurs in this directory — the things nobody tells you before you start.</p>
+</section>
+
+<div class="topics">
+  <div class="chip active" data-cat="all">All</div>
+  <div class="chip" data-cat="Getting started">Getting started</div>
+  <div class="chip" data-cat="Money & pricing">Money & pricing</div>
+  <div class="chip" data-cat="Marketing">Marketing</div>
+  <div class="chip" data-cat="Legal & licensing">Legal & licensing</div>
+  <div class="chip" data-cat="Mindset">Mindset</div>
+</div>
+
+<div class="tips-wrap">
+  <h2>Latest tips</h2>
+  <p>42 tips shared by business owners in the directory</p>
+
+  <div class="tip-card" data-cat="Money & pricing">
+    <div class="tip-mark">&ldquo;</div>
+    <div class="tip-body">
+      <div class="tip-cat">Money & pricing</div>
+      <p class="tip-text">I priced my first year based on what I thought people would pay, not what the work actually cost me. Raising prices later was harder than starting where I needed to be.</p>
+      <div class="tip-meta"><b>Root & Bloom Studio</b> · Beauty & wellness</div>
+    </div>
+  </div>
+
+  <div class="tip-card" data-cat="Legal & licensing">
+    <div class="tip-mark">&ldquo;</div>
+    <div class="tip-body">
+      <div class="tip-cat">Legal & licensing</div>
+      <p class="tip-text">Get your business bank account open before you take your first payment, even one. Mixing personal and business money in the beginning made tax season a nightmare.</p>
+      <div class="tip-meta"><b>Clearline Business Advisors</b> · Consulting</div>
+    </div>
+  </div>
+
+  <div class="tip-card" data-cat="Marketing">
+    <div class="tip-mark">&ldquo;</div>
+    <div class="tip-body">
+      <div class="tip-cat">Marketing</div>
+      <p class="tip-text">A handful of genuine reviews from real clients did more for my bookings than any ad I ever paid for. I started asking for one after every job, every time.</p>
+      <div class="tip-meta"><b>Harmony Mobile Notary</b> · Notary & documents</div>
+    </div>
+  </div>
+
+  <div class="tip-card" data-cat="Getting started">
+    <div class="tip-mark">&ldquo;</div>
+    <div class="tip-body">
+      <div class="tip-cat">Getting started</div>
+      <p class="tip-text">I waited almost a year to launch because I wanted everything perfect. Looking back, I should have started messy and improved in public — I lost time I can't get back.</p>
+      <div class="tip-meta"><b>Ivy & Oak Candle Co.</b> · Retail & products</div>
+    </div>
+  </div>
+
+  <div class="tip-card" data-cat="Mindset">
+    <div class="tip-mark">&ldquo;</div>
+    <div class="tip-body">
+      <div class="tip-cat">Mindset</div>
+      <p class="tip-text">The slow months are normal, not a sign to quit. My third month was almost silent and my sixth month was my best one yet.</p>
+      <div class="tip-meta"><b>Journeys by Renee</b> · Travel & events</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="share-band">
+  <h2>Have something you wish you knew?</h2>
+  <p>If you're listed in the directory, share one lesson for the next business owner starting out.</p>
+  <a href="#">Share a tip</a>
+</div>
+
+<footer>
+  <div>
+    <div class="foot-brand">TOE Connect</div>
+    <div style="margin-top:6px;">A directory by Time of Essence Global Group, LLC</div>
+  </div>
+  <div class="foot-links">
+    <a href="index.html">Browse</a>
+    <a href="tips.html">I wish I knew</a>
+    <a href="submit.html">Get listed</a>
+  </div>
+</footer>
+<div class="disclaimer-bar">Listings are reviewed before approval, but businesses are responsible for maintaining their own licenses, certifications, and conduct. Verification reflects information available at time of review and is not a guarantee.</div>
+
+<script>
+  const chips = document.querySelectorAll('.topics .chip');
+  const tips = document.querySelectorAll('.tip-card');
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const cat = chip.dataset.cat;
+      tips.forEach(tip => {
+        tip.style.display = (cat === 'all' || tip.dataset.cat === cat) ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

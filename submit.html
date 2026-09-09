@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOE Connect — Submit your business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --matte-black:#0E0E0C;
+    --charcoal:#242220;
+    --white:#FBFAF7;
+    --gold:#C9A227;
+    --gold-light:#E8C468;
+    --line-dark:rgba(14,14,12,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Jost',sans-serif;background:var(--white);color:var(--matte-black);}
+  h1,h2,.wordmark{font-family:'Fraunces',serif;}
+  a{color:inherit;text-decoration:none;}
+
+  header{
+    background:var(--matte-black);color:var(--white);
+    padding:22px 48px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .wordmark{font-size:22px;font-weight:500;}
+  .wordmark span{color:var(--gold-light);}
+  header a{font-size:14px;color:rgba(251,250,247,0.78);}
+
+  .wrap{max-width:640px;margin:0 auto;padding:64px 24px 96px;}
+  .eyebrow{font-size:13px;color:var(--gold);font-weight:500;margin-bottom:14px;}
+  h1{font-size:34px;font-weight:500;margin-bottom:12px;line-height:1.2;}
+  .lede{font-size:15px;color:#5c5a54;margin-bottom:40px;max-width:480px;}
+
+  fieldset{border:none;margin-bottom:36px;}
+  legend{font-family:'Fraunces',serif;font-size:19px;font-weight:500;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--line-dark);width:100%;}
+  .field{margin-bottom:18px;}
+  label{display:block;font-size:13px;color:#5c5a54;margin-bottom:6px;}
+  input[type=text], input[type=email], input[type=tel], input[type=url], select, textarea{
+    width:100%;border:1px solid #D8D5CA;border-radius:2px;padding:12px 14px;
+    font-family:'Jost',sans-serif;font-size:14px;background:var(--white);color:var(--matte-black);
+  }
+  textarea{resize:vertical;min-height:90px;}
+  input:focus, select:focus, textarea:focus{outline:none;border-color:var(--gold);}
+  .hint{font-size:12px;color:#8a8780;margin-top:5px;}
+  .error{font-size:12px;color:#B3401F;margin-top:5px;display:none;}
+  .field.invalid input, .field.invalid textarea{border-color:#B3401F;}
+  .field.invalid .error{display:block;}
+
+  .free-banner{
+    background:var(--charcoal);color:var(--white);
+    padding:16px 20px;border-radius:2px;margin-bottom:36px;
+    font-size:14px;display:flex;align-items:center;gap:10px;
+  }
+  .free-banner b{color:var(--gold-light);}
+
+  .donate-box{
+    border:1px solid #D8D5CA;padding:22px;border-radius:2px;background:#F6F4EC;
+  }
+  .donate-box p{font-size:13px;color:#5c5a54;margin-bottom:14px;}
+  .donate-options{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+  .donate-chip{
+    border:1px solid #D8D5CA;padding:9px 18px;font-size:14px;border-radius:20px;
+    cursor:pointer;background:var(--white);
+  }
+  .donate-chip.active{background:var(--gold);border-color:var(--gold);color:var(--matte-black);font-weight:500;}
+
+  button[type=submit]{
+    background:var(--matte-black);color:var(--white);border:none;
+    padding:15px 32px;font-family:'Jost',sans-serif;font-size:15px;font-weight:500;
+    border-radius:2px;cursor:pointer;width:100%;
+  }
+  button[type=submit]:hover{background:var(--charcoal);}
+  .submit-hint{font-size:12px;color:#8a8780;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">TOE <span>Connect</span></div>
+  <nav style="display:flex;gap:24px;align-items:center;">
+    <a href="index.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Browse categories</a>
+    <a href="tips.html" style="font-size:14px;color:rgba(251,250,247,0.78);">I wish I knew</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="eyebrow">List your business</div>
+  <h1>Add your business to the directory</h1>
+  <p class="lede">Every listing goes through a quick review before it goes live, usually within a few days.</p>
+
+  <div class="free-banner">
+    <span><b>This listing is free.</b> No membership, no monthly fee — for new businesses and established ones alike.</span>
+  </div>
+
+  <div class="field" data-required="true" id="ownership-field" style="border:1px solid #D8D5CA;padding:16px 18px;background:#F6F4EC;">
+    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--matte-black);cursor:pointer;">
+      <input type="checkbox" id="black-owned" name="black-owned" style="width:auto;margin-top:3px;">
+      <span>I confirm this business is majority Black-owned. TOE Connect is dedicated to Black-owned businesses in Wisconsin.</span>
+    </label>
+    <div class="error">This confirmation is required to submit a listing.</div>
+  </div>
+
+  <form id="listing-form" novalidate>
+    <fieldset>
+      <legend>Business details</legend>
+      <div class="field" data-required="true">
+        <label for="bizname">Business name</label>
+        <input type="text" id="bizname" name="bizname" placeholder="Root & Bloom Studio">
+        <div class="error">Enter your business name.</div>
+      </div>
+      <div class="field" data-required="true">
+        <label for="category">Category</label>
+        <select id="category" name="category">
+          <option value="">Select a category</option>
+          <option>Beauty & wellness</option>
+          <option>Legal & financial</option>
+          <option>Notary & documents</option>
+          <option>Travel & events</option>
+          <option>Consulting</option>
+          <option>Health & insurance</option>
+          <option>Retail & products</option>
+          <option>Childcare & daycare</option>
+          <option>Home health & senior care</option>
+          <option>Food & catering</option>
+          <option>Real estate</option>
+          <option>Fitness & personal training</option>
+          <option>Photography & creative services</option>
+          <option>Medical & dental care</option>
+        </select>
+        <div class="error">Choose a category.</div>
+      </div>
+      <div class="field" id="license-field" style="display:none;">
+        <label for="license">License or certification number</label>
+        <input type="text" id="license" name="license" placeholder="State license or certification #">
+        <div class="hint">Required for childcare and home health listings — this earns your listing a verified badge.</div>
+        <div class="error">Enter a license or certification number.</div>
+      </div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="checkbox" id="is-remote" style="width:auto;">
+          <span>This business also serves clients remotely / virtually, beyond Wisconsin</span>
+        </label>
+      </div>
+      <div class="field" data-required="true" id="city-field">
+        <label for="city">City</label>
+        <input type="text" id="city" name="city" placeholder="Milwaukee, WI">
+        <div class="hint">All listings must be based in Wisconsin, even if you also serve clients elsewhere.</div>
+        <div class="error">Enter a city.</div>
+      </div>
+      <div class="field" data-required="true">
+        <label for="shortdesc">Short description</label>
+        <textarea id="shortdesc" name="shortdesc" placeholder="One or two sentences — this shows on your card in the directory."></textarea>
+        <div class="hint">Keep it to about 20 words.</div>
+        <div class="error">Add a short description.</div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Contact</legend>
+      <div class="field" data-required="true">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@yourbusiness.com">
+        <div class="hint">Used for review updates — not shown publicly.</div>
+        <div class="error">Enter a valid email.</div>
+      </div>
+      <div class="field">
+        <label for="phone">Phone <span style="color:#a5a297">(optional, shown publicly if provided)</span></label>
+        <input type="tel" id="phone" name="phone" placeholder="(414) 555-0100">
+      </div>
+      <div class="field">
+        <label for="website">Website or social link <span style="color:#a5a297">(optional)</span></label>
+        <input type="url" id="website" name="website" placeholder="https://">
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Support the directory <span style="color:#a5a297;font-weight:400;font-size:14px;">(optional)</span></legend>
+      <div class="donate-box">
+        <p>If your business is up and running and you'd like to help keep this free for the next new business owner, you can add a one-time contribution. This is never required to be listed.</p>
+        <div class="donate-options">
+          <div class="donate-chip" data-amt="0">No thanks</div>
+          <div class="donate-chip" data-amt="10">$10</div>
+          <div class="donate-chip" data-amt="25">$25</div>
+          <div class="donate-chip" data-amt="50">$50</div>
+          <div class="donate-chip" data-amt="other">Other amount</div>
+        </div>
+        <input type="text" id="donate-other" placeholder="Enter an amount" style="display:none;max-width:200px;">
+      </div>
+    </fieldset>
+
+    <button type="submit">Submit for review</button>
+    <p class="submit-hint">Listings are reviewed before they appear publicly.</p>
+    <p class="submit-hint" style="margin-top:6px;">Listings are reviewed before approval, but businesses are responsible for maintaining their own licenses, certifications, and conduct. Verification reflects information available at the time of review and is not a guarantee.</p>
+  </form>
+</div>
+
+<script>
+  const isRemote = document.getElementById('is-remote');
+
+  const categorySelect = document.getElementById('category');
+  const licenseField = document.getElementById('license-field');
+  const licensedCats = ['Childcare & daycare', 'Home health & senior care', 'Medical & dental care'];
+
+  categorySelect.addEventListener('change', () => {
+    const needsLicense = licensedCats.includes(categorySelect.value);
+    licenseField.style.display = needsLicense ? 'block' : 'none';
+    licenseField.dataset.required = needsLicense ? 'true' : 'false';
+    if (!needsLicense) licenseField.classList.remove('invalid');
+  });
+
+  const donateChips = document.querySelectorAll('.donate-chip');
+  const otherInput = document.getElementById('donate-other');
+  let donateAmount = 0;
+
+  donateChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      donateChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const amt = chip.dataset.amt;
+      otherInput.style.display = amt === 'other' ? 'block' : 'none';
+      donateAmount = amt === 'other' ? null : Number(amt);
+    });
+  });
+
+  document.getElementById('listing-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    let valid = true;
+    const required = this.querySelectorAll('[data-required="true"]');
+    required.forEach(field => {
+      const input = field.querySelector('input, select, textarea');
+      const isEmpty = input.type === 'checkbox' ? !input.checked : !input.value.trim();
+      const isBadEmail = input.type === 'email' && input.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
+      if (isEmpty || isBadEmail) {
+        field.classList.add('invalid');
+        valid = false;
+      } else {
+        field.classList.remove('invalid');
+      }
+    });
+    if (!valid) return;
+    alert('This is a mockup — in the live version this would write to your Airtable base for review.');
+  });
+</script>
+
+</body>
+</html>
