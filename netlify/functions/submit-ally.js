@@ -61,7 +61,7 @@ exports.handler = async function (event) {
         Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ fields })
+      body: JSON.stringify({ fields, typecast: true })
     });
     const result = await res.json();
 
