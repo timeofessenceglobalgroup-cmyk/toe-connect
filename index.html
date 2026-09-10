@@ -195,7 +195,7 @@
   }
   .cta-band h2{font-size:28px;font-weight:500;margin-bottom:12px;}
   .cta-band p{font-size:15px;color:#5c5a54;max-width:480px;margin:0 auto 26px;}
-  .cta-band a{
+  .cta-band a.cta-primary{
     background:var(--matte-black);
     color:var(--white);
     padding:14px 32px;
@@ -204,7 +204,7 @@
     border-radius:2px;
     display:inline-block;
   }
-  .cta-band a:hover{background:var(--charcoal);}
+  .cta-band a.cta-primary:hover{background:var(--charcoal);}
 
   /* footer */
   footer{
@@ -266,6 +266,9 @@
       <option>Fitness & personal training</option>
       <option>Photography & creative services</option>
       <option>Medical & dental care</option>
+      <option>Mental health & counseling</option>
+      <option>Gaming & content creation</option>
+      <option>Landscaping & lawn care</option>
     </select>
     <button>Search</button>
   </div>
@@ -287,6 +290,9 @@
   <div class="chip" data-cat="Fitness & personal training">Fitness & personal training</div>
   <div class="chip" data-cat="Photography & creative services">Photography & creative services</div>
   <div class="chip" data-cat="Medical & dental care">Medical & dental care</div>
+  <div class="chip" data-cat="Mental health & counseling">Mental health & counseling</div>
+  <div class="chip" data-cat="Gaming & content creation">Gaming & content creation</div>
+  <div class="chip" data-cat="Landscaping & lawn care">Landscaping & lawn care</div>
 </div>
 
 <section class="listings">
@@ -397,8 +403,7 @@
 <section class="cta-band">
   <h2>Own a business? Get listed — no cost, ever.</h2>
   <p>This directory exists so new and just-starting business owners never have to pay to be found. If your business is established and wants to support that mission, you can add a voluntary contribution at signup.</p>
-  <a href="submit.html">Submit your business — it's free</a>
-  <p style="margin-top:18px;font-size:13px;color:#8a8780;">Not a Black-owned business but want to support the mission? <a href="allies.html" style="text-decoration:underline;color:var(--charcoal);">Join as a Community Ally</a></p>
+  <a href="submit.html" class="cta-primary">Submit your business — it's free</a>
 </section>
 
 <footer>

@@ -133,6 +133,9 @@
           <option>Fitness & personal training</option>
           <option>Photography & creative services</option>
           <option>Medical & dental care</option>
+          <option>Mental health & counseling</option>
+          <option>Gaming & content creation</option>
+          <option>Landscaping & lawn care</option>
         </select>
         <div class="error">Choose a category.</div>
       </div>
@@ -216,7 +219,7 @@
 
   const categorySelect = document.getElementById('category');
   const licenseField = document.getElementById('license-field');
-  const licensedCats = ['Childcare & daycare', 'Home health & senior care', 'Medical & dental care'];
+  const licensedCats = ['Childcare & daycare', 'Home health & senior care', 'Medical & dental care', 'Mental health & counseling'];
 
   categorySelect.addEventListener('change', () => {
     const needsLicense = licensedCats.includes(categorySelect.value);

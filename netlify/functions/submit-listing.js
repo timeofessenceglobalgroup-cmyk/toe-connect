@@ -24,7 +24,7 @@ exports.handler = async function (event) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Invalid request body' }) };
   }
 
-  const licensedCategories = ['Childcare & daycare', 'Home health & senior care', 'Medical & dental care'];
+  const licensedCategories = ['Childcare & daycare', 'Home health & senior care', 'Medical & dental care', 'Mental health & counseling'];
   const needsLicense = licensedCategories.includes(data.category);
 
   // Server-side validation — never trust the browser alone.
