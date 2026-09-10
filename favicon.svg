@@ -1,0 +1,6 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <rect width="128" height="128" rx="20" fill="#0E0E0C"/>
+  <rect x="10" y="10" width="108" height="108" rx="12" fill="none" stroke="#C9A227" stroke-width="1.5" opacity="0.5"/>
+  <text x="64" y="86" font-family="Fraunces SemiBold, Fraunces" font-size="62" font-weight="600" fill="#E8C468" text-anchor="middle">T</text>
+  <circle cx="64" cy="100" r="3" fill="#C9A227"/>
+</svg>
