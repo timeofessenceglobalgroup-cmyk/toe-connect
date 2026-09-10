@@ -82,6 +82,7 @@
   <nav style="display:flex;gap:24px;align-items:center;">
     <a href="index.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Browse categories</a>
     <a href="tips.html" style="font-size:14px;color:rgba(251,250,247,0.78);">I wish I knew</a>
+    <a href="allies.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Community allies</a>
   </nav>
 </header>
 
@@ -100,6 +101,10 @@
       <span>I confirm this business is majority Black-owned. TOE Connect is dedicated to Black-owned businesses in Wisconsin.</span>
     </label>
     <div class="error">This confirmation is required to submit a listing.</div>
+    <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--matte-black);cursor:pointer;margin-top:12px;padding-top:12px;border-top:1px solid #E4E1D8;">
+      <input type="checkbox" id="women-owned" name="women-owned" style="width:auto;margin-top:3px;">
+      <span>This business is also majority women-owned <span style="color:#8a8780;">(optional)</span></span>
+    </label>
   </div>
 
   <form id="listing-form" novalidate>
@@ -173,6 +178,11 @@
         <label for="website">Website or social link <span style="color:#a5a297">(optional)</span></label>
         <input type="url" id="website" name="website" placeholder="https://">
       </div>
+      <div class="field">
+        <label for="video">30-second video intro <span style="color:#a5a297">(optional)</span></label>
+        <input type="url" id="video" name="video" placeholder="https://youtube.com/... or https://vimeo.com/...">
+        <div class="hint">A quick intro to you and your business, 30 seconds or under. Upload to YouTube (set to "Unlisted") or Vimeo for free, then paste the link here.</div>
+      </div>
     </fieldset>
 
     <fieldset>
@@ -194,6 +204,11 @@
     <p class="submit-hint">Listings are reviewed before they appear publicly.</p>
     <p class="submit-hint" style="margin-top:6px;">Listings are reviewed before approval, but businesses are responsible for maintaining their own licenses, certifications, and conduct. Verification reflects information available at the time of review and is not a guarantee.</p>
   </form>
+
+  <div id="success-message" style="display:none;text-align:center;padding:40px 20px;">
+    <h2 style="font-size:26px;margin-bottom:12px;">Thank you!</h2>
+    <p style="font-size:15px;color:#5c5a54;max-width:400px;margin:0 auto;">Your listing has been submitted for review. You'll see it live on the directory once it's approved, usually within a few days.</p>
+  </div>
 </div>
 
 <script>
@@ -224,7 +239,7 @@
     });
   });
 
-  document.getElementById('listing-form').addEventListener('submit', function(e){
+  document.getElementById('listing-form').addEventListener('submit', async function(e){
     e.preventDefault();
     let valid = true;
     const required = this.querySelectorAll('[data-required="true"]');
@@ -240,7 +255,43 @@
       }
     });
     if (!valid) return;
-    alert('This is a mockup — in the live version this would write to your Airtable base for review.');
+
+    const submitBtn = this.querySelector('button[type=submit]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    const payload = {
+      bizname: document.getElementById('bizname').value.trim(),
+      category: document.getElementById('category').value,
+      city: document.getElementById('city').value.trim(),
+      shortdesc: document.getElementById('shortdesc').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      website: document.getElementById('website').value.trim(),
+      video: document.getElementById('video').value.trim(),
+      license: document.getElementById('license').value.trim(),
+      isRemote: isRemote.checked,
+      blackOwned: document.getElementById('black-owned').checked,
+      womenOwned: document.getElementById('women-owned').checked,
+      donationAmount: donateAmount === 'other' ? Number(otherInput.value) || 0 : (donateAmount || 0)
+    };
+
+    try {
+      const res = await fetch('/.netlify/functions/submit-listing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error || 'Submission failed');
+
+      this.style.display = 'none';
+      document.getElementById('success-message').style.display = 'block';
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit for review';
+      alert('Something went wrong submitting your listing. Please try again in a moment, or check that all fields are filled in correctly.');
+    }
   });
 </script>
 

@@ -1,5 +1,6 @@
-// Writes a new business submission into Airtable as Status: Pending.
-// Keeps the Airtable API key on the server side only.
+// Writes a new Community Ally submission into Airtable as Status: Pending.
+// No Black-owned confirmation required — tagged with Listing Type so it
+// never shows up in the main directory query.
 
 exports.handler = async function (event) {
   if (event.httpMethod !== 'POST') {
@@ -24,18 +25,12 @@ exports.handler = async function (event) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Invalid request body' }) };
   }
 
-  const licensedCategories = ['Childcare & daycare', 'Home health & senior care', 'Medical & dental care'];
-  const needsLicense = licensedCategories.includes(data.category);
-
-  // Server-side validation — never trust the browser alone.
   const missing = [];
   if (!data.bizname) missing.push('bizname');
   if (!data.category) missing.push('category');
   if (!data.city) missing.push('city');
   if (!data.shortdesc) missing.push('shortdesc');
   if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) missing.push('email');
-  if (!data.blackOwned) missing.push('blackOwned');
-  if (needsLicense && !data.license) missing.push('license');
 
   if (missing.length) {
     return {
@@ -52,16 +47,10 @@ exports.handler = async function (event) {
     'City': data.city,
     'Short Description': data.shortdesc,
     'Contact Email': data.email,
-    'Phone': data.phone || '',
     'Website / Social': data.website || '',
-    'Video URL': data.video || '',
-    'License/Certification #': data.license || '',
-    'Serves Remotely': !!data.isRemote,
     'Donation Amount': donationAmount,
     'Supporter': donationAmount > 0,
-    'Black-Owned Confirmed': !!data.blackOwned,
-    'Women-Owned': !!data.womenOwned,
-    'Listing Type': 'Black-Owned Business',
+    'Listing Type': 'Ally / Supporter',
     'Status': 'Pending'
   };
 
@@ -91,7 +80,7 @@ exports.handler = async function (event) {
   } catch (err) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to submit listing', details: String(err) })
+      body: JSON.stringify({ error: 'Failed to submit ally listing', details: String(err) })
     };
   }
 };

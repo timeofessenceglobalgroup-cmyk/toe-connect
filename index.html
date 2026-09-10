@@ -241,6 +241,7 @@
   <nav>
     <a href="index.html">Browse categories</a>
     <a href="tips.html">I wish I knew</a>
+    <a href="allies.html">Community allies</a>
     <a href="submit.html" class="nav-cta">Get listed</a>
   </nav>
 </header>
@@ -330,15 +331,18 @@
   function cardHTML(item) {
     const flag = item.supporter ? '<div class="featured-flag">Supporter</div>' : '';
     const loc = item.servesRemotely ? `${item.city} · also serves clients virtually` : item.city;
+    const womenTag = item.womenOwned ? '<span style="font-size:11px;color:var(--gold);border:1px solid var(--gold);padding:2px 8px;border-radius:10px;margin-left:8px;">Women-owned</span>' : '';
+    const videoLink = item.videoUrl ? `<a href="${item.videoUrl}" target="_blank" rel="noopener" style="font-size:12px;color:var(--gold);display:block;margin-top:8px;">▶ Watch 30-sec intro</a>` : '';
     return `
       <div class="card" data-cat="${item.category}" data-loc="${item.servesRemotely ? 'remote' : 'wi'}">
         <div class="card-photo">Photo</div>
         <div class="card-body">
           ${flag}
-          <div class="card-tag">${item.category}</div>
+          <div class="card-tag">${item.category}${womenTag}</div>
           <h3>${item.name}</h3>
           <div class="card-loc">${loc}</div>
           <div class="card-desc">${item.description}</div>
+          ${videoLink}
           <a href="#" class="card-link">View profile →</a>
         </div>
       </div>`;
@@ -394,6 +398,7 @@
   <h2>Own a business? Get listed — no cost, ever.</h2>
   <p>This directory exists so new and just-starting business owners never have to pay to be found. If your business is established and wants to support that mission, you can add a voluntary contribution at signup.</p>
   <a href="submit.html">Submit your business — it's free</a>
+  <p style="margin-top:18px;font-size:13px;color:#8a8780;">Not a Black-owned business but want to support the mission? <a href="allies.html" style="text-decoration:underline;color:var(--charcoal);">Join as a Community Ally</a></p>
 </section>
 
 <footer>
@@ -402,9 +407,10 @@
     <div style="margin-top:6px;">A directory by Time of Essence Global Group, LLC</div>
   </div>
   <div class="foot-links">
-    <a href="#">Browse</a>
-    <a href="#">Get listed</a>
-    <a href="#">Contact</a>
+    <a href="index.html">Browse</a>
+    <a href="tips.html">I wish I knew</a>
+    <a href="allies.html">Community allies</a>
+    <a href="submit.html">Get listed</a>
   </div>
 </footer>
 <div class="disclaimer-bar">Listings are reviewed before approval, but businesses are responsible for maintaining their own licenses, certifications, and conduct. Verification reflects information available at time of review and is not a guarantee.</div>

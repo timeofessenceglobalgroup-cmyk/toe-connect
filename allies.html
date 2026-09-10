@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOE Connect — Community Allies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --matte-black:#0E0E0C;
+    --charcoal:#242220;
+    --white:#FBFAF7;
+    --gold:#C9A227;
+    --gold-light:#E8C468;
+    --line:rgba(251,250,247,0.14);
+    --line-dark:rgba(14,14,12,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Jost',sans-serif;background:var(--white);color:var(--matte-black);line-height:1.5;}
+  h1,h2,h3,.wordmark{font-family:'Fraunces',serif;}
+  a{color:inherit;text-decoration:none;}
+
+  header{
+    background:var(--matte-black);color:var(--white);
+    padding:22px 48px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .wordmark{font-size:22px;font-weight:500;}
+  .wordmark span{color:var(--gold-light);}
+  nav{display:flex;gap:36px;align-items:center;}
+  nav a{font-size:14px;color:rgba(251,250,247,0.78);transition:color .15s;}
+  nav a:hover, nav a.current{color:var(--gold-light);}
+  .nav-cta{border:1px solid var(--gold);color:var(--gold-light) !important;padding:9px 20px;border-radius:2px;}
+  .nav-cta:hover{background:var(--gold);color:var(--matte-black) !important;}
+
+  .hero{background:var(--charcoal);color:var(--white);padding:64px 48px 48px;text-align:center;}
+  .hero-eyebrow{font-size:14px;color:rgba(251,250,247,0.65);margin-bottom:16px;letter-spacing:0.3px;}
+  .hero h1{font-size:38px;font-weight:500;max-width:640px;margin:0 auto 16px;line-height:1.2;}
+  .hero p{font-size:15px;color:rgba(251,250,247,0.68);max-width:520px;margin:0 auto;}
+
+  .explainer{
+    max-width:720px;margin:0 auto;padding:40px 24px 8px;text-align:center;
+  }
+  .explainer p{font-size:14px;color:#5c5a54;line-height:1.65;}
+
+  .listings{padding:40px 48px 40px;max-width:1180px;margin:0 auto;}
+  .listings-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px;}
+  .listings-head h2{font-size:22px;font-weight:500;}
+  .listings-head p{font-size:14px;color:#5c5a54;}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .card{border:1px solid #E4E1D8;border-top:3px solid var(--charcoal);}
+  .card-photo{height:140px;background:#EFEDE4;display:flex;align-items:center;justify-content:center;color:#8a8780;font-family:'Fraunces',serif;font-size:15px;}
+  .card-body{padding:18px;}
+  .ally-badge{font-size:11px;color:var(--white);background:var(--charcoal);padding:3px 10px;display:inline-block;margin-bottom:8px;}
+  .card-tag{font-size:12px;color:#8a8780;margin-bottom:6px;font-weight:500;}
+  .card h3{font-size:18px;font-weight:500;margin-bottom:4px;}
+  .card-loc{font-size:13px;color:#7a776f;margin-bottom:10px;}
+  .card-desc{font-size:14px;color:#3a3833;margin-bottom:14px;}
+  .card-link{font-size:13px;font-weight:500;border-top:1px solid #E4E1D8;padding-top:12px;display:block;color:var(--charcoal);}
+
+  .cta-band{background:var(--white);border-top:1px solid #E4E1D8;border-bottom:1px solid #E4E1D8;padding:48px 48px;text-align:center;}
+  .cta-band h2{font-size:24px;font-weight:500;margin-bottom:10px;}
+  .cta-band p{font-size:14px;color:#5c5a54;max-width:460px;margin:0 auto 22px;}
+  .cta-band a{background:var(--charcoal);color:var(--white);padding:13px 28px;font-size:14px;font-weight:500;border-radius:2px;display:inline-block;}
+  .cta-band a:hover{background:var(--matte-black);}
+
+  footer{background:var(--matte-black);color:rgba(251,250,247,0.6);padding:40px 48px;font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+  footer .foot-brand{color:var(--gold-light);font-family:'Fraunces',serif;font-size:16px;}
+  .foot-links{display:flex;gap:24px;}
+  footer a:hover{color:var(--gold-light);}
+  .disclaimer-bar{background:var(--charcoal);color:rgba(251,250,247,0.5);font-size:11px;padding:14px 48px;text-align:center;}
+
+  @media(max-width:860px){
+    header,.hero,.listings,.cta-band,footer{padding-left:22px;padding-right:22px;}
+    .hero h1{font-size:28px;}
+    nav{display:none;}
+    .grid{grid-template-columns:1fr;}
+    footer{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">TOE <span>Connect</span></div>
+  <nav>
+    <a href="index.html">Browse categories</a>
+    <a href="tips.html">I wish I knew</a>
+    <a href="allies.html" class="current">Community allies</a>
+    <a href="submit.html" class="nav-cta">Get listed</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">Not a Black-owned business, but want to help?</div>
+  <h1>Community Allies</h1>
+  <p>Businesses of any background that support Black-owned entrepreneurship in Wisconsin — separate from the main directory, listed here with thanks.</p>
+</section>
+
+<div class="explainer">
+  <p>TOE Connect's main directory is dedicated to Black-owned businesses. This page is different: it's for businesses of any ownership background who want to support that mission — through a contribution, a referral partnership, or simply visibility as a friend of the community. Listings here are clearly separate from the main directory so that promise stays intact.</p>
+</div>
+
+<section class="listings">
+  <div class="listings-head">
+    <h2>Current allies</h2>
+    <p><span id="count">0</span> businesses listed</p>
+  </div>
+  <div class="grid" id="grid">
+    <p id="grid-status" style="grid-column:1/-1;font-size:14px;color:#7a776f;">Loading…</p>
+  </div>
+</section>
+
+<section class="cta-band">
+  <h2>Want to be listed as an Ally?</h2>
+  <p>Any business, any ownership background — add your listing and, if you'd like, a contribution to support the directory.</p>
+  <a href="ally-submit.html">Become a Community Ally</a>
+</section>
+
+<footer>
+  <div>
+    <div class="foot-brand">TOE Connect</div>
+    <div style="margin-top:6px;">A directory by Time of Essence Global Group, LLC</div>
+  </div>
+  <div class="foot-links">
+    <a href="index.html">Browse</a>
+    <a href="tips.html">I wish I knew</a>
+    <a href="allies.html">Community allies</a>
+    <a href="submit.html">Get listed</a>
+  </div>
+</footer>
+<div class="disclaimer-bar">Listings are reviewed before approval, but businesses are responsible for maintaining their own licenses, certifications, and conduct. Verification reflects information available at time of review and is not a guarantee.</div>
+
+<script>
+  const SAMPLE_ALLIES = [
+    { name: 'Northside Print & Design', category: 'Photography & creative services', city: 'Milwaukee, WI', description: 'Local print shop offering a standing discount to businesses listed in the TOE Connect directory.' }
+  ];
+
+  const grid = document.getElementById('grid');
+  const count = document.getElementById('count');
+
+  function cardHTML(item) {
+    return `
+      <div class="card">
+        <div class="card-photo">Photo</div>
+        <div class="card-body">
+          <div class="ally-badge">Community Ally</div>
+          <div class="card-tag">${item.category}</div>
+          <h3>${item.name}</h3>
+          <div class="card-loc">${item.city}</div>
+          <div class="card-desc">${item.description}</div>
+          <a href="#" class="card-link">View profile →</a>
+        </div>
+      </div>`;
+  }
+
+  async function loadAllies() {
+    let allies = [];
+    try {
+      const res = await fetch('/.netlify/functions/get-allies');
+      if (!res.ok) throw new Error('Function returned an error');
+      const data = await res.json();
+      allies = data.allies || [];
+    } catch (err) {
+      allies = SAMPLE_ALLIES;
+    }
+    grid.innerHTML = allies.length
+      ? allies.map(cardHTML).join('')
+      : '<p style="grid-column:1/-1;font-size:14px;color:#7a776f;">No allies listed yet.</p>';
+    count.textContent = allies.length;
+  }
+
+  loadAllies();
+</script>
+
+</body>
+</html>

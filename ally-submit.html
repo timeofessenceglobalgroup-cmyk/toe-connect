@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOE Connect — Become a Community Ally</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --matte-black:#0E0E0C;
+    --charcoal:#242220;
+    --white:#FBFAF7;
+    --gold:#C9A227;
+    --gold-light:#E8C468;
+    --line-dark:rgba(14,14,12,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Jost',sans-serif;background:var(--white);color:var(--matte-black);}
+  h1,h2,.wordmark{font-family:'Fraunces',serif;}
+  a{color:inherit;text-decoration:none;}
+
+  header{background:var(--charcoal);color:var(--white);padding:22px 48px;display:flex;align-items:center;justify-content:space-between;}
+  .wordmark{font-size:22px;font-weight:500;}
+  .wordmark span{color:var(--gold-light);}
+  header nav a{font-size:14px;color:rgba(251,250,247,0.78);}
+
+  .wrap{max-width:640px;margin:0 auto;padding:56px 24px 96px;}
+  .eyebrow{font-size:13px;color:var(--charcoal);font-weight:500;margin-bottom:14px;}
+  h1{font-size:32px;font-weight:500;margin-bottom:12px;line-height:1.2;}
+  .lede{font-size:15px;color:#5c5a54;margin-bottom:32px;max-width:480px;}
+
+  .info-banner{
+    background:var(--charcoal);color:var(--white);padding:16px 20px;border-radius:2px;margin-bottom:32px;font-size:14px;line-height:1.6;
+  }
+  .info-banner b{color:var(--gold-light);}
+
+  fieldset{border:none;margin-bottom:32px;}
+  legend{font-family:'Fraunces',serif;font-size:18px;font-weight:500;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line-dark);width:100%;}
+  .field{margin-bottom:18px;}
+  label{display:block;font-size:13px;color:#5c5a54;margin-bottom:6px;}
+  input[type=text], input[type=email], input[type=tel], input[type=url], select, textarea{
+    width:100%;border:1px solid #D8D5CA;border-radius:2px;padding:12px 14px;
+    font-family:'Jost',sans-serif;font-size:14px;background:var(--white);color:var(--matte-black);
+  }
+  textarea{resize:vertical;min-height:90px;}
+  input:focus, select:focus, textarea:focus{outline:none;border-color:var(--charcoal);}
+  .hint{font-size:12px;color:#8a8780;margin-top:5px;}
+  .error{font-size:12px;color:#B3401F;margin-top:5px;display:none;}
+  .field.invalid input, .field.invalid textarea, .field.invalid select{border-color:#B3401F;}
+  .field.invalid .error{display:block;}
+
+  .donate-box{border:1px solid #D8D5CA;padding:22px;border-radius:2px;background:#F6F4EC;}
+  .donate-box p{font-size:13px;color:#5c5a54;margin-bottom:14px;}
+  .donate-options{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+  .donate-chip{border:1px solid #D8D5CA;padding:9px 18px;font-size:14px;border-radius:20px;cursor:pointer;background:var(--white);}
+  .donate-chip.active{background:var(--charcoal);border-color:var(--charcoal);color:var(--white);font-weight:500;}
+
+  button[type=submit]{
+    background:var(--charcoal);color:var(--white);border:none;padding:15px 32px;
+    font-family:'Jost',sans-serif;font-size:15px;font-weight:500;border-radius:2px;cursor:pointer;width:100%;
+  }
+  button[type=submit]:hover{background:var(--matte-black);}
+  .submit-hint{font-size:12px;color:#8a8780;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">TOE <span>Connect</span></div>
+  <nav style="display:flex;gap:24px;align-items:center;">
+    <a href="allies.html">← Back to Community Allies</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="eyebrow">Community Allies</div>
+  <h1>Become a Community Ally</h1>
+  <p class="lede">This listing is separate from TOE Connect's main directory, which is dedicated to Black-owned businesses. Allies of any ownership background who want to support that mission are welcome here.</p>
+
+  <div class="info-banner">
+    <b>This is not the main directory.</b> Your listing will appear on the Community Allies page, clearly labeled as separate from the Black-owned business directory.
+  </div>
+
+  <form id="ally-form" novalidate>
+    <fieldset>
+      <legend>Business details</legend>
+      <div class="field" data-required="true">
+        <label for="bizname">Business name</label>
+        <input type="text" id="bizname" name="bizname" placeholder="Your business name">
+        <div class="error">Enter your business name.</div>
+      </div>
+      <div class="field" data-required="true">
+        <label for="category">Category</label>
+        <select id="category" name="category">
+          <option value="">Select a category</option>
+          <option>Beauty & wellness</option>
+          <option>Legal & financial</option>
+          <option>Notary & documents</option>
+          <option>Travel & events</option>
+          <option>Consulting</option>
+          <option>Health & insurance</option>
+          <option>Retail & products</option>
+          <option>Childcare & daycare</option>
+          <option>Home health & senior care</option>
+          <option>Food & catering</option>
+          <option>Real estate</option>
+          <option>Fitness & personal training</option>
+          <option>Photography & creative services</option>
+          <option>Medical & dental care</option>
+          <option>Other</option>
+        </select>
+        <div class="error">Choose a category.</div>
+      </div>
+      <div class="field" data-required="true">
+        <label for="city">City</label>
+        <input type="text" id="city" name="city" placeholder="Milwaukee, WI">
+        <div class="error">Enter a city.</div>
+      </div>
+      <div class="field" data-required="true">
+        <label for="shortdesc">Short description</label>
+        <textarea id="shortdesc" name="shortdesc" placeholder="One or two sentences about your business and how you're supporting TOE Connect."></textarea>
+        <div class="error">Add a short description.</div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Contact</legend>
+      <div class="field" data-required="true">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@yourbusiness.com">
+        <div class="error">Enter a valid email.</div>
+      </div>
+      <div class="field">
+        <label for="website">Website or social link <span style="color:#a5a297">(optional)</span></label>
+        <input type="url" id="website" name="website" placeholder="https://">
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Support the directory <span style="color:#a5a297;font-weight:400;font-size:14px;">(optional)</span></legend>
+      <div class="donate-box">
+        <p>Allies can support TOE Connect with a one-time contribution. This is never required to be listed here.</p>
+        <div class="donate-options">
+          <div class="donate-chip" data-amt="0">No thanks</div>
+          <div class="donate-chip" data-amt="10">$10</div>
+          <div class="donate-chip" data-amt="25">$25</div>
+          <div class="donate-chip" data-amt="50">$50</div>
+          <div class="donate-chip" data-amt="other">Other amount</div>
+        </div>
+        <input type="text" id="donate-other" placeholder="Enter an amount" style="display:none;max-width:200px;">
+      </div>
+    </fieldset>
+
+    <button type="submit">Submit for review</button>
+    <p class="submit-hint">Listings are reviewed before they appear publicly.</p>
+  </form>
+
+  <div id="success-message" style="display:none;text-align:center;padding:40px 20px;">
+    <h2 style="font-size:26px;margin-bottom:12px;">Thank you!</h2>
+    <p style="font-size:15px;color:#5c5a54;max-width:400px;margin:0 auto;">Your Ally listing has been submitted for review. It'll appear on the Community Allies page once approved.</p>
+  </div>
+</div>
+
+<script>
+  const donateChips = document.querySelectorAll('.donate-chip');
+  const otherInput = document.getElementById('donate-other');
+  let donateAmount = 0;
+
+  donateChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      donateChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const amt = chip.dataset.amt;
+      otherInput.style.display = amt === 'other' ? 'block' : 'none';
+      donateAmount = amt;
+    });
+  });
+
+  document.getElementById('ally-form').addEventListener('submit', async function(e){
+    e.preventDefault();
+    let valid = true;
+    const required = this.querySelectorAll('[data-required="true"]');
+    required.forEach(field => {
+      const input = field.querySelector('input, select, textarea');
+      const isEmpty = !input.value.trim();
+      const isBadEmail = input.type === 'email' && input.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
+      if (isEmpty || isBadEmail) {
+        field.classList.add('invalid');
+        valid = false;
+      } else {
+        field.classList.remove('invalid');
+      }
+    });
+    if (!valid) return;
+
+    const submitBtn = this.querySelector('button[type=submit]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    const payload = {
+      bizname: document.getElementById('bizname').value.trim(),
+      category: document.getElementById('category').value,
+      city: document.getElementById('city').value.trim(),
+      shortdesc: document.getElementById('shortdesc').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      website: document.getElementById('website').value.trim(),
+      donationAmount: donateAmount === 'other' ? Number(otherInput.value) || 0 : (Number(donateAmount) || 0)
+    };
+
+    try {
+      const res = await fetch('/.netlify/functions/submit-ally', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error || 'Submission failed');
+
+      this.style.display = 'none';
+      document.getElementById('success-message').style.display = 'block';
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit for review';
+      alert('Something went wrong submitting your listing. Please try again in a moment.');
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
-// Fetches approved business listings from Airtable.
-// Keeps the Airtable API key on the server side only.
+// Fetches approved Community Ally listings from Airtable — separate from the
+// main Black-owned directory (filtered by Listing Type).
 
 exports.handler = async function (event) {
   const baseId = process.env.AIRTABLE_BASE_ID;
@@ -13,7 +13,7 @@ exports.handler = async function (event) {
     };
   }
 
-  const formula = encodeURIComponent("AND({Status}='Approved',{Listing Type}='Black-Owned Business')");
+  const formula = encodeURIComponent("AND({Status}='Approved',{Listing Type}='Ally / Supporter')");
   const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}?filterByFormula=${formula}&pageSize=100`;
 
   try {
@@ -26,17 +26,12 @@ exports.handler = async function (event) {
       return { statusCode: res.status, body: JSON.stringify({ error: data }) };
     }
 
-    const listings = (data.records || []).map(r => ({
+    const allies = (data.records || []).map(r => ({
       id: r.id,
       name: r.fields['Business Name'] || '',
       category: r.fields['Category'] || '',
       city: r.fields['City'] || '',
-      description: r.fields['Short Description'] || '',
-      servesRemotely: !!r.fields['Serves Remotely'],
-      supporter: !!r.fields['Supporter'],
-      verified: !!r.fields['Verified'],
-      womenOwned: !!r.fields['Women-Owned'],
-      videoUrl: r.fields['Video URL'] || ''
+      description: r.fields['Short Description'] || ''
     }));
 
     return {
@@ -45,12 +40,12 @@ exports.handler = async function (event) {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       },
-      body: JSON.stringify({ listings })
+      body: JSON.stringify({ allies })
     };
   } catch (err) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to fetch listings', details: String(err) })
+      body: JSON.stringify({ error: 'Failed to fetch allies', details: String(err) })
     };
   }
 };
