@@ -334,20 +334,6 @@
 </section>
 
 <script>
-  // Fallback sample data — used only if the live Airtable function isn't reachable yet
-  // (e.g. testing this file locally before deploying to Netlify).
-  const SAMPLE_LISTINGS = [
-    { name: 'Harmony Mobile Notary', category: 'Notary & documents', city: 'Milwaukee, WI', description: 'Mobile notary and apostille services, evenings and weekends available.', servesRemotely: false, supporter: true },
-    { name: 'Root & Bloom Studio', category: 'Beauty & wellness', city: 'Wauwatosa, WI', description: 'Natural hair care and scalp treatments by appointment.', servesRemotely: false, supporter: false },
-    { name: 'Clearline Business Advisors', category: 'Consulting', city: 'Milwaukee, WI', description: 'Bookkeeping and small business strategy for solo founders.', servesRemotely: false, supporter: false },
-    { name: 'Journeys by Renee', category: 'Travel & events', city: 'Brookfield, WI', description: 'Group and destination travel planning, from booking to itinerary.', servesRemotely: false, supporter: false },
-    { name: 'Legacy Life & Health Group', category: 'Health & insurance', city: 'Milwaukee, WI', description: 'Life and health insurance guidance for families and small businesses.', servesRemotely: false, supporter: false },
-    { name: 'Ivy & Oak Candle Co.', category: 'Retail & products', city: 'West Allis, WI', description: 'Small-batch soy candles, handmade and shipped statewide.', servesRemotely: false, supporter: false },
-    { name: 'Little Sprouts Learning Home', category: 'Childcare & daycare', city: 'Milwaukee, WI', description: 'Licensed in-home daycare, ages 6 weeks to 5 years, state-certified.', servesRemotely: false, supporter: false },
-    { name: 'Southern Table Catering', category: 'Food & catering', city: 'Milwaukee, WI', description: 'Full-service catering for events, weddings, and corporate lunches.', servesRemotely: false, supporter: false },
-    { name: 'Bright Path Career Coaching', category: 'Consulting', city: 'Milwaukee, WI', description: 'Career coaching and resume strategy for professionals, in person or by video call.', servesRemotely: true, supporter: false }
-  ];
-
   const catChips = document.querySelectorAll('.categories .chip');
   const locChips = document.querySelectorAll('[data-loc].chip');
   const grid = document.getElementById('grid');
@@ -396,8 +382,10 @@
       const data = await res.json();
       allListings = data.listings || [];
     } catch (err) {
-      // Airtable function not reachable yet (e.g. local file preview) — fall back to sample data.
-      allListings = SAMPLE_LISTINGS;
+      allListings = [];
+      grid.innerHTML = '<p style="grid-column:1/-1;font-size:14px;color:#7a776f;">Listings couldn\'t be loaded right now. Please refresh the page.</p>';
+      count.textContent = '0';
+      return;
     }
     render();
   }

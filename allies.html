@@ -153,10 +153,6 @@
 <div class="disclaimer-bar">Listings are reviewed before approval, but businesses are responsible for maintaining their own licenses, certifications, and conduct. Verification reflects information available at time of review and is not a guarantee.</div>
 
 <script>
-  const SAMPLE_ALLIES = [
-    { name: 'Northside Print & Design', category: 'Photography & creative services', city: 'Milwaukee, WI', description: 'Local print shop offering a standing discount to businesses listed in the TOE Connect directory.' }
-  ];
-
   const grid = document.getElementById('grid');
   const count = document.getElementById('count');
 
@@ -183,7 +179,9 @@
       const data = await res.json();
       allies = data.allies || [];
     } catch (err) {
-      allies = SAMPLE_ALLIES;
+      grid.innerHTML = '<p style="grid-column:1/-1;font-size:14px;color:#7a776f;">Listings couldn\'t be loaded right now. Please refresh the page.</p>';
+      count.textContent = '0';
+      return;
     }
     grid.innerHTML = allies.length
       ? allies.map(cardHTML).join('')

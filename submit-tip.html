@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOE Connect — Share a tip</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="favicon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --matte-black:#0E0E0C;
+    --charcoal:#242220;
+    --white:#FBFAF7;
+    --gold:#C9A227;
+    --gold-light:#E8C468;
+    --line-dark:rgba(14,14,12,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Jost',sans-serif;background:var(--white);color:var(--matte-black);}
+  h1,h2,.wordmark{font-family:'Fraunces',serif;}
+  a{color:inherit;text-decoration:none;}
+
+  header{background:var(--matte-black);color:var(--white);padding:22px 48px;display:flex;align-items:center;justify-content:space-between;}
+  .wordmark{font-size:22px;font-weight:500;}
+  .wordmark span{color:var(--gold-light);}
+  header nav a{font-size:14px;color:rgba(251,250,247,0.78);}
+
+  .wrap{max-width:600px;margin:0 auto;padding:56px 24px 96px;}
+  .eyebrow{font-size:13px;color:var(--gold);font-weight:500;margin-bottom:14px;}
+  h1{font-size:32px;font-weight:500;margin-bottom:12px;line-height:1.2;}
+  .lede{font-size:15px;color:#5c5a54;margin-bottom:32px;max-width:480px;}
+
+  fieldset{border:none;margin-bottom:0;}
+  .field{margin-bottom:18px;}
+  label{display:block;font-size:13px;color:#5c5a54;margin-bottom:6px;}
+  input[type=text], input[type=email], select, textarea{
+    width:100%;border:1px solid #D8D5CA;border-radius:2px;padding:12px 14px;
+    font-family:'Jost',sans-serif;font-size:14px;background:var(--white);color:var(--matte-black);
+  }
+  textarea{resize:vertical;min-height:110px;}
+  input:focus, select:focus, textarea:focus{outline:none;border-color:var(--gold);}
+  .hint{font-size:12px;color:#8a8780;margin-top:5px;}
+  .error{font-size:12px;color:#B3401F;margin-top:5px;display:none;}
+  .field.invalid input, .field.invalid textarea, .field.invalid select{border-color:#B3401F;}
+  .field.invalid .error{display:block;}
+
+  button[type=submit]{
+    background:var(--matte-black);color:var(--white);border:none;padding:15px 32px;
+    font-family:'Jost',sans-serif;font-size:15px;font-weight:500;border-radius:2px;cursor:pointer;width:100%;
+  }
+  button[type=submit]:hover{background:var(--charcoal);}
+  .submit-hint{font-size:12px;color:#8a8780;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">TOE <span>Connect</span></div>
+  <nav style="display:flex;gap:24px;align-items:center;">
+    <a href="tips.html">← Back to I wish I knew</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="eyebrow">I wish I knew</div>
+  <h1>Share a tip</h1>
+  <p class="lede">One real lesson for the next business owner starting out. Keep it short and specific — the things nobody tells you before you start.</p>
+
+  <form id="tip-form" novalidate>
+    <div class="field" data-required="true">
+      <label for="tipText">Your tip</label>
+      <textarea id="tipText" name="tipText" placeholder="I priced my first year based on what I thought people would pay, not what the work actually cost me..."></textarea>
+      <div class="error">Share your tip before submitting.</div>
+    </div>
+
+    <div class="field" data-required="true">
+      <label for="topic">Topic</label>
+      <select id="topic" name="topic">
+        <option value="">Select a topic</option>
+        <option>Getting started</option>
+        <option>Money & pricing</option>
+        <option>Marketing</option>
+        <option>Legal & licensing</option>
+        <option>Mindset</option>
+      </select>
+      <div class="error">Choose a topic.</div>
+    </div>
+
+    <div class="field" data-required="true">
+      <label for="businessName">Your business name</label>
+      <input type="text" id="businessName" name="businessName" placeholder="As listed in the directory">
+      <div class="error">Enter your business name.</div>
+    </div>
+
+    <div class="field">
+      <label for="category">Business category <span style="color:#a5a297">(optional)</span></label>
+      <input type="text" id="category" name="category" placeholder="e.g. Consulting">
+    </div>
+
+    <div class="field" data-required="true">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="you@yourbusiness.com">
+      <div class="hint">Used to confirm your tip — not shown publicly.</div>
+      <div class="error">Enter a valid email.</div>
+    </div>
+
+    <button type="submit">Submit tip for review</button>
+    <p class="submit-hint">Tips are reviewed before they appear publicly.</p>
+  </form>
+
+  <div id="success-message" style="display:none;text-align:center;padding:40px 20px;">
+    <h2 style="font-size:26px;margin-bottom:12px;">Thank you!</h2>
+    <p style="font-size:15px;color:#5c5a54;max-width:400px;margin:0 auto;">Your tip has been submitted for review. It'll appear on the "I wish I knew" page once approved.</p>
+  </div>
+</div>
+
+<script>
+  document.getElementById('tip-form').addEventListener('submit', async function(e){
+    e.preventDefault();
+    let valid = true;
+    const required = this.querySelectorAll('[data-required="true"]');
+    required.forEach(field => {
+      const input = field.querySelector('input, select, textarea');
+      const isEmpty = !input.value.trim();
+      const isBadEmail = input.type === 'email' && input.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
+      if (isEmpty || isBadEmail) {
+        field.classList.add('invalid');
+        valid = false;
+      } else {
+        field.classList.remove('invalid');
+      }
+    });
+    if (!valid) return;
+
+    const submitBtn = this.querySelector('button[type=submit]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    const payload = {
+      tipText: document.getElementById('tipText').value.trim(),
+      topic: document.getElementById('topic').value,
+      businessName: document.getElementById('businessName').value.trim(),
+      category: document.getElementById('category').value.trim(),
+      email: document.getElementById('email').value.trim()
+    };
+
+    try {
+      const res = await fetch('/.netlify/functions/submit-tip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error || 'Submission failed');
+
+      this.style.display = 'none';
+      document.getElementById('success-message').style.display = 'block';
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit tip for review';
+      alert('Something went wrong submitting your tip. Please try again in a moment.');
+    }
+  });
+</script>
+
+</body>
+</html>

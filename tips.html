@@ -141,49 +141,12 @@
   <h2>Latest tips</h2>
   <p>42 tips shared by business owners in the directory</p>
 
-  <div class="tip-card" data-cat="Money & pricing">
-    <div class="tip-mark">&ldquo;</div>
-    <div class="tip-body">
-      <div class="tip-cat">Money & pricing</div>
-      <p class="tip-text">I priced my first year based on what I thought people would pay, not what the work actually cost me. Raising prices later was harder than starting where I needed to be.</p>
-      <div class="tip-meta"><b>Root & Bloom Studio</b> · Beauty & wellness</div>
-    </div>
-  </div>
+<div class="tips-wrap">
+  <h2>Latest tips</h2>
+  <p><span id="count">0</span> tips shared by business owners in the directory</p>
 
-  <div class="tip-card" data-cat="Legal & licensing">
-    <div class="tip-mark">&ldquo;</div>
-    <div class="tip-body">
-      <div class="tip-cat">Legal & licensing</div>
-      <p class="tip-text">Get your business bank account open before you take your first payment, even one. Mixing personal and business money in the beginning made tax season a nightmare.</p>
-      <div class="tip-meta"><b>Clearline Business Advisors</b> · Consulting</div>
-    </div>
-  </div>
-
-  <div class="tip-card" data-cat="Marketing">
-    <div class="tip-mark">&ldquo;</div>
-    <div class="tip-body">
-      <div class="tip-cat">Marketing</div>
-      <p class="tip-text">A handful of genuine reviews from real clients did more for my bookings than any ad I ever paid for. I started asking for one after every job, every time.</p>
-      <div class="tip-meta"><b>Harmony Mobile Notary</b> · Notary & documents</div>
-    </div>
-  </div>
-
-  <div class="tip-card" data-cat="Getting started">
-    <div class="tip-mark">&ldquo;</div>
-    <div class="tip-body">
-      <div class="tip-cat">Getting started</div>
-      <p class="tip-text">I waited almost a year to launch because I wanted everything perfect. Looking back, I should have started messy and improved in public — I lost time I can't get back.</p>
-      <div class="tip-meta"><b>Ivy & Oak Candle Co.</b> · Retail & products</div>
-    </div>
-  </div>
-
-  <div class="tip-card" data-cat="Mindset">
-    <div class="tip-mark">&ldquo;</div>
-    <div class="tip-body">
-      <div class="tip-cat">Mindset</div>
-      <p class="tip-text">The slow months are normal, not a sign to quit. My third month was almost silent and my sixth month was my best one yet.</p>
-      <div class="tip-meta"><b>Journeys by Renee</b> · Travel & events</div>
-    </div>
+  <div id="tips-list">
+    <p style="font-size:14px;color:#7a776f;">Loading tips…</p>
   </div>
 
 </div>
@@ -191,7 +154,7 @@
 <div class="share-band">
   <h2>Have something you wish you knew?</h2>
   <p>If you're listed in the directory, share one lesson for the next business owner starting out.</p>
-  <a href="#">Share a tip</a>
+  <a href="submit-tip.html">Share a tip</a>
 </div>
 
 <footer>
@@ -210,17 +173,59 @@
 
 <script>
   const chips = document.querySelectorAll('.topics .chip');
-  const tips = document.querySelectorAll('.tip-card');
+  const tipsList = document.getElementById('tips-list');
+  const count = document.getElementById('count');
+
+  let allTips = [];
+  let activeTopic = 'all';
+
+  function tipHTML(item) {
+    const meta = item.businessName
+      ? `<div class="tip-meta"><b>${item.businessName}</b>${item.category ? ' · ' + item.category : ''}</div>`
+      : '';
+    return `
+      <div class="tip-card">
+        <div class="tip-mark">&ldquo;</div>
+        <div class="tip-body">
+          <div class="tip-cat">${item.topic}</div>
+          <p class="tip-text">${item.text}</p>
+          ${meta}
+        </div>
+      </div>`;
+  }
+
+  function render() {
+    const filtered = activeTopic === 'all' ? allTips : allTips.filter(t => t.topic === activeTopic);
+    tipsList.innerHTML = filtered.length
+      ? filtered.map(tipHTML).join('')
+      : '<p style="font-size:14px;color:#7a776f;">No tips shared yet in this topic.</p>';
+    count.textContent = filtered.length;
+  }
+
+  async function loadTips() {
+    try {
+      const res = await fetch('/.netlify/functions/get-tips');
+      if (!res.ok) throw new Error('Function returned an error');
+      const data = await res.json();
+      allTips = data.tips || [];
+    } catch (err) {
+      tipsList.innerHTML = '<p style="font-size:14px;color:#7a776f;">Tips couldn\'t be loaded right now. Please refresh the page.</p>';
+      count.textContent = '0';
+      return;
+    }
+    render();
+  }
+
   chips.forEach(chip => {
     chip.addEventListener('click', () => {
       chips.forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
-      const cat = chip.dataset.cat;
-      tips.forEach(tip => {
-        tip.style.display = (cat === 'all' || tip.dataset.cat === cat) ? '' : 'none';
-      });
+      activeTopic = chip.dataset.cat;
+      render();
     });
   });
+
+  loadTips();
 </script>
 
 </body>
