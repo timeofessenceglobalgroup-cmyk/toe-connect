@@ -60,6 +60,7 @@
     color:var(--gold-light) !important;
     padding:9px 20px;
     border-radius:2px;
+    transition:background .18s ease, color .18s ease;
   }
   .nav-cta:hover{background:var(--gold);color:var(--matte-black) !important;}
 
@@ -118,6 +119,7 @@
     font-weight:500;
     border-radius:2px;
     cursor:pointer;
+    transition:background .18s ease;
   }
   .search-bar button:hover{background:var(--gold-light);}
 
@@ -138,8 +140,12 @@
     padding:8px 18px;
     border-radius:20px;
     white-space:nowrap;
+    cursor:pointer;
+    transition:border-color .15s ease, color .15s ease, background .15s ease;
   }
+  .chip:hover{border-color:var(--gold-light);color:var(--white);}
   .chip.active{background:var(--gold);border-color:var(--gold);color:var(--matte-black);font-weight:500;}
+  .chip.active:hover{border-color:var(--gold);color:var(--matte-black);}
 
   /* listings */
   .listings{padding:64px 48px 40px;max-width:1180px;margin:0 auto;}
@@ -161,6 +167,11 @@
   .card{
     border:1px solid #E4E1D8;
     border-top:3px solid var(--gold);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(14,14,12,0.08);
   }
   .card-photo{
     height:150px;
@@ -188,7 +199,10 @@
     border-top:1px solid #E4E1D8;
     padding-top:14px;
     display:block;
+    text-decoration:none;
+    transition:color .15s ease;
   }
+  a.card-link:hover{color:var(--gold);text-decoration:underline;}
   .featured-flag{
     font-size:11px;
     color:var(--matte-black);
@@ -267,6 +281,8 @@
   <nav>
     <a href="index.html">Browse categories</a>
     <a href="tips.html">I wish I knew</a>
+    <a href="resources.html">Free Tools &amp; Resources</a>
+    <a href="events.html">Community Events</a>
     <a href="allies.html">Community allies</a>
     <a href="verification.html">Verification &amp; Badges</a>
     <a href="submit.html" class="nav-cta">Get listed</a>
@@ -294,9 +310,10 @@
       <option>Photography & creative services</option>
       <option>Medical & dental care</option>
       <option>Mental health & counseling</option>
-      <option>Gaming & content creation</option>
       <option>Landscaping & lawn care</option>
       <option>Grant Writing & Funding</option>
+      <option>Resources</option>
+      <option>Other</option>
     </select>
     <button>Search</button>
   </div>
@@ -319,9 +336,10 @@
   <div class="chip" data-cat="Photography & creative services">Photography & creative services</div>
   <div class="chip" data-cat="Medical & dental care">Medical & dental care</div>
   <div class="chip" data-cat="Mental health & counseling">Mental health & counseling</div>
-  <div class="chip" data-cat="Gaming & content creation">Gaming & content creation</div>
   <div class="chip" data-cat="Landscaping & lawn care">Landscaping & lawn care</div>
   <div class="chip" data-cat="Grant Writing & Funding">Grant Writing & Funding</div>
+  <div class="chip" data-cat="Resources">Resources</div>
+  <div class="chip" data-cat="Other">Other</div>
 </div>
 
 <section class="listings">
@@ -363,6 +381,9 @@
     if (item.mbeCertified) badges.push(`<span style="${badgeStyle}background:#FBF3DC;color:#8A6A0E;">🏆 WI MBE Certified</span>`);
     if (item.videoUrl) badges.push(`<span style="${badgeStyle}background:#F1EEF9;color:#5B4A9E;">🎥 Owner Spotlight</span>`);
     const badgeRow = badges.length ? `<div style="margin-top:8px;">${badges.join('')}</div>` : '';
+    const profileLink = item.website
+      ? `<a href="${item.website}" target="_blank" rel="noopener" class="card-link">Visit website →</a>`
+      : `<span class="card-link" style="color:#a5a297;cursor:default;">No website listed yet</span>`;
 
     return `
       <div class="card" data-cat="${item.category}" data-loc="${item.servesRemotely ? 'remote' : 'wi'}">
@@ -375,7 +396,7 @@
           <div class="card-desc">${item.description}</div>
           ${badgeRow}
           ${videoLink}
-          <a href="#" class="card-link">View profile →</a>
+          ${profileLink}
         </div>
       </div>`;
   }
@@ -442,6 +463,8 @@
   <div class="foot-links">
     <a href="index.html">Browse</a>
     <a href="tips.html">I wish I knew</a>
+    <a href="resources.html">Free Tools &amp; Resources</a>
+    <a href="events.html">Community Events</a>
     <a href="allies.html">Community allies</a>
     <a href="verification.html">Verification &amp; Badges</a>
     <a href="submit.html">Get listed</a>

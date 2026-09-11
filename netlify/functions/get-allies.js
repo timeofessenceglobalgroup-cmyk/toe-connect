@@ -31,7 +31,8 @@ exports.handler = async function (event) {
       name: r.fields['Business Name'] || '',
       category: r.fields['Category'] || '',
       city: r.fields['City'] || '',
-      description: r.fields['Short Description'] || ''
+      description: r.fields['Short Description'] || '',
+      website: r.fields['Website / Social'] || ''
     }));
 
     return {

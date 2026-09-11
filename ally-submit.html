@@ -67,14 +67,18 @@
   .donate-box{border:1px solid #D8D5CA;padding:22px;border-radius:2px;background:#F6F4EC;}
   .donate-box p{font-size:13px;color:#5c5a54;margin-bottom:14px;}
   .donate-options{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
-  .donate-chip{border:1px solid #D8D5CA;padding:9px 18px;font-size:14px;border-radius:20px;cursor:pointer;background:var(--white);}
+  .donate-chip{border:1px solid #D8D5CA;padding:9px 18px;font-size:14px;border-radius:20px;cursor:pointer;background:var(--white);transition:border-color .15s ease;}
+  .donate-chip:hover{border-color:var(--charcoal);}
   .donate-chip.active{background:var(--charcoal);border-color:var(--charcoal);color:var(--white);font-weight:500;}
 
   button[type=submit]{
     background:var(--charcoal);color:var(--white);border:none;padding:15px 32px;
     font-family:'Jost',sans-serif;font-size:15px;font-weight:500;border-radius:2px;cursor:pointer;width:100%;
+    transition:background .18s ease;
   }
   button[type=submit]:hover{background:var(--matte-black);}
+  .contribute-btn{transition:background .18s ease;}
+  .contribute-btn:hover{background:var(--matte-black) !important;}
   .submit-hint{font-size:12px;color:#8a8780;text-align:center;margin-top:12px;}
 </style>
 <link rel="manifest" href="manifest.json">
@@ -135,9 +139,9 @@
           <option>Photography & creative services</option>
           <option>Medical & dental care</option>
           <option>Mental health & counseling</option>
-          <option>Gaming & content creation</option>
           <option>Landscaping & lawn care</option>
           <option>Grant Writing & Funding</option>
+          <option>Resources</option>
           <option>Other</option>
         </select>
         <div class="error">Choose a category.</div>
@@ -179,7 +183,7 @@
           <div class="donate-chip" data-amt="other">Other amount</div>
         </div>
         <input type="text" id="donate-other" placeholder="Enter an amount" style="display:none;max-width:200px;margin-bottom:14px;">
-        <a href="https://square.link/u/6SFe8Qel" target="_blank" rel="noopener" style="display:inline-block;background:var(--charcoal);color:var(--white);padding:11px 22px;font-size:13px;font-weight:500;border-radius:2px;">Contribute now →</a>
+        <a href="https://square.link/u/6SFe8Qel" target="_blank" rel="noopener" class="contribute-btn" style="display:inline-block;background:var(--charcoal);color:var(--white);padding:11px 22px;font-size:13px;font-weight:500;border-radius:2px;">Contribute now →</a>
         <div class="hint" style="margin-top:8px;">Opens a secure payment page in a new tab. Come back here to finish your listing after.</div>
       </div>
     </fieldset>

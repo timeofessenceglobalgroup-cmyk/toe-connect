@@ -62,7 +62,8 @@
   .listings-head h2{font-size:22px;font-weight:500;}
   .listings-head p{font-size:14px;color:#5c5a54;}
   .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
-  .card{border:1px solid #E4E1D8;border-top:3px solid var(--charcoal);}
+  .card{border:1px solid #E4E1D8;border-top:3px solid var(--charcoal);transition:transform .18s ease, box-shadow .18s ease;}
+  .card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(14,14,12,0.08);}
   .card-photo{height:140px;background:#EFEDE4;display:flex;align-items:center;justify-content:center;color:#8a8780;font-family:'Fraunces',serif;font-size:15px;}
   .card-body{padding:18px;}
   .ally-badge{font-size:11px;color:var(--white);background:var(--charcoal);padding:3px 10px;display:inline-block;margin-bottom:8px;}
@@ -70,12 +71,13 @@
   .card h3{font-size:18px;font-weight:500;margin-bottom:4px;}
   .card-loc{font-size:13px;color:#7a776f;margin-bottom:10px;}
   .card-desc{font-size:14px;color:#3a3833;margin-bottom:14px;}
-  .card-link{font-size:13px;font-weight:500;border-top:1px solid #E4E1D8;padding-top:12px;display:block;color:var(--charcoal);}
+  .card-link{font-size:13px;font-weight:500;border-top:1px solid #E4E1D8;padding-top:12px;display:block;color:var(--charcoal);text-decoration:none;transition:color .15s ease;}
+  a.card-link:hover{text-decoration:underline;}
 
   .cta-band{background:var(--white);border-top:1px solid #E4E1D8;border-bottom:1px solid #E4E1D8;padding:48px 48px;text-align:center;}
   .cta-band h2{font-size:24px;font-weight:500;margin-bottom:10px;}
   .cta-band p{font-size:14px;color:#5c5a54;max-width:460px;margin:0 auto 22px;}
-  .cta-band a{background:var(--charcoal);color:var(--white);padding:13px 28px;font-size:14px;font-weight:500;border-radius:2px;display:inline-block;}
+  .cta-band a{background:var(--charcoal);color:var(--white);padding:13px 28px;font-size:14px;font-weight:500;border-radius:2px;display:inline-block;transition:background .18s ease;}
   .cta-band a:hover{background:var(--matte-black);}
 
   footer{background:var(--matte-black);color:rgba(251,250,247,0.6);padding:40px 48px;font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;}
@@ -112,6 +114,8 @@
   <nav>
     <a href="index.html">Browse categories</a>
     <a href="tips.html">I wish I knew</a>
+    <a href="resources.html">Free Tools &amp; Resources</a>
+    <a href="events.html">Community Events</a>
     <a href="allies.html" class="current">Community allies</a>
     <a href="verification.html">Verification &amp; Badges</a>
     <a href="submit.html" class="nav-cta">Get listed</a>
@@ -152,6 +156,8 @@
   <div class="foot-links">
     <a href="index.html">Browse</a>
     <a href="tips.html">I wish I knew</a>
+    <a href="resources.html">Free Tools &amp; Resources</a>
+    <a href="events.html">Community Events</a>
     <a href="allies.html">Community allies</a>
     <a href="verification.html">Verification &amp; Badges</a>
     <a href="submit.html">Get listed</a>
@@ -164,6 +170,9 @@
   const count = document.getElementById('count');
 
   function cardHTML(item) {
+    const profileLink = item.website
+      ? `<a href="${item.website}" target="_blank" rel="noopener" class="card-link">Visit website →</a>`
+      : `<span class="card-link" style="color:#a5a297;cursor:default;">No website listed yet</span>`;
     return `
       <div class="card">
         <div class="card-photo">Photo</div>
@@ -173,7 +182,7 @@
           <h3>${item.name}</h3>
           <div class="card-loc">${item.city}</div>
           <div class="card-desc">${item.description}</div>
-          <a href="#" class="card-link">View profile →</a>
+          ${profileLink}
         </div>
       </div>`;
   }

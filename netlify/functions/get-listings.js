@@ -32,6 +32,7 @@ exports.handler = async function (event) {
       category: r.fields['Category'] || '',
       city: r.fields['City'] || '',
       description: r.fields['Short Description'] || '',
+      website: r.fields['Website / Social'] || '',
       servesRemotely: !!r.fields['Serves Remotely'],
       supporter: !!r.fields['Supporter'],
       verified: !!r.fields['Verified'],
