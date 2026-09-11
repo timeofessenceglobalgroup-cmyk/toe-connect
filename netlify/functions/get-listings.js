@@ -36,7 +36,11 @@ exports.handler = async function (event) {
       supporter: !!r.fields['Supporter'],
       verified: !!r.fields['Verified'],
       womenOwned: !!r.fields['Women-Owned'],
-      videoUrl: r.fields['Video URL'] || ''
+      videoUrl: r.fields['Video URL'] || '',
+      businessVerified: !!r.fields['DFI Checked'],
+      licenseVerified: !!r.fields['License Checked'],
+      ownershipReviewed: !!r.fields['Ownership Reviewed'],
+      mbeCertified: !!r.fields['MBE Certified']
     }));
 
     return {

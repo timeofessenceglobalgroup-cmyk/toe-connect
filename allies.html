@@ -92,6 +92,11 @@
     footer{flex-direction:column;}
   }
 </style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E0E0C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TOE Connect">
 </head>
 <body>
 
@@ -108,6 +113,7 @@
     <a href="index.html">Browse categories</a>
     <a href="tips.html">I wish I knew</a>
     <a href="allies.html" class="current">Community allies</a>
+    <a href="verification.html">Verification &amp; Badges</a>
     <a href="submit.html" class="nav-cta">Get listed</a>
   </nav>
 </header>
@@ -147,10 +153,11 @@
     <a href="index.html">Browse</a>
     <a href="tips.html">I wish I knew</a>
     <a href="allies.html">Community allies</a>
+    <a href="verification.html">Verification &amp; Badges</a>
     <a href="submit.html">Get listed</a>
   </div>
 </footer>
-<div class="disclaimer-bar">Listings are reviewed before approval, but businesses are responsible for maintaining their own licenses, certifications, and conduct. Verification reflects information available at time of review and is not a guarantee.</div>
+<div class="disclaimer-bar">Listings are reviewed before approval, but businesses are responsible for maintaining their own licenses, certifications, and conduct. <a href="verification.html" style="color:rgba(251,250,247,0.75);text-decoration:underline;">See our full Verification Notice →</a></div>
 
 <script>
   const grid = document.getElementById('grid');
@@ -192,5 +199,12 @@
   loadAllies();
 </script>
 
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+    });
+  }
+</script>
 </body>
 </html>

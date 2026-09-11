@@ -61,6 +61,7 @@ exports.handler = async function (event) {
     'Supporter': donationAmount > 0,
     'Black-Owned Confirmed': !!data.blackOwned,
     'Women-Owned': !!data.womenOwned,
+    'MBE Certification Number': data.mbeCert || '',
     'Listing Type': 'Black-Owned Business',
     'Status': 'Pending'
   };

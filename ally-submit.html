@@ -77,6 +77,11 @@
   button[type=submit]:hover{background:var(--matte-black);}
   .submit-hint{font-size:12px;color:#8a8780;text-align:center;margin-top:12px;}
 </style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E0E0C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TOE Connect">
 </head>
 <body>
 
@@ -165,7 +170,7 @@
     <fieldset>
       <legend>Support the directory <span style="color:#a5a297;font-weight:400;font-size:14px;">(optional)</span></legend>
       <div class="donate-box">
-        <p>Allies can support TOE Connect with a one-time contribution. This is never required to be listed here.</p>
+        <p>Allies can support TOE Connect with a one-time contribution. This is never required to be listed here. Time of Essence Global Group, LLC is not a registered nonprofit, so contributions are not tax-deductible.</p>
         <div class="donate-options">
           <div class="donate-chip" data-amt="0">No thanks</div>
           <div class="donate-chip" data-amt="10">$10</div>
@@ -173,12 +178,15 @@
           <div class="donate-chip" data-amt="50">$50</div>
           <div class="donate-chip" data-amt="other">Other amount</div>
         </div>
-        <input type="text" id="donate-other" placeholder="Enter an amount" style="display:none;max-width:200px;">
+        <input type="text" id="donate-other" placeholder="Enter an amount" style="display:none;max-width:200px;margin-bottom:14px;">
+        <a href="https://square.link/u/6SFe8Qel" target="_blank" rel="noopener" style="display:inline-block;background:var(--charcoal);color:var(--white);padding:11px 22px;font-size:13px;font-weight:500;border-radius:2px;">Contribute now →</a>
+        <div class="hint" style="margin-top:8px;">Opens a secure payment page in a new tab. Come back here to finish your listing after.</div>
       </div>
     </fieldset>
 
     <button type="submit">Submit for review</button>
     <p class="submit-hint">Listings are reviewed before they appear publicly.</p>
+    <p class="submit-hint" style="margin-top:6px;">By submitting, you agree to our verification process — see full <a href="verification.html" style="color:#8a8780;text-decoration:underline;">Verification Notice</a>.</p>
   </form>
 
   <div id="success-message" style="display:none;text-align:center;padding:40px 20px;">
@@ -252,5 +260,12 @@
   });
 </script>
 
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+    });
+  }
+</script>
 </body>
 </html>

@@ -88,6 +88,11 @@
   button[type=submit]:hover{background:var(--charcoal);}
   .submit-hint{font-size:12px;color:#8a8780;text-align:center;margin-top:12px;}
 </style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E0E0C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TOE Connect">
 </head>
 <body>
 
@@ -104,6 +109,7 @@
     <a href="index.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Browse categories</a>
     <a href="tips.html" style="font-size:14px;color:rgba(251,250,247,0.78);">I wish I knew</a>
     <a href="allies.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Community allies</a>
+    <a href="verification.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Verification &amp; Badges</a>
   </nav>
 </header>
 
@@ -126,6 +132,11 @@
       <input type="checkbox" id="women-owned" name="women-owned" style="width:auto;margin-top:3px;">
       <span>This business is also majority women-owned <span style="color:#8a8780;">(optional)</span></span>
     </label>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid #E4E1D8;">
+      <label for="mbeCert" style="font-size:13px;color:#5c5a54;margin-bottom:6px;display:block;">WI MBE or other third-party certification number <span style="color:#a5a297">(optional)</span></label>
+      <input type="text" id="mbeCert" name="mbeCert" placeholder="Certification number, if you have one" style="width:100%;border:1px solid #D8D5CA;border-radius:2px;padding:10px 12px;font-family:'Jost',sans-serif;font-size:14px;">
+      <div class="hint">If you're certified through Wisconsin's Supplier Diversity Program, U.S. Black Chambers, or a similar body, this can earn your listing a certified badge.</div>
+    </div>
   </div>
 
   <form id="listing-form" novalidate>
@@ -204,7 +215,7 @@
         <input type="url" id="website" name="website" placeholder="https://">
       </div>
       <div class="field">
-        <label for="video">30-second video intro <span style="color:#a5a297">(optional)</span></label>
+        <label for="video">Meet the Owner — 30-second video <span style="color:#a5a297">(optional)</span></label>
         <input type="url" id="video" name="video" placeholder="https://youtube.com/... or https://vimeo.com/...">
         <div class="hint">A quick intro to you and your business, 30 seconds or under. Upload to YouTube (set to "Unlisted") or Vimeo for free, then paste the link here.</div>
       </div>
@@ -213,7 +224,7 @@
     <fieldset>
       <legend>Support the directory <span style="color:#a5a297;font-weight:400;font-size:14px;">(optional)</span></legend>
       <div class="donate-box">
-        <p>If your business is up and running and you'd like to help keep this free for the next new business owner, you can add a one-time contribution. This is never required to be listed.</p>
+        <p>If your business is up and running and you'd like to help keep this free for the next new business owner, you can add a one-time contribution. This is never required to be listed. Time of Essence Global Group, LLC is not a registered nonprofit, so contributions are not tax-deductible.</p>
         <div class="donate-options">
           <div class="donate-chip" data-amt="0">No thanks</div>
           <div class="donate-chip" data-amt="10">$10</div>
@@ -221,13 +232,15 @@
           <div class="donate-chip" data-amt="50">$50</div>
           <div class="donate-chip" data-amt="other">Other amount</div>
         </div>
-        <input type="text" id="donate-other" placeholder="Enter an amount" style="display:none;max-width:200px;">
+        <input type="text" id="donate-other" placeholder="Enter an amount" style="display:none;max-width:200px;margin-bottom:14px;">
+        <a href="https://square.link/u/6SFe8Qel" target="_blank" rel="noopener" style="display:inline-block;background:var(--matte-black);color:var(--white);padding:11px 22px;font-size:13px;font-weight:500;border-radius:2px;">Contribute now →</a>
+        <div class="hint" style="margin-top:8px;">Opens a secure payment page in a new tab. Come back here to finish your listing after.</div>
       </div>
     </fieldset>
 
     <button type="submit">Submit for review</button>
     <p class="submit-hint">Listings are reviewed before they appear publicly.</p>
-    <p class="submit-hint" style="margin-top:6px;">Listings are reviewed before approval, but businesses are responsible for maintaining their own licenses, certifications, and conduct. Verification reflects information available at the time of review and is not a guarantee.</p>
+    <p class="submit-hint" style="margin-top:6px;">By submitting, you agree to our verification process — see full <a href="verification.html" style="color:#5c5a54;text-decoration:underline;">Verification Notice</a>.</p>
   </form>
 
   <div id="success-message" style="display:none;text-align:center;padding:40px 20px;">
@@ -298,6 +311,7 @@
       isRemote: isRemote.checked,
       blackOwned: document.getElementById('black-owned').checked,
       womenOwned: document.getElementById('women-owned').checked,
+      mbeCert: document.getElementById('mbeCert').value.trim(),
       donationAmount: donateAmount === 'other' ? Number(otherInput.value) || 0 : (donateAmount || 0)
     };
 
@@ -320,5 +334,12 @@
   });
 </script>
 
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+    });
+  }
+</script>
 </body>
 </html>
