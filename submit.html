@@ -215,6 +215,11 @@
         <div class="hint">Keep it to about 20 words.</div>
         <div class="error">Add a short description.</div>
       </div>
+      <div class="field">
+        <label for="fullbio">Full bio <span style="color:#a5a297">(optional)</span></label>
+        <textarea id="fullbio" name="fullbio" placeholder="Tell your full story — this shows on your dedicated profile page, not just the directory card."></textarea>
+        <div class="hint">A few sentences or a full paragraph — whatever feels right.</div>
+      </div>
     </fieldset>
 
     <fieldset>
@@ -322,6 +327,7 @@
       category: document.getElementById('category').value,
       city: document.getElementById('city').value.trim(),
       shortdesc: document.getElementById('shortdesc').value.trim(),
+      fullbio: document.getElementById('fullbio').value.trim(),
       email: document.getElementById('email').value.trim(),
       phone: document.getElementById('phone').value.trim(),
       website: document.getElementById('website').value.trim(),

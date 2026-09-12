@@ -147,6 +147,37 @@
   .chip.active{background:var(--gold);border-color:var(--gold);color:var(--matte-black);font-weight:500;}
   .chip.active:hover{border-color:var(--gold);color:var(--matte-black);}
 
+  /* founder video */
+  .founder-section{
+    background:var(--white);
+    padding:56px 48px;
+    max-width:1000px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:40px;
+    align-items:center;
+  }
+  .founder-video-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    background:var(--charcoal);
+    border:1px solid #E4E1D8;
+  }
+  .founder-video{
+    position:absolute;
+    top:0;left:0;width:100%;height:100%;
+    border:none;
+  }
+  .founder-eyebrow{font-size:13px;color:var(--gold);font-weight:500;margin-bottom:10px;letter-spacing:0.3px;}
+  .founder-text h2{font-size:24px;font-weight:500;margin-bottom:12px;}
+  .founder-text p{font-size:14px;color:#5c5a54;}
+
+  @media(max-width:860px){
+    .founder-section{grid-template-columns:1fr;padding:40px 22px;gap:24px;}
+  }
+
   /* listings */
   .listings{padding:64px 48px 40px;max-width:1180px;margin:0 auto;}
   .listings-head{
@@ -346,6 +377,17 @@
   <div class="chip" data-cat="Other">Other</div>
 </div>
 
+<section class="founder-section">
+  <div class="founder-video-wrap">
+    <iframe class="founder-video" src="https://www.youtube.com/embed/ysYGiMEBBI8" title="A message from our founder" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  <div class="founder-text">
+    <div class="founder-eyebrow">A message from our founder</div>
+    <h2>Why TOE Connect exists</h2>
+    <p>A short note from Kimmie Watt-Daniels, founder of Time of Essence Global Group, on why this directory is free — and always will be.</p>
+  </div>
+</section>
+
 <section class="listings">
   <div class="listings-head">
     <h2>Across Wisconsin</h2>
@@ -390,9 +432,7 @@
     if (item.mbeCertified) badges.push(`<span style="${badgeStyle}background:#FBF3DC;color:#8A6A0E;">🏆 WI MBE Certified</span>`);
     if (item.videoUrl) badges.push(`<span style="${badgeStyle}background:#F1EEF9;color:#5B4A9E;">🎥 Owner Spotlight</span>`);
     const badgeRow = badges.length ? `<div style="margin-top:8px;">${badges.join('')}</div>` : '';
-    const profileLink = item.website
-      ? `<a href="${item.website}" target="_blank" rel="noopener" class="card-link">Visit website →</a>`
-      : `<span class="card-link" style="color:#a5a297;cursor:default;">No website listed yet</span>`;
+    const profileLink = `<a href="profile.html?id=${item.id}" class="card-link">View full profile →</a>`;
 
     return `
       <div class="card" data-cat="${item.category}">

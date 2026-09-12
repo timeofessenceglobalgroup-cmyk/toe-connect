@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOE Connect — Business Profile</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="favicon-180.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E0E0C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --matte-black:#0E0E0C; --charcoal:#242220; --white:#FBFAF7;
+    --gold:#C9A227; --gold-light:#E8C468; --line-dark:rgba(14,14,12,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Jost',sans-serif;background:var(--white);color:var(--matte-black);line-height:1.6;}
+  h1,h2,h3,.wordmark{font-family:'Fraunces',serif;}
+  a{color:inherit;}
+
+  header{background:var(--matte-black);color:var(--white);padding:22px 48px;display:flex;align-items:center;justify-content:space-between;}
+  .wordmark{font-size:22px;font-weight:500;}
+  .wordmark span{color:var(--gold-light);}
+  header nav a{font-size:14px;color:rgba(251,250,247,0.78);text-decoration:none;}
+
+  .wrap{max-width:720px;margin:0 auto;padding:48px 24px 80px;}
+  .back-link{font-size:13px;color:#7a776f;text-decoration:none;display:inline-block;margin-bottom:24px;}
+  .back-link:hover{color:var(--gold);}
+
+  .video-embed{width:100%;aspect-ratio:16/9;border:none;margin-bottom:28px;background:var(--charcoal);}
+
+  .profile-tag{font-size:13px;color:var(--gold);font-weight:500;margin-bottom:8px;}
+  h1.profile-name{font-size:32px;font-weight:500;margin-bottom:8px;}
+  .profile-loc{font-size:15px;color:#7a776f;margin-bottom:20px;}
+
+  .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
+  .badge{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;padding:5px 12px;border-radius:12px;}
+
+  .profile-desc{font-size:16px;color:#3a3833;margin-bottom:28px;}
+  .profile-bio{font-size:15px;color:#3a3833;margin-bottom:28px;padding-top:20px;border-top:1px solid #E4E1D8;}
+
+  .contact-box{border:1px solid #E4E1D8;padding:20px 24px;background:#F6F4EC;}
+  .contact-box a{
+    display:inline-block;background:var(--matte-black);color:var(--white);
+    padding:12px 26px;font-size:14px;font-weight:500;border-radius:2px;text-decoration:none;
+    transition:background .18s ease;
+  }
+  .contact-box a:hover{background:var(--charcoal);}
+
+  footer{background:var(--matte-black);color:rgba(251,250,247,0.6);padding:40px 48px;font-size:13px;text-align:center;}
+  footer a{text-decoration:none;}
+  footer a:hover{color:var(--gold-light);}
+
+  @media(max-width:860px){
+    header,.wrap,footer{padding-left:22px;padding-right:22px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark" style="display:flex;align-items:center;gap:10px;">
+    <svg width="30" height="30" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+      <rect width="128" height="128" rx="20" fill="#0E0E0C"/>
+      <rect x="10" y="10" width="108" height="108" rx="12" fill="none" stroke="#C9A227" stroke-width="2" opacity="0.6"/>
+      <text x="64" y="88" font-family="Fraunces, serif" font-size="64" font-weight="600" fill="#E8C468" text-anchor="middle">T</text>
+    </svg>
+    <span>TOE <span style="color:#E8C468;">Connect</span></span>
+  </div>
+  <nav><a href="index.html">← Back to directory</a></nav>
+</header>
+
+<div class="wrap" id="content">
+  <p style="font-size:14px;color:#7a776f;">Loading profile…</p>
+</div>
+
+<footer>
+  <a href="index.html">TOE Connect</a> — a directory by Time of Essence Global Group, LLC
+</footer>
+
+<script>
+  // Converts a normal YouTube or Vimeo link into an embeddable player URL.
+  function getEmbedUrl(url) {
+    if (!url) return null;
+    const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{11})/);
+    if (yt) return `https://www.youtube.com/embed/${yt[1]}`;
+    const vimeo = url.match(/vimeo\.com\/(\d+)/);
+    if (vimeo) return `https://player.vimeo.com/video/${vimeo[1]}`;
+    return null;
+  }
+
+  // Sample data — shown automatically if no ?id= is given, or if the real fetch fails.
+  // This lets you preview exactly how a profile page looks without needing a live listing yet.
+  const DEMO = {
+    name: 'Root & Bloom Studio',
+    category: 'Beauty & wellness',
+    city: 'Wauwatosa, WI',
+    description: 'Natural hair care and scalp treatments by appointment.',
+    fullBio: 'Root & Bloom Studio has been serving the Wauwatosa community for three years, specializing in natural hair care, scalp health treatments, and protective styling. Every appointment starts with a consultation to build a plan around your hair\'s specific needs.',
+    website: 'https://example.com',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    servesRemotely: false,
+    mobileService: false,
+    inPersonService: true,
+    supporter: true,
+    womenOwned: true,
+    businessVerified: true,
+    licenseVerified: false,
+    ownershipReviewed: true,
+    mbeCertified: false
+  };
+
+  function render(b) {
+    const content = document.getElementById('content');
+
+    const embedUrl = getEmbedUrl(b.videoUrl);
+    const videoHTML = embedUrl
+      ? `<iframe class="video-embed" src="${embedUrl}" title="${b.name} video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+      : '';
+
+    const modeTags = [];
+    if (b.inPersonService) modeTags.push('in-person');
+    if (b.servesRemotely) modeTags.push('also serves clients virtually');
+    if (b.mobileService) modeTags.push('mobile / traveling business');
+    const locLine = modeTags.length ? `${b.city} · ${modeTags.join(' · ')}` : b.city;
+
+    const badgeDefs = [
+      [b.businessVerified, '✓ Business Verified', '#EFF6EC', '#2F6B3A'],
+      [b.licenseVerified, '✓ License Verified', '#EFF6EC', '#2F6B3A'],
+      [b.ownershipReviewed, '✓ Black-Owned — Attested & Reviewed', '#EFF6EC', '#2F6B3A'],
+      [b.mbeCertified, '🏆 WI MBE Certified', '#FBF3DC', '#8A6A0E'],
+      [b.womenOwned, 'Women-owned', '#FBF3DC', '#8A6A0E'],
+      [b.supporter, 'Supporter', '#F1EEF9', '#5B4A9E']
+    ];
+    const badgesHTML = badgeDefs
+      .filter(([show]) => show)
+      .map(([, label, bg, color]) => `<span class="badge" style="background:${bg};color:${color};">${label}</span>`)
+      .join('');
+
+    const bioHTML = b.fullBio ? `<div class="profile-bio">${b.fullBio}</div>` : '';
+    const websiteHTML = b.website
+      ? `<a href="${b.website}" target="_blank" rel="noopener">Visit website →</a>`
+      : `<span style="color:#8a8780;">No website listed yet</span>`;
+
+    content.innerHTML = `
+      <a href="index.html" class="back-link">← Back to directory</a>
+      ${videoHTML}
+      <div class="profile-tag">${b.category}</div>
+      <h1 class="profile-name">${b.name}</h1>
+      <div class="profile-loc">${locLine}</div>
+      <div class="badge-row">${badgesHTML}</div>
+      <div class="profile-desc">${b.description}</div>
+      ${bioHTML}
+      <div class="contact-box">
+        ${websiteHTML}
+      </div>
+    `;
+  }
+
+  async function loadProfile() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    if (!id) {
+      render(DEMO); // No id given — show the demo so this page can be previewed directly.
+      return;
+    }
+
+    try {
+      const res = await fetch(`/.netlify/functions/get-business?id=${encodeURIComponent(id)}`);
+      if (!res.ok) throw new Error('not found');
+      const data = await res.json();
+      render(data.business);
+    } catch (err) {
+      document.getElementById('content').innerHTML = '<p style="font-size:14px;color:#7a776f;">This listing couldn\'t be found. <a href="index.html">Back to directory</a></p>';
+    }
+  }
+
+  loadProfile();
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+    });
+  }
+</script>
+
+</body>
+</html>

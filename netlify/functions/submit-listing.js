@@ -51,6 +51,7 @@ exports.handler = async function (event) {
     'Category': data.category,
     'City': data.city,
     'Short Description': data.shortdesc,
+    'Full Bio': data.fullbio || '',
     'Contact Email': data.email,
     'Phone': data.phone || '',
     'Website / Social': data.website || '',
