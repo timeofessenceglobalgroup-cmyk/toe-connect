@@ -348,9 +348,10 @@
     <p><span id="count">39</span> businesses listed</p>
   </div>
   <div style="display:flex;gap:10px;margin-bottom:28px;">
-    <div class="chip active" data-loc="all" style="border-color:#D8D5CA;color:var(--matte-black);">All locations</div>
-    <div class="chip" data-loc="wi" style="border-color:#D8D5CA;color:var(--matte-black);">In-person</div>
-    <div class="chip" data-loc="remote" style="border-color:#D8D5CA;color:var(--matte-black);">Also serves remotely</div>
+    <div class="chip active" data-toggle="all" style="border-color:#D8D5CA;color:var(--matte-black);">All businesses</div>
+    <div class="chip" data-toggle="inperson" style="border-color:#D8D5CA;color:var(--matte-black);">In-person</div>
+    <div class="chip" data-toggle="remote" style="border-color:#D8D5CA;color:var(--matte-black);">Also serves remotely</div>
+    <div class="chip" data-toggle="mobile" style="border-color:#D8D5CA;color:var(--matte-black);">Mobile / traveling</div>
   </div>
   <div class="grid" id="grid">
     <p id="grid-status" style="grid-column:1/-1;font-size:14px;color:#7a776f;">Loading listings…</p>
@@ -359,17 +360,21 @@
 
 <script>
   const catChips = document.querySelectorAll('.categories .chip');
-  const locChips = document.querySelectorAll('[data-loc].chip');
+  const toggleChips = document.querySelectorAll('[data-toggle].chip');
   const grid = document.getElementById('grid');
   const count = document.getElementById('count');
 
   let allListings = [];
   let activeCat = 'all';
-  let activeLoc = 'all';
+  const activeToggles = new Set();
 
   function cardHTML(item) {
     const flag = item.supporter ? '<div class="featured-flag">Supporter</div>' : '';
-    const loc = item.servesRemotely ? `${item.city} · also serves clients virtually` : item.city;
+    const modeTags = [];
+    if (item.inPersonService) modeTags.push('in-person');
+    if (item.servesRemotely) modeTags.push('also serves clients virtually');
+    if (item.mobileService) modeTags.push('mobile / traveling business');
+    const loc = modeTags.length ? `${item.city} · ${modeTags.join(' · ')}` : item.city;
     const womenTag = item.womenOwned ? '<span style="font-size:11px;color:var(--gold);border:1px solid var(--gold);padding:2px 8px;border-radius:10px;margin-left:8px;">Women-owned</span>' : '';
     const videoLink = item.videoUrl ? `<a href="${item.videoUrl}" target="_blank" rel="noopener" style="font-size:12px;color:var(--gold);display:block;margin-top:8px;">▶ Meet the Owner</a>` : '';
 
@@ -386,7 +391,7 @@
       : `<span class="card-link" style="color:#a5a297;cursor:default;">No website listed yet</span>`;
 
     return `
-      <div class="card" data-cat="${item.category}" data-loc="${item.servesRemotely ? 'remote' : 'wi'}">
+      <div class="card" data-cat="${item.category}">
         <div class="card-photo">Photo</div>
         <div class="card-body">
           ${flag}
@@ -404,8 +409,10 @@
   function render() {
     const filtered = allListings.filter(item => {
       const catMatch = activeCat === 'all' || item.category === activeCat;
-      const locMatch = activeLoc === 'all' || (activeLoc === 'remote' ? item.servesRemotely : !item.servesRemotely);
-      return catMatch && locMatch;
+      const inPersonMatch = !activeToggles.has('inperson') || item.inPersonService;
+      const remoteMatch = !activeToggles.has('remote') || item.servesRemotely;
+      const mobileMatch = !activeToggles.has('mobile') || item.mobileService;
+      return catMatch && inPersonMatch && remoteMatch && mobileMatch;
     });
     grid.innerHTML = filtered.length
       ? filtered.map(cardHTML).join('')
@@ -437,11 +444,26 @@
     });
   });
 
-  locChips.forEach(chip => {
+  // "All businesses" clears the other toggles; the other two stack independently.
+  const allChip = document.querySelector('[data-toggle="all"]');
+  toggleChips.forEach(chip => {
     chip.addEventListener('click', () => {
-      locChips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      activeLoc = chip.dataset.loc;
+      const key = chip.dataset.toggle;
+      if (key === 'all') {
+        activeToggles.clear();
+        toggleChips.forEach(c => c.classList.remove('active'));
+        allChip.classList.add('active');
+      } else {
+        allChip.classList.remove('active');
+        if (activeToggles.has(key)) {
+          activeToggles.delete(key);
+          chip.classList.remove('active');
+        } else {
+          activeToggles.add(key);
+          chip.classList.add('active');
+        }
+        if (activeToggles.size === 0) allChip.classList.add('active');
+      }
       render();
     });
   });

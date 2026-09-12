@@ -34,6 +34,8 @@ exports.handler = async function (event) {
       description: r.fields['Short Description'] || '',
       website: r.fields['Website / Social'] || '',
       servesRemotely: !!r.fields['Serves Remotely'],
+      mobileService: !!r.fields['Mobile Service'],
+      inPersonService: !!r.fields['In-Person Service'],
       supporter: !!r.fields['Supporter'],
       verified: !!r.fields['Verified'],
       womenOwned: !!r.fields['Women-Owned'],

@@ -187,9 +187,18 @@
         <div class="error">Enter a license or certification number.</div>
       </div>
       <div class="field">
+        <label style="font-size:13px;color:#5c5a54;margin-bottom:8px;display:block;">How do you serve clients? Check all that apply.</label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:8px;">
+          <input type="checkbox" id="is-in-person" style="width:auto;" checked>
+          <span>In-person, at my location</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:8px;">
+          <input type="checkbox" id="is-mobile" style="width:auto;">
+          <span>Mobile — I travel to clients, or operate from a moving location (e.g. a food truck)</span>
+        </label>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
           <input type="checkbox" id="is-remote" style="width:auto;">
-          <span>This business also serves clients remotely / virtually, beyond Wisconsin</span>
+          <span>Remote / Virtual — video or phone</span>
         </label>
       </div>
       <div class="field" data-required="true" id="city-field">
@@ -316,7 +325,9 @@
       website: document.getElementById('website').value.trim(),
       video: document.getElementById('video').value.trim(),
       license: document.getElementById('license').value.trim(),
+      isInPerson: document.getElementById('is-in-person').checked,
       isRemote: isRemote.checked,
+      isMobile: document.getElementById('is-mobile').checked,
       blackOwned: document.getElementById('black-owned').checked,
       womenOwned: document.getElementById('women-owned').checked,
       mbeCert: document.getElementById('mbeCert').value.trim(),
