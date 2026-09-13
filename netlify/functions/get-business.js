@@ -42,6 +42,7 @@ exports.handler = async function (event) {
       phone: record.fields['Phone'] || '',
       email: record.fields['Email Public'] ? (record.fields['Contact Email'] || '') : '',
       videoUrl: record.fields['Video URL'] || '',
+      logoUrl: (record.fields['Logo/Photo'] && record.fields['Logo/Photo'][0] && record.fields['Logo/Photo'][0].url) || '',
       servesRemotely: !!record.fields['Serves Remotely'],
       mobileService: !!record.fields['Mobile Service'],
       inPersonService: !!record.fields['In-Person Service'],

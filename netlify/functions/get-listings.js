@@ -42,6 +42,7 @@ exports.handler = async function (event) {
       verified: !!r.fields['Verified'],
       womenOwned: !!r.fields['Women-Owned'],
       videoUrl: r.fields['Video URL'] || '',
+      logoUrl: (r.fields['Logo/Photo'] && r.fields['Logo/Photo'][0] && r.fields['Logo/Photo'][0].url) || '',
       businessVerified: !!r.fields['DFI Checked'],
       licenseVerified: !!r.fields['License Checked'],
       ownershipReviewed: !!r.fields['Ownership Reviewed'],
