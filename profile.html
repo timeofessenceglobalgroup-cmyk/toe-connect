@@ -101,6 +101,8 @@
     description: 'Natural hair care and scalp treatments by appointment.',
     fullBio: 'Root & Bloom Studio has been serving the Wauwatosa community for three years, specializing in natural hair care, scalp health treatments, and protective styling. Every appointment starts with a consultation to build a plan around your hair\'s specific needs.',
     website: 'https://example.com',
+    phone: '(414) 555-0100',
+    email: '',
     videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     servesRemotely: false,
     mobileService: false,
@@ -144,6 +146,12 @@
     const websiteHTML = b.website
       ? `<a href="${b.website}" target="_blank" rel="noopener">Visit website →</a>`
       : `<span style="color:#8a8780;">No website listed yet</span>`;
+    const phoneHTML = b.phone
+      ? `<div style="margin-top:12px;font-size:14px;color:var(--matte-black);">📞 <a href="tel:${b.phone}" style="text-decoration:underline;">${b.phone}</a></div>`
+      : '';
+    const emailHTML = b.email
+      ? `<div style="margin-top:8px;font-size:14px;color:var(--matte-black);">✉ <a href="mailto:${b.email}" style="text-decoration:underline;">${b.email}</a></div>`
+      : '';
 
     content.innerHTML = `
       <a href="index.html" class="back-link">← Back to directory</a>
@@ -156,6 +164,8 @@
       ${bioHTML}
       <div class="contact-box">
         ${websiteHTML}
+        ${phoneHTML}
+        ${emailHTML}
       </div>
     `;
   }

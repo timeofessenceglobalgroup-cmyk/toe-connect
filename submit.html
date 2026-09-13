@@ -227,7 +227,11 @@
       <div class="field" data-required="true">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" placeholder="you@yourbusiness.com">
-        <div class="hint">Used for review updates — not shown publicly.</div>
+        <div class="hint">Kept private by default — used only for review updates.</div>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:8px;font-size:13px;color:#5c5a54;">
+          <input type="checkbox" id="email-public" style="width:auto;">
+          <span>Show my email publicly on my listing <span style="color:#a5a297;">(otherwise it stays private — public emails can attract spam)</span></span>
+        </label>
         <div class="error">Enter a valid email.</div>
       </div>
       <div class="field">
@@ -329,6 +333,7 @@
       shortdesc: document.getElementById('shortdesc').value.trim(),
       fullbio: document.getElementById('fullbio').value.trim(),
       email: document.getElementById('email').value.trim(),
+      emailPublic: document.getElementById('email-public').checked,
       phone: document.getElementById('phone').value.trim(),
       website: document.getElementById('website').value.trim(),
       video: document.getElementById('video').value.trim(),

@@ -53,6 +53,7 @@ exports.handler = async function (event) {
     'Short Description': data.shortdesc,
     'Full Bio': data.fullbio || '',
     'Contact Email': data.email,
+    'Email Public': !!data.emailPublic,
     'Phone': data.phone || '',
     'Website / Social': data.website || '',
     'Video URL': data.video || '',

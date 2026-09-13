@@ -33,6 +33,8 @@ exports.handler = async function (event) {
       city: r.fields['City'] || '',
       description: r.fields['Short Description'] || '',
       website: r.fields['Website / Social'] || '',
+      phone: r.fields['Phone'] || '',
+      email: r.fields['Email Public'] ? (r.fields['Contact Email'] || '') : '',
       servesRemotely: !!r.fields['Serves Remotely'],
       mobileService: !!r.fields['Mobile Service'],
       inPersonService: !!r.fields['In-Person Service'],

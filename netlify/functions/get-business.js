@@ -39,6 +39,8 @@ exports.handler = async function (event) {
       description: record.fields['Short Description'] || '',
       fullBio: record.fields['Full Bio'] || '',
       website: record.fields['Website / Social'] || '',
+      phone: record.fields['Phone'] || '',
+      email: record.fields['Email Public'] ? (record.fields['Contact Email'] || '') : '',
       videoUrl: record.fields['Video URL'] || '',
       servesRemotely: !!record.fields['Serves Remotely'],
       mobileService: !!record.fields['Mobile Service'],

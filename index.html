@@ -432,6 +432,10 @@
     if (item.mbeCertified) badges.push(`<span style="${badgeStyle}background:#FBF3DC;color:#8A6A0E;">🏆 WI MBE Certified</span>`);
     if (item.videoUrl) badges.push(`<span style="${badgeStyle}background:#F1EEF9;color:#5B4A9E;">🎥 Owner Spotlight</span>`);
     const badgeRow = badges.length ? `<div style="margin-top:8px;">${badges.join('')}</div>` : '';
+    const contactLines = [];
+    if (item.phone) contactLines.push(`<a href="tel:${item.phone}" style="color:var(--matte-black);text-decoration:none;">📞 ${item.phone}</a>`);
+    if (item.email) contactLines.push(`<a href="mailto:${item.email}" style="color:var(--matte-black);text-decoration:none;">✉ ${item.email}</a>`);
+    const contactRow = contactLines.length ? `<div style="font-size:13px;margin-top:8px;display:flex;flex-direction:column;gap:3px;">${contactLines.join('')}</div>` : '';
     const profileLink = `<a href="profile.html?id=${item.id}" class="card-link">View full profile →</a>`;
 
     return `
@@ -444,6 +448,7 @@
           <div class="card-loc">${loc}</div>
           <div class="card-desc">${item.description}</div>
           ${badgeRow}
+          ${contactRow}
           ${videoLink}
           ${profileLink}
         </div>
