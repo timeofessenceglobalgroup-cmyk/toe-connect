@@ -437,10 +437,13 @@
     if (item.email) contactLines.push(`<a href="mailto:${item.email}" style="color:var(--matte-black);text-decoration:none;">✉ ${item.email}</a>`);
     const contactRow = contactLines.length ? `<div style="font-size:13px;margin-top:8px;display:flex;flex-direction:column;gap:3px;">${contactLines.join('')}</div>` : '';
     const profileLink = `<a href="profile.html?id=${item.id}" class="card-link">View full profile →</a>`;
+    const cardPhoto = item.logoUrl
+      ? `<div class="card-photo" style="padding:0;"><img src="${item.logoUrl}" alt="${item.name} logo" style="width:100%;height:100%;object-fit:cover;display:block;"></div>`
+      : `<div class="card-photo">Photo</div>`;
 
     return `
       <div class="card" data-cat="${item.category}">
-        <div class="card-photo">Photo</div>
+        ${cardPhoto}
         <div class="card-body">
           ${flag}
           <div class="card-tag">${item.category}${womenTag}</div>
