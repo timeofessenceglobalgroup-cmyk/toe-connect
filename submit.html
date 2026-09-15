@@ -209,6 +209,11 @@
         <div class="hint">All listings must be based in Wisconsin, even if you also serve clients elsewhere.</div>
         <div class="error">Enter a city.</div>
       </div>
+      <div class="field" id="address-field">
+        <label for="address">Street address <span style="color:#a5a297">(optional)</span></label>
+        <input type="text" id="address" name="address" placeholder="123 Main St, Milwaukee, WI 53202">
+        <div class="hint">Only needed if customers visit you in person — leave blank for remote or mobile-only businesses.</div>
+      </div>
       <div class="field" data-required="true">
         <label for="shortdesc">Short description</label>
         <textarea id="shortdesc" name="shortdesc" placeholder="One or two sentences — this shows on your card in the directory."></textarea>
@@ -330,6 +335,7 @@
       bizname: document.getElementById('bizname').value.trim(),
       category: document.getElementById('category').value,
       city: document.getElementById('city').value.trim(),
+      address: document.getElementById('address').value.trim(),
       shortdesc: document.getElementById('shortdesc').value.trim(),
       fullbio: document.getElementById('fullbio').value.trim(),
       email: document.getElementById('email').value.trim(),

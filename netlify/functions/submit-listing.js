@@ -50,6 +50,7 @@ exports.handler = async function (event) {
     'Business Name': data.bizname,
     'Category': data.category,
     'City': data.city,
+    'Address': data.address || '',
     'Short Description': data.shortdesc,
     'Full Bio': data.fullbio || '',
     'Contact Email': data.email,

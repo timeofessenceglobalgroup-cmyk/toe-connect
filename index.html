@@ -421,6 +421,7 @@
     if (item.servesRemotely) modeTags.push('also serves clients virtually');
     if (item.mobileService) modeTags.push('mobile / traveling business');
     const loc = modeTags.length ? `${item.city} · ${modeTags.join(' · ')}` : item.city;
+    const addressLine = (item.inPersonService && item.address) ? `<div class="card-loc">📍 ${item.address}</div>` : '';
     const womenTag = item.womenOwned ? '<span style="font-size:11px;color:var(--gold);border:1px solid var(--gold);padding:2px 8px;border-radius:10px;margin-left:8px;">Women-owned</span>' : '';
     const videoLink = item.videoUrl ? `<a href="${item.videoUrl}" target="_blank" rel="noopener" style="font-size:12px;color:var(--gold);display:block;margin-top:8px;">▶ Meet the Owner</a>` : '';
 
@@ -449,6 +450,7 @@
           <div class="card-tag">${item.category}${womenTag}</div>
           <h3>${item.name}</h3>
           <div class="card-loc">${loc}</div>
+          ${addressLine}
           <div class="card-desc">${item.description}</div>
           ${badgeRow}
           ${contactRow}
