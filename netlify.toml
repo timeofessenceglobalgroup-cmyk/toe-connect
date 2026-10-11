@@ -1,3 +1,26 @@
 [build]
   functions = "netlify/functions"
   publish = "."
+[[redirects]]
+  from = "/allies"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/allies.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ally-submit"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ally-submit.html"
+  to = "/"
+  status = 301
+  force = true
