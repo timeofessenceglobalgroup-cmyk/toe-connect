@@ -1,11 +1,9 @@
-const CACHE_NAME = 'toe-connect-v1';
+const CACHE_NAME = 'toe-connect-v2';
 const APP_SHELL = [
   '/',
   '/index.html',
   '/submit.html',
   '/tips.html',
-  '/allies.html',
-  '/ally-submit.html',
   '/submit-tip.html',
   '/favicon.svg',
   '/icon-192.png',
