@@ -50,6 +50,18 @@
   }
   .contact-box a:hover{background:var(--charcoal);}
 
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;}
+  .info-grid.single{grid-template-columns:1fr;}
+  .info-box{border:1px solid #E4E1D8;padding:20px 24px;}
+  .info-title{font-family:'Fraunces',serif;font-size:17px;font-weight:500;margin-bottom:10px;}
+  .info-box a.directions{display:inline-block;margin-top:10px;font-size:13px;color:var(--gold);text-decoration:underline;}
+  table.hours{width:100%;font-size:14px;border-collapse:collapse;}
+  table.hours td{padding:6px 0;border-bottom:1px solid #F0EDE4;}
+  table.hours td:last-child{text-align:right;}
+  table.hours tr:last-child td{border-bottom:none;}
+  table.hours tr.today{font-weight:500;color:#8A6A0E;}
+  @media(max-width:700px){.info-grid{grid-template-columns:1fr;}}
+
   footer{background:var(--matte-black);color:rgba(251,250,247,0.6);padding:40px 48px;font-size:13px;text-align:center;}
   footer a{text-decoration:none;}
   footer a:hover{color:var(--gold-light);}
@@ -97,7 +109,16 @@
   const DEMO = {
     name: 'Root & Bloom Studio',
     category: 'Beauty & wellness',
-    city: 'Wauwatosa, WI',
+    city: 'Wauwatosa',
+    address: '1234 W Main St, Wauwatosa, WI 53213',
+    homeBased: false,
+    hoursType: 'Set hours',
+    hours: [
+      { day: 'Monday', hours: 'Closed' }, { day: 'Tuesday', hours: '10:00 AM - 6:00 PM' },
+      { day: 'Wednesday', hours: '10:00 AM - 6:00 PM' }, { day: 'Thursday', hours: '10:00 AM - 7:00 PM' },
+      { day: 'Friday', hours: '10:00 AM - 7:00 PM' }, { day: 'Saturday', hours: '9:00 AM - 3:00 PM' },
+      { day: 'Sunday', hours: 'Closed' }
+    ],
     description: 'Natural hair care and scalp treatments by appointment.',
     fullBio: 'Root & Bloom Studio has been serving the Wauwatosa community for three years, specializing in natural hair care, scalp health treatments, and protective styling. Every appointment starts with a consultation to build a plan around your hair\'s specific needs.',
     website: 'https://example.com',
@@ -116,6 +137,8 @@
     mbeCertified: false
   };
 
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
   function render(b) {
     const content = document.getElementById('content');
 
@@ -128,7 +151,31 @@
     if (b.inPersonService) modeTags.push('in-person');
     if (b.servesRemotely) modeTags.push('also serves clients virtually');
     if (b.mobileService) modeTags.push('mobile / traveling business');
-    const locLine = modeTags.length ? `${b.city} · ${modeTags.join(' · ')}` : b.city;
+    const cityOnly = String(b.city || '').replace(/,?\s*(WI|Wisconsin)\.?$/i, '').trim();
+    const place = cityOnly ? `${cityOnly}, WI` : '';
+    const locLine = modeTags.length ? `${place} · ${modeTags.join(' · ')}` : place;
+
+    // Location box: public address (with directions), or a home-based note.
+    let locationBox = '';
+    if (b.address) {
+      const mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(b.address);
+      locationBox = `<div class="info-box"><div class="info-title">Location</div><div style="font-size:14px;">📍 ${esc(b.address)}</div><a class="directions" href="${mapUrl}" target="_blank" rel="noopener">Get directions →</a></div>`;
+    } else if (b.homeBased) {
+      locationBox = `<div class="info-box"><div class="info-title">Location</div><div style="font-size:14px;">🏠 Home-based business — address kept private. Contact them to arrange a visit.</div></div>`;
+    }
+
+    // Hours box: weekly table (today highlighted) or "By appointment". Nothing is shown if hours weren't listed.
+    let hoursBox = '';
+    if (b.hoursType === 'By appointment') {
+      hoursBox = `<div class="info-box"><div class="info-title">Hours</div><div style="font-size:14px;">By appointment only. Contact them to schedule.</div></div>`;
+    } else if (b.hoursType === 'Set hours' && b.hours && b.hours.length) {
+      const today = new Date().toLocaleDateString('en-US', { weekday: 'long', timeZone: 'America/Chicago' });
+      const rows = b.hours.map(h => `<tr class="${h.day === today ? 'today' : ''}"><td>${esc(h.day)}</td><td>${esc(h.hours)}</td></tr>`).join('');
+      hoursBox = `<div class="info-box"><div class="info-title">Hours</div><table class="hours">${rows}</table></div>`;
+    }
+    const infoGrid = (locationBox || hoursBox)
+      ? `<div class="info-grid${locationBox && hoursBox ? '' : ' single'}">${locationBox}${hoursBox}</div>`
+      : '';
 
     const badgeDefs = [
       [b.businessVerified, '✓ Business Verified', '#EFF6EC', '#2F6B3A'],
@@ -168,6 +215,7 @@
       <div class="badge-row">${badgesHTML}</div>
       <div class="profile-desc">${b.description}</div>
       ${bioHTML}
+      ${infoGrid}
       <div class="contact-box">
         ${websiteHTML}
         ${phoneHTML}

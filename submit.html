@@ -51,7 +51,7 @@
   legend{font-family:'Fraunces',serif;font-size:19px;font-weight:500;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--line-dark);width:100%;}
   .field{margin-bottom:18px;}
   label{display:block;font-size:13px;color:#5c5a54;margin-bottom:6px;}
-  input[type=text], input[type=email], input[type=tel], input[type=url], select, textarea{
+  input[type=text], input[type=email], input[type=tel], input[type=url], input[type=time], select, textarea{
     width:100%;border:1px solid #D8D5CA;border-radius:2px;padding:12px 14px;
     font-family:'Jost',sans-serif;font-size:14px;background:var(--white);color:var(--matte-black);
   }
@@ -61,6 +61,25 @@
   .error{font-size:12px;color:#B3401F;margin-top:5px;display:none;}
   .field.invalid input, .field.invalid textarea{border-color:#B3401F;}
   .field.invalid .error{display:block;}
+
+  .row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;}
+  .row .field{margin-bottom:18px;}
+  .choice{display:flex;align-items:flex-start;gap:8px;cursor:pointer;margin-bottom:8px;font-size:14px;color:var(--matte-black);}
+  .choice input{width:auto;margin-top:3px;}
+  input:disabled{background:#F1EFE8;color:#5c5a54;}
+  .hours-row{display:grid;grid-template-columns:96px 1fr 24px 1fr 86px;gap:8px;align-items:center;margin-bottom:8px;font-size:14px;}
+  .hours-row .to{text-align:center;color:#8a8780;font-size:13px;}
+  .hours-row label{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;cursor:pointer;}
+  .hours-row input[type=checkbox]{width:auto;}
+  .hours-row input[type=time]:disabled{opacity:.45;}
+  .link-btn{background:none;border:none;color:#5c5a54;text-decoration:underline;font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;padding:0;margin:4px 0 8px;}
+  .link-btn:hover{color:var(--gold);}
+  @media(max-width:560px){
+    .row{grid-template-columns:1fr;}
+    .hours-row{grid-template-columns:1fr 1fr;}
+    .hours-row .day{grid-column:1 / -1;font-weight:500;}
+    .hours-row .to{display:none;}
+  }
 
   .free-banner{
     background:var(--charcoal);color:var(--white);
@@ -202,17 +221,6 @@
           <span>Remote / Virtual — video or phone</span>
         </label>
       </div>
-      <div class="field" data-required="true" id="city-field">
-        <label for="city">City</label>
-        <input type="text" id="city" name="city" placeholder="Milwaukee, WI">
-        <div class="hint">All listings must be based in Wisconsin, even if you also serve clients elsewhere.</div>
-        <div class="error">Enter a city.</div>
-      </div>
-      <div class="field" id="address-field">
-        <label for="address">Street address <span style="color:#a5a297">(optional)</span></label>
-        <input type="text" id="address" name="address" placeholder="123 Main St, Milwaukee, WI 53202">
-        <div class="hint">Only needed if customers visit you in person — leave blank for remote or mobile-only businesses.</div>
-      </div>
       <div class="field" data-required="true">
         <label for="shortdesc">Short description</label>
         <textarea id="shortdesc" name="shortdesc" placeholder="One or two sentences — this shows on your card in the directory."></textarea>
@@ -223,6 +231,53 @@
         <label for="fullbio">Full bio <span style="color:#a5a297">(optional)</span></label>
         <textarea id="fullbio" name="fullbio" placeholder="Tell your full story — this shows on your dedicated profile page, not just the directory card."></textarea>
         <div class="hint">A few sentences or a full paragraph — whatever feels right.</div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Location</legend>
+      <div class="field">
+        <label style="font-size:13px;color:#5c5a54;margin-bottom:8px;display:block;">How should customers find you?</label>
+        <label class="choice"><input type="radio" name="addr-mode" value="public" checked><span>Show my street address publicly</span></label>
+        <label class="choice"><input type="radio" name="addr-mode" value="private"><span>I'm home-based — keep my street address private</span></label>
+        <label class="choice"><input type="radio" name="addr-mode" value="none"><span>I'm mobile or online only — no address to show</span></label>
+      </div>
+      <div class="field" data-required="true" id="street-field">
+        <label for="street">Street address and suite</label>
+        <input type="text" id="street" name="street" placeholder="123 W Main St, Suite 200" autocomplete="address-line1">
+        <div class="error">Enter your street address.</div>
+      </div>
+      <div class="row">
+        <div class="field" data-required="true" id="city-field">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" placeholder="Milwaukee" autocomplete="address-level2">
+          <div class="error">Enter a city.</div>
+        </div>
+        <div class="field">
+          <label for="state">State</label>
+          <input type="text" id="state" value="WI" disabled>
+        </div>
+        <div class="field" data-required="true" id="zip-field">
+          <label for="zip">ZIP code</label>
+          <input type="text" id="zip" name="zip" placeholder="53202" inputmode="numeric" maxlength="10" autocomplete="postal-code">
+          <div class="error">Enter a 5-digit ZIP code.</div>
+        </div>
+      </div>
+      <div class="hint" id="location-hint" style="margin-top:-8px;margin-bottom:18px;">All listings must be based in Wisconsin, even if you also serve clients elsewhere. If you chose a private address, only your city is shown publicly.</div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Hours <span style="color:#a5a297;font-weight:400;font-size:14px;">(optional)</span></legend>
+      <div class="field">
+        <label class="choice"><input type="radio" name="hours-mode" value="set"><span>Set my weekly hours</span></label>
+        <label class="choice"><input type="radio" name="hours-mode" value="appointment"><span>By appointment only</span></label>
+        <label class="choice"><input type="radio" name="hours-mode" value="none" checked><span>Don't list hours</span></label>
+        <div class="hint">Nothing is ever shown as "Closed" unless you mark that day closed yourself.</div>
+      </div>
+      <div id="hours-grid" style="display:none;">
+        <div id="hours-rows"></div>
+        <button type="button" class="link-btn" id="copy-hours">Copy Monday's hours to Tuesday–Friday</button>
+        <div class="error" id="hours-error" style="display:none;">Enter open and close times for each day, or check Closed. At least one day must be open.</div>
       </div>
     </fieldset>
 
@@ -295,6 +350,67 @@
     if (!needsLicense) licenseField.classList.remove('invalid');
   });
 
+
+  // ---- Location: street only applies when the address is shown publicly ----
+  const streetField = document.getElementById('street-field');
+  function updateAddressMode() {
+    const mode = document.querySelector('input[name="addr-mode"]:checked').value;
+    const showStreet = mode === 'public';
+    streetField.style.display = showStreet ? 'block' : 'none';
+    streetField.dataset.required = showStreet ? 'true' : 'false';
+    if (!showStreet) streetField.classList.remove('invalid');
+  }
+  document.querySelectorAll('input[name="addr-mode"]').forEach(r => r.addEventListener('change', updateAddressMode));
+  updateAddressMode();
+
+  // ---- Hours ----
+  const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const hoursRows = document.getElementById('hours-rows');
+  hoursRows.innerHTML = DAYS.map(d => `
+    <div class="hours-row" data-day="${d}">
+      <span class="day">${d}</span>
+      <input type="time" class="h-open" aria-label="${d} opening time">
+      <span class="to">to</span>
+      <input type="time" class="h-close" aria-label="${d} closing time">
+      <label><input type="checkbox" class="h-closed"> Closed</label>
+    </div>`).join('');
+
+  function syncRow(row) {
+    const closed = row.querySelector('.h-closed').checked;
+    row.querySelectorAll('input[type=time]').forEach(t => { t.disabled = closed; if (closed) t.value = ''; });
+  }
+  hoursRows.querySelectorAll('.hours-row').forEach(row => {
+    row.querySelector('.h-closed').addEventListener('change', () => syncRow(row));
+  });
+
+  document.getElementById('copy-hours').addEventListener('click', () => {
+    const rows = hoursRows.querySelectorAll('.hours-row');
+    const src = rows[0];
+    for (let i = 1; i <= 4; i++) {
+      rows[i].querySelector('.h-closed').checked = src.querySelector('.h-closed').checked;
+      syncRow(rows[i]);
+      rows[i].querySelector('.h-open').value = src.querySelector('.h-open').value;
+      rows[i].querySelector('.h-close').value = src.querySelector('.h-close').value;
+    }
+  });
+
+  function updateHoursMode() {
+    const mode = document.querySelector('input[name="hours-mode"]:checked').value;
+    document.getElementById('hours-grid').style.display = mode === 'set' ? 'block' : 'none';
+    document.getElementById('hours-error').style.display = 'none';
+  }
+  document.querySelectorAll('input[name="hours-mode"]').forEach(r => r.addEventListener('change', updateHoursMode));
+  updateHoursMode();
+
+  function collectHours() {
+    return Array.from(hoursRows.querySelectorAll('.hours-row')).map(row => ({
+      day: row.dataset.day,
+      closed: row.querySelector('.h-closed').checked,
+      open: row.querySelector('.h-open').value,
+      close: row.querySelector('.h-close').value
+    }));
+  }
+
   const donateChips = document.querySelectorAll('.donate-chip');
   const otherInput = document.getElementById('donate-other');
   let donateAmount = 0;
@@ -317,13 +433,32 @@
       const input = field.querySelector('input, select, textarea');
       const isEmpty = input.type === 'checkbox' ? !input.checked : !input.value.trim();
       const isBadEmail = input.type === 'email' && input.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
-      if (isEmpty || isBadEmail) {
+      const isBadZip = input.id === 'zip' && input.value.trim() && !/^\d{5}(-\d{4})?$/.test(input.value.trim());
+      if (isEmpty || isBadEmail || isBadZip) {
         field.classList.add('invalid');
         valid = false;
       } else {
         field.classList.remove('invalid');
       }
     });
+
+    const hoursMode = document.querySelector('input[name="hours-mode"]:checked').value;
+    const hoursError = document.getElementById('hours-error');
+    hoursError.style.display = 'none';
+    if (hoursMode === 'set') {
+      const hrs = collectHours();
+      const incomplete = hrs.some(h => !h.closed && (!h.open || !h.close));
+      const allClosed = hrs.every(h => h.closed);
+      if (incomplete || allClosed) {
+        hoursError.style.display = 'block';
+        valid = false;
+      }
+    }
+
+    if (!valid) {
+      const firstBad = this.querySelector('.field.invalid') || (hoursError.style.display === 'block' ? hoursError : null);
+      if (firstBad) firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
     if (!valid) return;
 
     const submitBtn = this.querySelector('button[type=submit]');
@@ -334,7 +469,11 @@
       bizname: document.getElementById('bizname').value.trim(),
       category: document.getElementById('category').value,
       city: document.getElementById('city').value.trim(),
-      address: document.getElementById('address').value.trim(),
+      street: document.getElementById('street').value.trim(),
+      zip: document.getElementById('zip').value.trim(),
+      addressMode: document.querySelector('input[name="addr-mode"]:checked').value,
+      hoursMode: hoursMode,
+      hours: hoursMode === 'set' ? collectHours() : [],
       shortdesc: document.getElementById('shortdesc').value.trim(),
       fullbio: document.getElementById('fullbio').value.trim(),
       email: document.getElementById('email').value.trim(),

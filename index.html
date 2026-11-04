@@ -383,7 +383,7 @@
   <div class="founder-text">
     <div class="founder-eyebrow">A message from our founder</div>
     <h2>Why TOE Connect exists</h2>
-    <p>A short note from Kimmie Watt-Daniels, founder of Time of Essence Global Group, on why this directory is free — and always will be.</p>
+    <p>A short note from Kymmie Watt-Daniels, founder of Time of Essence Global Group, on why this directory is free — and always will be.</p>
   </div>
 </section>
 
@@ -413,14 +413,40 @@
   let activeCat = 'all';
   const activeToggles = new Set();
 
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  // "Milwaukee" -> "Milwaukee, WI" (older listings that already say ", WI" are left alone)
+  function cityLine(item) {
+    const c = String(item.city || '').replace(/,?\s*(WI|Wisconsin)\.?$/i, '').trim();
+    return c ? `${c}, WI` : '';
+  }
+
+  // Today's hours for the card. Returns null when the owner didn't list hours,
+  // so a listing is never shown as "Closed" just because nothing was entered.
+  function hoursLine(item) {
+    if (item.hoursType === 'By appointment') return 'By appointment';
+    if (item.hoursType === 'Set hours' && item.hours && item.hours.length) {
+      const today = new Date().toLocaleDateString('en-US', { weekday: 'long', timeZone: 'America/Chicago' });
+      const row = item.hours.find(h => h.day === today);
+      if (!row) return null;
+      return /^closed$/i.test(row.hours) ? 'Closed today' : `Today: ${row.hours}`;
+    }
+    return null;
+  }
+
   function cardHTML(item) {
     const flag = item.supporter ? '<div class="featured-flag">Supporter</div>' : '';
     const modeTags = [];
     if (item.inPersonService) modeTags.push('in-person');
     if (item.servesRemotely) modeTags.push('also serves clients virtually');
     if (item.mobileService) modeTags.push('mobile / traveling business');
-    const loc = modeTags.length ? `${item.city} · ${modeTags.join(' · ')}` : item.city;
-    const addressLine = (item.inPersonService && item.address) ? `<div class="card-loc">📍 ${item.address}</div>` : '';
+    const place = cityLine(item);
+    const loc = modeTags.length ? `${place} · ${modeTags.join(' · ')}` : place;
+    const addressLine = item.address
+      ? `<div class="card-loc" style="margin-bottom:6px;">📍 ${esc(item.address)}</div>`
+      : (item.homeBased ? '<div class="card-loc" style="margin-bottom:6px;">🏠 Home-based · address private</div>' : '');
+    const hoursText = hoursLine(item);
+    const hoursRow = hoursText ? `<div class="card-loc" style="margin-bottom:6px;">🕒 ${esc(hoursText)}</div>` : '';
     const womenTag = item.womenOwned ? '<span style="font-size:11px;color:var(--gold);border:1px solid var(--gold);padding:2px 8px;border-radius:10px;margin-left:8px;">Women-owned</span>' : '';
     const videoLink = item.videoUrl ? `<a href="${item.videoUrl}" target="_blank" rel="noopener" style="font-size:12px;color:var(--gold);display:block;margin-top:8px;">▶ Meet the Owner</a>` : '';
 
@@ -450,6 +476,7 @@
           <h3>${item.name}</h3>
           <div class="card-loc">${loc}</div>
           ${addressLine}
+          ${hoursRow}
           <div class="card-desc">${item.description}</div>
           ${badgeRow}
           ${contactRow}
