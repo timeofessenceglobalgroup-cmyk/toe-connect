@@ -306,6 +306,12 @@
         <input type="url" id="video" name="video" placeholder="https://youtube.com/... or https://vimeo.com/...">
         <div class="hint">A quick intro to you and your business, 30 seconds or under. Upload to YouTube (set to "Unlisted") or Vimeo for free, then paste the link here.</div>
       </div>
+      <div class="field" id="booking-field">
+        <label for="booking">Booking link <span style="color:#a5a297">(optional)</span></label>
+        <input type="url" id="booking" name="booking" placeholder="https://">
+        <div class="hint">If customers can book online (Calendly, Square, Vagaro, Acuity, or your own site), paste your booking page link here and a &quot;Book now&quot; button will appear on your listing. Bookings and notifications go through your own booking tool.</div>
+        <div class="error">Enter a link that starts with https://</div>
+      </div>
     </fieldset>
 
     <fieldset>
@@ -455,6 +461,15 @@
       }
     }
 
+    const bookingInput = document.getElementById('booking');
+    const bookingField = document.getElementById('booking-field');
+    if (bookingInput.value.trim() && !/^https:\/\/\S+\.\S+$/i.test(bookingInput.value.trim())) {
+      bookingField.classList.add('invalid');
+      valid = false;
+    } else {
+      bookingField.classList.remove('invalid');
+    }
+
     if (!valid) {
       const firstBad = this.querySelector('.field.invalid') || (hoursError.style.display === 'block' ? hoursError : null);
       if (firstBad) firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -481,6 +496,7 @@
       phone: document.getElementById('phone').value.trim(),
       website: document.getElementById('website').value.trim(),
       video: document.getElementById('video').value.trim(),
+      booking: document.getElementById('booking').value.trim(),
       license: document.getElementById('license').value.trim(),
       isInPerson: document.getElementById('is-in-person').checked,
       isRemote: isRemote.checked,

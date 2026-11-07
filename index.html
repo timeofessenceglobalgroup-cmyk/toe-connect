@@ -333,6 +333,8 @@
   .b-purple{background:#F1EEF9;color:#5B4A9E;}
   .contact{font-size:13px;margin-top:8px;display:flex;flex-direction:column;gap:3px;}
   .contact a:hover{color:var(--gold-dark);text-decoration:underline;}
+  .book-btn{display:inline-block;background:var(--gold);color:var(--matte-black);padding:9px 18px;font-size:13px;font-weight:500;border-radius:2px;margin-top:12px;align-self:flex-start;transition:background .18s ease;}
+  .book-btn:hover{background:var(--gold-light);}
   .video-link{font-size:12px;color:var(--gold-dark);display:block;margin-top:8px;}
   .card-link{
     font-size:13px;
@@ -695,6 +697,9 @@
     if (item.email) contactLines.push(`<a href="mailto:${esc(item.email)}">✉ ${esc(item.email)}</a>`);
     const contactRow = contactLines.length ? `<div class="contact">${contactLines.join('')}</div>` : '';
 
+    const bookBtn = (item.bookingUrl && /^https:\/\//i.test(item.bookingUrl))
+      ? `<a href="${esc(item.bookingUrl)}" target="_blank" rel="noopener" class="book-btn">Book now</a>` : '';
+
     const profileLink = `<a href="profile.html?id=${encodeURIComponent(item.id)}" class="card-link">View full profile →</a>`;
     const cardPhoto = item.logoUrl
       ? `<div class="card-photo has-logo"><img src="${esc(item.logoUrl)}" alt="${esc(item.name)} logo"></div>`
@@ -713,6 +718,7 @@
           <div class="card-desc">${esc(item.description)}</div>
           ${badgeRow}
           ${contactRow}
+          ${bookBtn}
           ${videoLink}
           <div class="spacer"></div>
           ${profileLink}
