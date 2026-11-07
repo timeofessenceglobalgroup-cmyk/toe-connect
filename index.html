@@ -167,8 +167,6 @@
     border:1px solid var(--border);
     border-top:3px solid var(--gold);
     padding:22px 20px;
-    position:sticky;
-    top:16px;
   }
   .side-title{font-family:'Fraunces',serif;font-size:19px;font-weight:500;margin-bottom:4px;}
   .side-sub{font-size:13px;color:var(--muted-2);margin-bottom:18px;}
@@ -182,7 +180,7 @@
     color:var(--gold-dark);
     margin-bottom:10px;
   }
-  .cat-list{list-style:none;max-height:300px;overflow-y:auto;margin:0 -6px;padding:0 6px;}
+  .cat-list{list-style:none;max-height:none;overflow-y:auto;margin:0 -6px;padding:0 6px;}
   .cat-list li{
     display:flex;
     justify-content:space-between;
@@ -196,6 +194,20 @@
   }
   .cat-list li:hover{background:var(--paper);}
   .cat-list li.active{background:var(--matte-black);color:var(--gold-light);font-weight:500;}
+  .cat-list li.more{color:var(--gold-dark);text-decoration:underline;font-size:13px;justify-content:flex-start;}
+  .more-btn{
+    background:var(--matte-black);
+    color:var(--gold-light);
+    border:none;
+    padding:13px 30px;
+    font-size:14px;
+    font-weight:500;
+    border-radius:2px;
+    cursor:pointer;
+  }
+  .more-btn:hover{background:var(--charcoal);}
+  .cat-list li.empty{color:#9a978e;}
+  .cat-list li.empty.active{color:var(--gold-light);}
   .cat-list li .n{color:var(--muted-2);font-size:12px;align-self:center;}
   .cat-list li.active .n{color:rgba(232,196,104,0.7);}
   .check{
@@ -301,7 +313,8 @@
     flex-shrink:0;
     overflow:hidden;
   }
-  .card-photo img{width:100%;height:100%;object-fit:cover;}
+  .card-photo.has-logo{background:#fff;border-bottom:1px solid var(--border);}
+  .card-photo img{width:100%;height:100%;object-fit:contain;padding:10px;}
   .card-body{padding:20px;display:flex;flex-direction:column;flex:1;}
   .card-tag{font-size:12px;color:var(--gold-dark);margin-bottom:8px;font-weight:500;}
   .card h3{font-size:19px;font-weight:500;margin-bottom:4px;}
@@ -546,6 +559,7 @@
     <div class="grid" id="grid">
       <p id="grid-status" class="status-msg">Loading listings…</p>
     </div>
+    <div id="moreWrap" style="text-align:center;margin-top:28px;"></div>
   </section>
 
 </div>
@@ -617,6 +631,10 @@
   let keyword = '';
   let locQuery = '';
   let sortMode = 'default';
+  const PAGE_SIZE = 12;
+  let shown = PAGE_SIZE;
+  let lastKey = '';
+  let catExpanded = false;
   const activeToggles = new Set();
 
   const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -679,7 +697,7 @@
 
     const profileLink = `<a href="profile.html?id=${encodeURIComponent(item.id)}" class="card-link">View full profile →</a>`;
     const cardPhoto = item.logoUrl
-      ? `<div class="card-photo"><img src="${esc(item.logoUrl)}" alt="${esc(item.name)} logo"></div>`
+      ? `<div class="card-photo has-logo"><img src="${esc(item.logoUrl)}" alt="${esc(item.name)} logo"></div>`
       : `<div class="card-photo">${esc(initials(item.name))}</div>`;
 
     return `
@@ -725,11 +743,19 @@
     const counts = {};
     allListings.filter(i => matches(i, true)).forEach(i => { counts[i.category] = (counts[i.category] || 0) + 1; });
     const extra = Object.keys(counts).filter(c => !CATEGORIES.includes(c));
-    const ordered = CATEGORIES.concat(extra).filter(c => counts[c] || c === activeCat);
+    const all = CATEGORIES.concat(extra);
+    // categories with the most businesses first; ties keep the original order
+    const sorted = all.slice().sort((a, b) => (counts[b] || 0) - (counts[a] || 0) || all.indexOf(a) - all.indexOf(b));
+    const LIMIT = 8;
+    let ordered = catExpanded ? sorted : sorted.slice(0, LIMIT);
+    if (!catExpanded && activeCat !== 'all' && !ordered.includes(activeCat)) ordered = ordered.concat(activeCat);
     const total = Object.values(counts).reduce((a, b) => a + b, 0);
 
     let html = `<li data-cat="all" class="${activeCat === 'all' ? 'active' : ''}"><span>All categories</span><span class="n">${total}</span></li>`;
-    html += ordered.map(c => `<li data-cat="${esc(c)}" class="${activeCat === c ? 'active' : ''}"><span>${esc(c)}</span><span class="n">${counts[c] || 0}</span></li>`).join('');
+    html += ordered.map(c => `<li data-cat="${esc(c)}" class="${activeCat === c ? 'active' : ''}${counts[c] ? '' : ' empty'}"><span>${esc(c)}</span><span class="n">${counts[c] || 0}</span></li>`).join('');
+    if (all.length > LIMIT) {
+      html += `<li class="more" data-more="1">${catExpanded ? 'Show fewer categories' : 'Show all ' + all.length + ' categories'}</li>`;
+    }
     catList.innerHTML = html;
   }
 
@@ -747,9 +773,21 @@
     else if (sortMode === 'za') filtered.sort((a, b) => String(b.name).localeCompare(String(a.name)));
     else if (sortMode === 'verified') filtered.sort((a, b) => verifyScore(b) - verifyScore(a));
 
-    grid.innerHTML = filtered.length
-      ? filtered.map(cardHTML).join('')
+    const emptyMsg = (activeCat !== 'all' && !keyword && !locQuery && activeToggles.size === 0)
+      ? `<p class="status-msg">No businesses are listed under ${esc(activeCat)} yet. <a href="submit.html" style="color:var(--gold-dark);text-decoration:underline;">Be the first — list your business free →</a></p>`
       : '<p class="status-msg">No listings match those filters yet.</p>';
+    // start back at the first page whenever a filter, search, or sort changes
+    const key = [activeCat, keyword, locQuery, sortMode, [...activeToggles].sort().join(',')].join('|');
+    if (key !== lastKey) { shown = PAGE_SIZE; lastKey = key; }
+
+    grid.innerHTML = filtered.length ? filtered.slice(0, shown).map(cardHTML).join('') : emptyMsg;
+    const moreWrap = document.getElementById('moreWrap');
+    if (filtered.length > shown) {
+      moreWrap.innerHTML = `<button type="button" class="more-btn" id="moreBtn">Load more businesses (${filtered.length - shown} more)</button>`;
+      document.getElementById('moreBtn').addEventListener('click', () => { shown += PAGE_SIZE; render(); });
+    } else {
+      moreWrap.innerHTML = '';
+    }
     count.textContent = filtered.length;
     catSelect.value = activeCat;
     renderCategories();
@@ -774,6 +812,8 @@
 
   // ---- events ----
   catList.addEventListener('click', (e) => {
+    const more = e.target.closest('li[data-more]');
+    if (more) { catExpanded = !catExpanded; renderCategories(); return; }
     const li = e.target.closest('li[data-cat]');
     if (!li) return;
     activeCat = li.dataset.cat;
