@@ -10,6 +10,12 @@ function parseHours(text) {
   }).filter(row => row && row.hours);
 }
 
+// Booking links must be real https:// links; anything else is dropped so it never reaches the page.
+function safeUrl(u) {
+  const s = String(u || '').trim();
+  return /^https:\/\/\S+$/i.test(s) ? s : '';
+}
+
 // Address and hours fields shared by the listing and profile responses.
 // A private (home-based) or mobile/online-only address is never sent to the browser.
 function locationFields(f) {
@@ -66,6 +72,7 @@ exports.handler = async function (event) {
       verified: !!r.fields['Verified'],
       womenOwned: !!r.fields['Women-Owned'],
       videoUrl: r.fields['Video URL'] || '',
+      bookingUrl: safeUrl(r.fields['Booking Link']),
       logoUrl: (r.fields['Logo/Photo'] && r.fields['Logo/Photo'][0] && r.fields['Logo/Photo'][0].url) || '',
       businessVerified: !!r.fields['DFI Checked'],
       licenseVerified: !!r.fields['License Checked'],
