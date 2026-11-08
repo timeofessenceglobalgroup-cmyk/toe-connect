@@ -81,6 +81,16 @@
     .hours-row .to{display:none;}
   }
 
+  .faq{margin-bottom:36px;}
+  .faq h2{font-size:20px;font-weight:500;margin-bottom:10px;}
+  .faq details{border-bottom:1px solid var(--line-dark);}
+  .faq summary{cursor:pointer;padding:13px 0;font-size:15px;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:12px;}
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::after{content:'+';color:var(--gold);font-size:20px;line-height:1;}
+  .faq details[open] summary::after{content:'\2013';}
+  .faq details p{font-size:14px;color:#5c5a54;margin:0 0 14px;max-width:560px;line-height:1.55;}
+  .faq a{text-decoration:underline;color:#8A6A0E;}
+  .faq-more{font-size:14px;color:#5c5a54;margin-top:14px;}
   .free-banner{
     background:var(--charcoal);color:var(--white);
     padding:16px 20px;border-radius:2px;margin-bottom:36px;
@@ -146,6 +156,20 @@
   <div class="free-banner">
     <span><b>This listing is free.</b> No membership, no monthly fee — for new businesses and established ones alike.</span>
   </div>
+
+  <section class="faq" aria-labelledby="faq-title">
+    <h2 id="faq-title">Common questions</h2>
+    <details><summary>Is it really free?</summary><p>Yes. Listing is free, with no membership and no monthly fee. A contribution at the end of the form is completely optional, is never required, and has no effect on your listing.</p></details>
+    <details><summary>Who can be listed?</summary><p>Majority Black-owned businesses based in Wisconsin. You can also serve clients outside the state or online. Home-based and mobile businesses are welcome.</p></details>
+    <details><summary>What happens after I submit?</summary><p>Every listing is reviewed before it goes live, usually within a few days. We may email you if we have a question. Once approved, your business appears in the directory.</p></details>
+    <details><summary>What will be shown publicly?</summary><p>Your business name, category, descriptions, city, hours, website, booking link, owner video, and phone number if you provide one. Your street address is shown only if you choose to show it. Your email stays private unless you choose to show it, and license or certification numbers are never shown.</p></details>
+    <details><summary>I work from home or travel to clients. Can I still list?</summary><p>Yes. In the Location section, choose "home-based" to keep your street address private, or "mobile or online only" if there is no address to show. Your city is still shown so people know where you serve.</p></details>
+    <details><summary>Do I need a license number?</summary><p>For childcare, home health, medical and dental, and mental health listings, yes. It earns your listing a verified badge. Other categories can leave it blank.</p></details>
+    <details><summary>What are the badges?</summary><p>Badges show which checks a listing has passed, such as a verified business, a verified license, or a reviewed ownership confirmation. See <a href="verification.html">Verification &amp; Badges</a> for the details.</p></details>
+    <details><summary>What is the booking link for?</summary><p>If customers can book online, paste your booking page link (Calendly, Square, Vagaro, your own site, and so on) and a "Book now" button will appear on your listing. Bookings and notifications go through your own booking tool.</p></details>
+    <details><summary>How do I update or remove my listing later?</summary><p>Send us a message through the <a href="contact.html">contact form</a> or email <a href="mailto:toeconnect4@gmail.com">toeconnect4@gmail.com</a> and we will take care of it.</p></details>
+    <p class="faq-more">Still have a question? <a href="contact.html">Send us a message</a> before you submit. We are happy to help.</p>
+  </section>
 
   <div class="field" data-required="true" id="ownership-field" style="border:1px solid #D8D5CA;padding:16px 18px;background:#F6F4EC;">
     <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--matte-black);cursor:pointer;">
@@ -334,6 +358,8 @@
     <button type="submit">Submit for review</button>
     <p class="submit-hint">Listings are reviewed before they appear publicly.</p>
     <p class="submit-hint" style="margin-top:6px;">By submitting, you agree to our verification process — see full <a href="verification.html" style="color:#5c5a54;text-decoration:underline;">Verification Notice</a>.</p>
+    <p class="submit-hint" style="margin-top:6px;">You also agree to our <a href="terms.html" style="color:#5c5a54;text-decoration:underline;">Terms of Use</a> and <a href="privacy.html" style="color:#5c5a54;text-decoration:underline;">Privacy Policy</a>.</p>
+    <p class="submit-hint" style="margin-top:6px;">Need help? Email <a href="mailto:toeconnect4@gmail.com" style="color:#5c5a54;text-decoration:underline;">toeconnect4@gmail.com</a> or call <a href="tel:4143480307" style="color:#5c5a54;text-decoration:underline;">414-348-0307</a>, or use our <a href="contact.html" style="color:#5c5a54;text-decoration:underline;">contact form</a>.</p>
   </form>
 
   <div id="success-message" style="display:none;text-align:center;padding:40px 20px;">
