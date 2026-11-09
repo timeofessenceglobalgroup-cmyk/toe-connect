@@ -616,12 +616,27 @@
 
 <script>
   const CATEGORIES = [
-    'Beauty & wellness','Legal & financial','Notary & documents','Travel & events','Consulting',
-    'Staffing & Recruiting','Health & insurance','Retail & products','Childcare & daycare',
-    'Home health & senior care','Food & catering','Real estate','Fitness & personal training',
-    'Photography & creative services','Printing & Signage Services','Medical & dental care',
-    'Mental health & counseling','Landscaping & lawn care','Grant Writing & Funding',
-    'Funeral Home & Memorial Services','Other'
+    'Beauty & wellness',
+    'Childcare & daycare',
+    'Consulting',
+    'Fitness & personal training',
+    'Food & catering',
+    'Funeral Home & Memorial Services',
+    'Grant Writing & Funding',
+    'Health & insurance',
+    'Home health & senior care',
+    'Landscaping & lawn care',
+    'Legal & financial',
+    'Medical & dental care',
+    'Mental health & counseling',
+    'Notary & documents',
+    'Photography & creative services',
+    'Printing & Signage Services',
+    'Real estate',
+    'Retail & products',
+    'Staffing & Recruiting',
+    'Travel & events',
+    'Other'
   ];
 
   const grid = document.getElementById('grid');
@@ -763,11 +778,12 @@
     const counts = {};
     allListings.filter(i => matches(i, true)).forEach(i => { counts[i.category] = (counts[i.category] || 0) + 1; });
     const extra = Object.keys(counts).filter(c => !CATEGORIES.includes(c));
-    const all = CATEGORIES.concat(extra);
+    // full list stays A to Z, with any unexpected categories just before "Other"
+    const all = CATEGORIES.slice(0, -1).concat(extra.sort((a, b) => a.localeCompare(b))).concat('Other');
     // categories with the most businesses first; ties keep the original order
     const sorted = all.slice().sort((a, b) => (counts[b] || 0) - (counts[a] || 0) || all.indexOf(a) - all.indexOf(b));
     const LIMIT = 8;
-    let ordered = catExpanded ? sorted : sorted.slice(0, LIMIT);
+    let ordered = catExpanded ? all : sorted.slice(0, LIMIT);
     if (!catExpanded && activeCat !== 'all' && !ordered.includes(activeCat)) ordered = ordered.concat(activeCat);
     const total = Object.values(counts).reduce((a, b) => a + b, 0);
 
