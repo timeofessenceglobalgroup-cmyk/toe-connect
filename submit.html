@@ -81,16 +81,6 @@
     .hours-row .to{display:none;}
   }
 
-  .faq{margin-bottom:36px;}
-  .faq h2{font-size:20px;font-weight:500;margin-bottom:10px;}
-  .faq details{border-bottom:1px solid var(--line-dark);}
-  .faq summary{cursor:pointer;padding:13px 0;font-size:15px;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:12px;}
-  .faq summary::-webkit-details-marker{display:none;}
-  .faq summary::after{content:'+';color:var(--gold);font-size:20px;line-height:1;}
-  .faq details[open] summary::after{content:'\2013';}
-  .faq details p{font-size:14px;color:#5c5a54;margin:0 0 14px;max-width:560px;line-height:1.55;}
-  .faq a{text-decoration:underline;color:#8A6A0E;}
-  .faq-more{font-size:14px;color:#5c5a54;margin-top:14px;}
   .free-banner{
     background:var(--charcoal);color:var(--white);
     padding:16px 20px;border-radius:2px;margin-bottom:36px;
@@ -121,6 +111,10 @@
   .submit-hint{font-size:12px;color:#8a8780;text-align:center;margin-top:12px;}
   .contribute-btn{transition:background .18s ease;}
   .contribute-btn:hover{background:var(--charcoal) !important;}
+  @media(max-width:860px){
+    header{flex-wrap:wrap;padding:14px 22px;row-gap:10px;}
+    header nav{width:100%;flex-wrap:wrap;gap:8px 18px !important;}
+  }
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0E0E0C">
@@ -158,13 +152,7 @@
     <span><b>This listing is free.</b> No membership, no monthly fee — for new businesses and established ones alike.</span>
   </div>
 
-  <section class="faq" aria-labelledby="faq-title">
-    <h2 id="faq-title">Common questions</h2>
-    <details><summary>Is it really free?</summary><p>Yes. Listing is free, with no membership and no monthly fee. A contribution at the end of the form is completely optional, is never required, and has no effect on your listing.</p></details>
-    <details><summary>Who can be listed?</summary><p>Majority Black-owned businesses based in Wisconsin. You can also serve clients outside the state or online. Home-based and mobile businesses are welcome.</p></details>
-    <details><summary>What happens after I submit?</summary><p>Every listing is reviewed before it goes live, usually within a few days. We may email you if we have a question. Once approved, your business appears in the directory.</p></details>
-    <p class="faq-more"><a href="faq.html">See all questions →</a> &nbsp;·&nbsp; Still have a question? <a href="contact.html">Send us a message</a> before you submit.</p>
-  </section>
+  <p style="font-size:14px;color:#5c5a54;margin:-12px 0 32px;">Questions before you submit? See our <a href="faq.html" style="color:#8A6A0E;text-decoration:underline;">FAQ</a> or <a href="contact.html" style="color:#8A6A0E;text-decoration:underline;">send us a message</a>.</p>
 
   <div class="field" data-required="true" id="ownership-field" style="border:1px solid #D8D5CA;padding:16px 18px;background:#F6F4EC;">
     <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--matte-black);cursor:pointer;">
