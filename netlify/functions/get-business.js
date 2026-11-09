@@ -9,6 +9,12 @@ function parseHours(text) {
   }).filter(row => row && row.hours);
 }
 
+// Booking links must be real https:// links; anything else is dropped so it never reaches the page.
+function safeUrl(u) {
+  const s = String(u || '').trim();
+  return /^https:\/\/\S+$/i.test(s) ? s : '';
+}
+
 // Address and hours fields shared by the listing and profile responses.
 // A private (home-based) or mobile/online-only address is never sent to the browser.
 function locationFields(f) {
@@ -29,8 +35,9 @@ exports.handler = async function (event) {
   const table = 'Businesses';
   const id = event.queryStringParameters && event.queryStringParameters.id;
 
-  if (!id) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Missing id parameter' }) };
+  // Airtable record IDs look like "rec" followed by letters and numbers; anything else is rejected.
+  if (!id || !/^rec[A-Za-z0-9]{10,20}$/.test(id)) {
+    return { statusCode: 400, body: JSON.stringify({ error: 'Missing or invalid id parameter' }) };
   }
   if (!baseId || !apiKey) {
     return {
@@ -66,6 +73,7 @@ exports.handler = async function (event) {
       phone: record.fields['Phone'] || '',
       email: record.fields['Email Public'] ? (record.fields['Contact Email'] || '') : '',
       videoUrl: record.fields['Video URL'] || '',
+      bookingUrl: safeUrl(record.fields['Booking Link']),
       logoUrl: (record.fields['Logo/Photo'] && record.fields['Logo/Photo'][0] && record.fields['Logo/Photo'][0].url) || '',
       servesRemotely: !!record.fields['Serves Remotely'],
       mobileService: !!record.fields['Mobile Service'],

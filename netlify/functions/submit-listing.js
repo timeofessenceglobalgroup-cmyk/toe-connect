@@ -64,6 +64,10 @@ exports.handler = async function (event) {
     hoursText = lines.join('\n');
   }
 
+  // --- Booking link (optional; must be a real https:// link) ---
+  const booking = String(data.booking || '').trim();
+  const bookingInvalid = booking !== '' && !/^https:\/\/\S+\.\S+$/i.test(booking);
+
   // Server-side validation — never trust the browser alone.
   const missing = [];
   if (!data.bizname) missing.push('bizname');
@@ -77,6 +81,7 @@ exports.handler = async function (event) {
   if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) missing.push('email');
   if (!data.blackOwned) missing.push('blackOwned');
   if (needsLicense && !data.license) missing.push('license');
+  if (bookingInvalid) missing.push('booking');
 
   if (missing.length) {
     return {
@@ -106,6 +111,7 @@ exports.handler = async function (event) {
     'Phone': data.phone || '',
     'Website / Social': data.website || '',
     'Video URL': data.video || '',
+    'Booking Link': booking,
     'License/Certification #': data.license || '',
     'In-Person Service': !!data.isInPerson,
     'Serves Remotely': !!data.isRemote,
