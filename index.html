@@ -85,7 +85,7 @@
     max-width:1180px;
     margin:0 auto;
     display:grid;
-    grid-template-columns:210px 1fr;
+    grid-template-columns:210px minmax(0,1fr);
     gap:40px;
     align-items:center;
   }
@@ -436,6 +436,13 @@
   .disclaimer-bar{background:var(--charcoal);color:rgba(251,250,247,0.5);font-size:11px;padding:14px 48px;text-align:center;}
 
   /* ---------- responsive ---------- */
+  .wordmark, nav a{white-space:nowrap;}
+  @media(max-width:1120px){
+    header{flex-wrap:wrap;padding:14px 24px;row-gap:10px;}
+    nav{width:100%;justify-content:flex-start;gap:12px 20px;flex-wrap:wrap;}
+    nav a{font-size:13px;}
+    .nav-cta{padding:8px 16px;}
+  }
   @media(max-width:980px){
     .main{grid-template-columns:1fr;padding-left:22px;padding-right:22px;}
     .sidebar{display:none;position:static;}
@@ -447,7 +454,7 @@
     header,.hero,.steps,.founder-section,footer,.disclaimer-bar{padding-left:22px;padding-right:22px;}
     .crumbs{padding-left:22px;padding-right:22px;}
     nav{display:none;}
-    .hero-inner{grid-template-columns:1fr;gap:20px;}
+    .hero-inner{grid-template-columns:minmax(0,1fr);gap:20px;}
     .logo-crop{width:150px;}
     .hero h1{font-size:30px;}
     .search-bar{flex-direction:column;}
@@ -479,7 +486,7 @@
   </a>
   <nav>
     <a href="index.html">Browse</a>
-    <a href="tips.html">I wish I knew</a>
+    <a href="tips.html">Tips for Business Owners</a>
     <a href="resources.html">Free Tools &amp; Resources</a>
     <a href="events.html">Community Events</a>
     <a href="verification.html">Verification &amp; Badges</a>
@@ -602,7 +609,7 @@
   </div>
   <div class="foot-links">
     <a href="index.html">Browse</a>
-    <a href="tips.html">I wish I knew</a>
+    <a href="tips.html">Tips for Business Owners</a>
     <a href="resources.html">Free Tools &amp; Resources</a>
     <a href="events.html">Community Events</a>
     <a href="verification.html">Verification &amp; Badges</a>
