@@ -31,6 +31,13 @@
   .back-link:hover{color:var(--gold);}
 
   .video-embed{width:100%;aspect-ratio:16/9;border:none;margin-bottom:28px;background:var(--charcoal);}
+  .video-embed.tall{aspect-ratio:auto;width:100%;max-width:380px;height:640px;display:block;margin-left:auto;margin-right:auto;}
+  .video-social{border:1px solid var(--line-dark);background:#fff;border-radius:4px;padding:22px;margin-bottom:28px;text-align:center;}
+  .video-social .vs-title{font-family:'Fraunces',serif;font-size:18px;margin-bottom:12px;}
+  .video-social .vs-play{display:inline-block;background:var(--gold);color:var(--matte-black);border:none;border-radius:2px;padding:11px 20px;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;text-decoration:none;}
+  .video-social .vs-play:hover{background:var(--gold-light);}
+  .video-social .vs-open{display:inline-block;margin-left:14px;font-size:14px;color:#5c5a54;text-decoration:underline;}
+  .video-social .vs-note{font-size:12px;color:#7a776f;margin-top:12px;}
 
   .profile-tag{font-size:13px;color:var(--gold);font-weight:500;margin-bottom:8px;}
   h1.profile-name{font-size:32px;font-weight:500;margin-bottom:8px;}
@@ -99,15 +106,77 @@
 </footer>
 
 <script>
-  // Converts a normal YouTube or Vimeo link into an embeddable player URL.
-  function getEmbedUrl(url) {
-    if (!url) return null;
-    const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{11})/);
-    if (yt) return `https://www.youtube.com/embed/${yt[1]}`;
-    const vimeo = url.match(/vimeo\.com\/(\d+)/);
-    if (vimeo) return `https://player.vimeo.com/video/${vimeo[1]}`;
-    return null;
+  // Works out how to show a video link. Returns { kind, embed, link, label } or null.
+  //  kind 'direct'  = YouTube/Vimeo, plays straight away
+  //  kind 'social'  = TikTok/Instagram/Facebook, plays only after a click (loads content from that company)
+  //  kind 'link'    = any other https link, shown as a "Watch video" button
+  function parseVideo(url) {
+    let u;
+    try { u = new URL(String(url || '').trim()); } catch (e) { return null; }
+    if (u.protocol !== 'https:') return null;
+    const host = u.hostname.toLowerCase().replace(/^(www\.|m\.|web\.|mobile\.)/, '');
+    const path = u.pathname;
+    const link = u.href;
+
+    if (host === 'youtube.com' || host === 'youtu.be') {
+      let id = null, m;
+      if (host === 'youtu.be') { m = path.match(/^\/([\w-]{11})/); id = m && m[1]; }
+      else if ((m = path.match(/^\/(?:shorts|embed|live)\/([\w-]{11})/))) id = m[1];
+      else if (path === '/watch') { const v = u.searchParams.get('v'); if (v && /^[\w-]{11}$/.test(v)) id = v; }
+      if (id) return { kind: 'direct', embed: `https://www.youtube.com/embed/${id}`, link, label: 'YouTube', ratio: 'wide' };
+    }
+    if (host === 'vimeo.com') {
+      const m = path.match(/^\/(?:\w+\/)*(\d{6,})/);
+      if (m) return { kind: 'direct', embed: `https://player.vimeo.com/video/${m[1]}`, link, label: 'Vimeo', ratio: 'wide' };
+    }
+    if (host === 'tiktok.com') {
+      const m = path.match(/^\/@[\w.\-]+\/video\/(\d{8,25})/);
+      if (m) return { kind: 'social', embed: `https://www.tiktok.com/embed/v2/${m[1]}`, link, label: 'TikTok', ratio: 'tall' };
+    }
+    if (host === 'instagram.com') {
+      const m = path.match(/^\/(?:[\w.]+\/)?(p|reel|reels|tv)\/([\w-]{5,})/);
+      if (m) return { kind: 'social', embed: `https://www.instagram.com/${m[1] === 'reels' ? 'reel' : m[1]}/${m[2]}/embed`, link, label: 'Instagram', ratio: 'tall' };
+    }
+    if (host === 'facebook.com' || host === 'fb.watch') {
+      const isVideo = host === 'fb.watch' || /\/(videos|reel)\/\d+/.test(path) || (path.replace(/\/$/, '') === '/watch' && /^\d+$/.test(u.searchParams.get('v') || ''));
+      if (isVideo) return { kind: 'social', embed: `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(link)}&show_text=false`, link, label: 'Facebook', ratio: 'wide' };
+    }
+    const label = host.replace(/^www\./, '');
+    return { kind: 'link', embed: '', link, label };
   }
+
+  function videoHtml(b) {
+    const v = parseVideo(b.videoUrl);
+    if (!v) return '';
+    if (v.kind === 'direct') {
+      return `<iframe class="video-embed" src="${esc(v.embed)}" title="${esc(b.name)} video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    }
+    if (v.kind === 'social') {
+      return `<div class="video-social ${v.ratio}" data-embed="${esc(v.embed)}" data-title="${esc(b.name)} video">
+        <p class="vs-title">Video on ${esc(v.label)}</p>
+        <button type="button" class="vs-play">Play video</button>
+        <a class="vs-open" href="${esc(v.link)}" target="_blank" rel="noopener noreferrer">Open on ${esc(v.label)} ↗</a>
+        <p class="vs-note">Playing this video loads content from ${esc(v.label)}.</p>
+      </div>`;
+    }
+    return `<div class="video-social link"><a class="vs-play" href="${esc(v.link)}" target="_blank" rel="noopener noreferrer">Watch their video ↗</a></div>`;
+  }
+
+  // Social videos (TikTok, Instagram, Facebook) load only after the visitor clicks Play.
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.vs-play');
+    if (!btn || btn.tagName !== 'BUTTON') return;
+    const box = btn.closest('.video-social');
+    const src = box && box.getAttribute('data-embed');
+    if (!src || !/^https:\/\/(www\.tiktok\.com|www\.instagram\.com|www\.facebook\.com)\//.test(src)) return;
+    const frame = document.createElement('iframe');
+    frame.className = 'video-embed ' + (box.classList.contains('tall') ? 'tall' : 'wide');
+    frame.src = src;
+    frame.title = box.getAttribute('data-title') || 'Video';
+    frame.setAttribute('allow', 'encrypted-media; picture-in-picture; fullscreen');
+    frame.setAttribute('allowfullscreen', '');
+    box.replaceWith(frame);
+  });
 
   // Sample data — shown automatically if no ?id= is given, or if the real fetch fails.
   // This lets you preview exactly how a profile page looks without needing a live listing yet.
@@ -179,10 +248,7 @@
   function render(b) {
     const content = document.getElementById('content');
 
-    const embedUrl = getEmbedUrl(b.videoUrl);
-    const videoHTML = embedUrl
-      ? `<iframe class="video-embed" src="${embedUrl}" title="${esc(b.name)} video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
-      : '';
+    const videoHTML = videoHtml(b);
 
     const modeTags = [];
     if (b.inPersonService) modeTags.push('in-person');
