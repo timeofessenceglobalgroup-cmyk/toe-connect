@@ -1,6 +1,70 @@
 // Writes a new business submission into Airtable as Status: Pending.
 // Keeps the Airtable API key on the server side only.
 
+// ---- Phone and possible-duplicate helpers ----
+// Splits "(414) 348-0307 ext. 2", "414-348-0307 x2", "4143480307" etc. into the 10-digit main number and an extension.
+function splitPhone(p) {
+  const raw = String(p || '').trim();
+  const i = raw.search(/ext(?:ension)?\.?|[x#,]/i);
+  const mainPart = i >= 0 ? raw.slice(0, i) : raw;
+  const ext = i >= 0 ? raw.slice(i).replace(/\D/g, '') : '';
+  let d = mainPart.replace(/\D/g, '');
+  if (d.length === 11 && d[0] === '1') d = d.slice(1);
+  return { main: d.length === 10 ? d : '', ext };
+}
+
+// When a number has an extension, save it in one consistent shape: 414-348-0307 x2
+function cleanPhoneForSave(p) {
+  const { main, ext } = splitPhone(p);
+  if (main && ext) return `${main.slice(0, 3)}-${main.slice(3, 6)}-${main.slice(6)} x${ext}`;
+  return String(p || '').trim();
+}
+
+// Makes text safe to place inside a single-quoted Airtable formula string.
+function formulaText(s) {
+  return String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+
+// Looks for existing rows with the same email, or the same phone number AND extension.
+// The same main number with a different extension is treated as a different business.
+async function findPossibleDuplicates({ baseId, apiKey, table, email, phone }) {
+  const conditions = [];
+  const e = String(email || '').trim().toLowerCase();
+  if (e) conditions.push(`LOWER(TRIM({Contact Email}))='${formulaText(e)}'`);
+  const mine = splitPhone(phone);
+  if (mine.main) {
+    const stripped = `SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({Phone}&'','(',''),')',''),'-',''),' ',''),'.',''),'+','')`;
+    conditions.push(`FIND('${mine.main}',${stripped})>0`);
+  }
+  if (!conditions.length) return [];
+
+  const formula = conditions.length > 1 ? `OR(${conditions.join(',')})` : conditions[0];
+  const fieldParams = ['Business Name', 'Status', 'Phone', 'Contact Email']
+    .map(f => `&fields%5B%5D=${encodeURIComponent(f)}`).join('');
+  const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}` +
+    `?filterByFormula=${encodeURIComponent(formula)}&maxRecords=10${fieldParams}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${apiKey}` } });
+  if (!res.ok) return [];
+  const data = await res.json();
+
+  const matches = [];
+  for (const r of data.records || []) {
+    const theirEmail = String(r.fields['Contact Email'] || '').trim().toLowerCase();
+    const theirs = splitPhone(r.fields['Phone']);
+    const sameEmail = !!e && theirEmail === e;
+    const samePhone = !!mine.main && theirs.main === mine.main && theirs.ext === mine.ext;
+    if (sameEmail || samePhone) {
+      matches.push({
+        id: r.id,
+        name: r.fields['Business Name'] || '(no name)',
+        status: r.fields['Status'] || 'no status',
+        why: sameEmail && samePhone ? 'email and phone' : (sameEmail ? 'email' : 'phone')
+      });
+    }
+  }
+  return matches;
+}
+
 exports.handler = async function (event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
@@ -108,7 +172,7 @@ exports.handler = async function (event) {
     'Full Bio': data.fullbio || '',
     'Contact Email': data.email,
     'Email Public': !!data.emailPublic,
-    'Phone': data.phone || '',
+    'Phone': cleanPhoneForSave(data.phone),
     'Website / Social': data.website || '',
     'Video URL': data.video || '',
     'Booking Link': booking,
@@ -125,16 +189,38 @@ exports.handler = async function (event) {
     'Status': 'Pending'
   };
 
+  // --- Possible duplicate check ---
+  // This never blocks a submission: a lookup problem is ignored, and a match only adds a flag for you to review.
+  // The owner is not told whether a match was found (that would reveal who is already listed).
+  const duplicateFields = {};
   try {
-    const res = await fetch(`https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ fields, typecast: true })
-    });
-    const result = await res.json();
+    const dups = await findPossibleDuplicates({ baseId, apiKey, table, email: data.email, phone: data.phone });
+    if (dups.length) {
+      duplicateFields['Possible Duplicate'] = true;
+      duplicateFields['Duplicate Note'] = 'Possible match: ' + dups.map(d => `${d.name} (${d.status}), same ${d.why}, ${d.id}`).join('; ');
+    }
+  } catch (err) {
+    // ignore, carry on with the submission
+  }
+
+  const createRecord = (f) => fetch(`https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ fields: f, typecast: true })
+  });
+
+  try {
+    let res = await createRecord({ ...fields, ...duplicateFields });
+    let result = await res.json();
+
+    // If the two flag columns haven't been added in Airtable yet, save the listing without them rather than lose it.
+    if (!res.ok && res.status === 422 && Object.keys(duplicateFields).length) {
+      res = await createRecord(fields);
+      result = await res.json();
+    }
 
     if (!res.ok) {
       return { statusCode: res.status, body: JSON.stringify({ error: result }) };
