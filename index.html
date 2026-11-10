@@ -692,14 +692,28 @@
     return null;
   }
 
-  // 4143460196 -> (414) 346-0196. Anything that isn't a 10-digit US number is shown as typed.
-  function formatPhone(p) {
+  // Splits "(414) 348-0307 ext. 2" or "414-348-0307 x2" into the main number and extension.
+  function splitPhone(p) {
     const raw = String(p || '').trim();
-    let d = raw.replace(/\D/g, '');
+    const i = raw.search(/ext(?:ension)?\.?|[x#,]/i);
+    const mainPart = i >= 0 ? raw.slice(0, i) : raw;
+    const ext = i >= 0 ? raw.slice(i).replace(/\D/g, '') : '';
+    let d = mainPart.replace(/\D/g, '');
     if (d.length === 11 && d[0] === '1') d = d.slice(1);
-    return d.length === 10 ? `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}` : raw;
+    return { raw, main: d.length === 10 ? d : '', ext };
   }
-  const phoneDigits = (p) => { const d = String(p || '').replace(/[^\d+]/g, ''); return d; };
+  // 4143480307 -> (414) 348-0307, and with an extension -> (414) 348-0307 ext. 2. Anything else is shown as typed.
+  function formatPhone(p) {
+    const s = splitPhone(p);
+    if (!s.main) return s.raw;
+    const base = `(${s.main.slice(0,3)}) ${s.main.slice(3,6)}-${s.main.slice(6)}`;
+    return s.ext ? `${base} ext. ${s.ext}` : base;
+  }
+  // What goes in the tap-to-call link. A comma makes the phone pause, then dial the extension.
+  const phoneDigits = (p) => {
+    const s = splitPhone(p);
+    return s.main ? s.main + (s.ext ? ',' + s.ext : '') : String(p || '').replace(/[^\d+]/g, '');
+  };
 
   function initials(name) {
     const parts = String(name || '').replace(/[^A-Za-z0-9 ]/g, ' ').trim().split(/\s+/).filter(Boolean);
