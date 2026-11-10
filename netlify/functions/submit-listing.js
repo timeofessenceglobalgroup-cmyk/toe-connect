@@ -131,6 +131,8 @@ exports.handler = async function (event) {
   // --- Booking link (optional; must be a real https:// link) ---
   const booking = String(data.booking || '').trim();
   const bookingInvalid = booking !== '' && !/^https:\/\/\S+\.\S+$/i.test(booking);
+  const videoLink = String(data.video || '').trim();
+  const videoInvalid = videoLink !== '' && !/^https:\/\/\S+\.\S+$/i.test(videoLink);
 
   // Server-side validation — never trust the browser alone.
   const missing = [];
@@ -146,6 +148,7 @@ exports.handler = async function (event) {
   if (!data.blackOwned) missing.push('blackOwned');
   if (needsLicense && !data.license) missing.push('license');
   if (bookingInvalid) missing.push('booking');
+  if (videoInvalid) missing.push('video');
 
   if (missing.length) {
     return {
@@ -174,7 +177,7 @@ exports.handler = async function (event) {
     'Email Public': !!data.emailPublic,
     'Phone': cleanPhoneForSave(data.phone),
     'Website / Social': data.website || '',
-    'Video URL': data.video || '',
+    'Video URL': videoLink,
     'Booking Link': booking,
     'License/Certification #': data.license || '',
     'In-Person Service': !!data.isInPerson,

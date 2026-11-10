@@ -72,7 +72,7 @@ exports.handler = async function (event) {
       website: record.fields['Website / Social'] || '',
       phone: record.fields['Phone'] || '',
       email: record.fields['Email Public'] ? (record.fields['Contact Email'] || '') : '',
-      videoUrl: record.fields['Video URL'] || '',
+      videoUrl: safeUrl(record.fields['Video URL']),
       bookingUrl: safeUrl(record.fields['Booking Link']),
       logoUrl: (record.fields['Logo/Photo'] && record.fields['Logo/Photo'][0] && record.fields['Logo/Photo'][0].url) || '',
       servesRemotely: !!record.fields['Serves Remotely'],
