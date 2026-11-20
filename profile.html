@@ -75,6 +75,9 @@
   footer{background:var(--matte-black);color:rgba(251,250,247,0.6);padding:40px 48px;font-size:13px;text-align:center;}
   footer a{text-decoration:none;}
   .profile-bio{white-space:pre-line;}
+  .profile-bio.bio-clamp{max-height:15em;overflow:hidden;margin-bottom:8px;}
+  .profile-bio.bio-clamp.open{max-height:none;}
+  .bio-toggle{background:none;border:none;padding:0;margin-bottom:28px;font-family:inherit;font-size:14px;color:var(--gold);text-decoration:underline;cursor:pointer;}
   footer a:hover{color:var(--gold-light);}
 
   @media(max-width:860px){
@@ -308,7 +311,7 @@
       .map(([, label, bg, color]) => `<span class="badge" style="background:${bg};color:${color};">${label}</span>`)
       .join('');
 
-    const bioHTML = b.fullBio ? `<div class="profile-bio">${esc(b.fullBio)}</div>` : '';
+    const bioHTML = b.fullBio ? `<div class="profile-bio-wrap"><div class="profile-bio bio-clamp" id="bio-text">${esc(b.fullBio)}</div><button type="button" class="bio-toggle" id="bio-toggle" hidden>Read more</button></div>` : '';
     const siteHref = safeHref(b.website);
     const websiteHTML = siteHref
       ? `<a href="${esc(siteHref)}" target="_blank" rel="noopener">Visit website →</a>`
@@ -345,6 +348,19 @@
         ${emailHTML}
       </div>
     `;
+    // Long bios start collapsed with a "Read more" button.
+    const bioEl = document.getElementById('bio-text');
+    const bioBtn = document.getElementById('bio-toggle');
+    if (bioEl && bioBtn && bioEl.scrollHeight > bioEl.clientHeight + 4) {
+      bioBtn.hidden = false;
+      bioBtn.addEventListener('click', () => {
+        const open = bioEl.classList.toggle('open');
+        bioBtn.textContent = open ? 'Show less' : 'Read more';
+      });
+    } else if (bioEl) {
+      bioEl.classList.add('open');
+    }
+
   }
 
   async function loadProfile() {

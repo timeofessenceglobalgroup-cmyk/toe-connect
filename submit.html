@@ -58,6 +58,8 @@
   textarea{resize:vertical;min-height:90px;}
   input:focus, select:focus, textarea:focus{outline:none;border-color:var(--gold);}
   .hint{font-size:12px;color:#8a8780;margin-top:5px;}
+  .hint .count{float:right;margin-left:12px;}
+  .hint .count.over{color:#B3401F;font-weight:500;}
   .error{font-size:12px;color:#B3401F;margin-top:5px;display:none;}
   .field.invalid input, .field.invalid textarea{border-color:#B3401F;}
   .field.invalid .error{display:block;}
@@ -230,14 +232,15 @@
       </div>
       <div class="field" data-required="true">
         <label for="shortdesc">Short description</label>
-        <textarea id="shortdesc" name="shortdesc" placeholder="One or two sentences — this shows on your card in the directory."></textarea>
-        <div class="hint">Keep it to about 20 words.</div>
+        <textarea id="shortdesc" name="shortdesc" maxlength="200" placeholder="One or two sentences — this shows on your card in the directory."></textarea>
+        <div class="hint">One or two sentences, up to 200 characters. <span id="shortdesc-count" class="count">0 / 200</span></div>
         <div class="error">Add a short description.</div>
       </div>
-      <div class="field">
+      <div class="field" id="fullbio-field">
         <label for="fullbio">Full bio <span style="color:#a5a297">(optional)</span></label>
         <textarea id="fullbio" name="fullbio" placeholder="Tell your full story — this shows on your dedicated profile page, not just the directory card."></textarea>
-        <div class="hint">A few sentences or a full paragraph — whatever feels right.</div>
+        <div class="hint">Two or three short paragraphs works well, up to 250 words. <span id="fullbio-count" class="count">0 / 250 words</span></div>
+        <div class="error">Please shorten your bio to 250 words or fewer.</div>
       </div>
     </fieldset>
 
@@ -446,6 +449,22 @@
     });
   });
 
+  // Live counters for the short description (characters) and full bio (words).
+  const BIO_MAX_WORDS = 250;
+  const wordCount = (t) => String(t || '').trim().split(/\s+/).filter(Boolean).length;
+  function updateCounts() {
+    const sd = document.getElementById('shortdesc');
+    document.getElementById('shortdesc-count').textContent = sd.value.length + ' / 200';
+    const words = wordCount(document.getElementById('fullbio').value);
+    const el = document.getElementById('fullbio-count');
+    el.textContent = words + ' / ' + BIO_MAX_WORDS + ' words';
+    el.classList.toggle('over', words > BIO_MAX_WORDS);
+    if (words <= BIO_MAX_WORDS) document.getElementById('fullbio-field').classList.remove('invalid');
+  }
+  document.getElementById('shortdesc').addEventListener('input', updateCounts);
+  document.getElementById('fullbio').addEventListener('input', updateCounts);
+  updateCounts();
+
   document.getElementById('listing-form').addEventListener('submit', async function(e){
     e.preventDefault();
     let valid = true;
@@ -474,6 +493,14 @@
         hoursError.style.display = 'block';
         valid = false;
       }
+    }
+
+    const bioField = document.getElementById('fullbio-field');
+    if (wordCount(document.getElementById('fullbio').value) > BIO_MAX_WORDS) {
+      bioField.classList.add('invalid');
+      valid = false;
+    } else {
+      bioField.classList.remove('invalid');
     }
 
     const bookingInput = document.getElementById('booking');
