@@ -530,8 +530,9 @@
     <div class="side-group">
       <h4>How they serve you</h4>
       <label class="check"><input type="checkbox" data-toggle="inperson"> In-person</label>
-      <label class="check"><input type="checkbox" data-toggle="remote"> Also serves remotely</label>
+      <label class="check"><input type="checkbox" data-toggle="homebased"> Home-based</label>
       <label class="check"><input type="checkbox" data-toggle="mobile"> Mobile / traveling</label>
+      <label class="check"><input type="checkbox" data-toggle="remote"> Online / virtual</label>
     </div>
 
     <div class="side-group">
@@ -625,25 +626,30 @@
 
 <script>
   const CATEGORIES = [
-    'Beauty & wellness',
+    'Beauty & personal care',
     'Childcare & daycare',
     'Consulting',
     'Fitness & personal training',
     'Food & catering',
-    'Funeral Home & Memorial Services',
-    'Grant Writing & Funding',
-    'Health & insurance',
+    'Funeral home & memorial services',
+    'Grant writing & funding',
+    'Health & wellness',
     'Home health & senior care',
+    'Home services & contractors',
+    'Insurance & financial services',
     'Landscaping & lawn care',
-    'Legal & financial',
+    'Legal services',
+    'Marketing & media',
     'Medical & dental care',
     'Mental health & counseling',
     'Notary & documents',
     'Photography & creative services',
-    'Printing & Signage Services',
+    'Printing & signage',
     'Real estate',
     'Retail & products',
-    'Staffing & Recruiting',
+    'Staffing & recruiting',
+    'Technology & web services',
+    'Transportation & logistics',
     'Travel & events',
     'Other'
   ];
@@ -783,6 +789,7 @@
     if (activeToggles.has('inperson') && !item.inPersonService) return false;
     if (activeToggles.has('remote') && !item.servesRemotely) return false;
     if (activeToggles.has('mobile') && !item.mobileService) return false;
+    if (activeToggles.has('homebased') && !item.homeBased) return false;
     if (activeToggles.has('verified') && !isVerified(item)) return false;
     if (activeToggles.has('women') && !item.womenOwned) return false;
     if (keyword) {
