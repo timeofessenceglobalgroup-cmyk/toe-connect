@@ -63,6 +63,7 @@
   .info-grid.single{grid-template-columns:1fr;}
   .info-box{border:1px solid #E4E1D8;padding:20px 24px;}
   .info-title{font-family:'Fraunces',serif;font-size:17px;font-weight:500;margin-bottom:10px;}
+  .map-frame{display:block;width:100%;height:220px;border:1px solid #E4E1D8;margin-top:12px;background:#EDEAE0;}
   .info-box a.directions{display:inline-block;margin-top:10px;font-size:13px;color:var(--gold);text-decoration:underline;}
   table.hours{width:100%;font-size:14px;border-collapse:collapse;}
   table.hours td{padding:6px 0;border-bottom:1px solid #F0EDE4;}
@@ -101,7 +102,7 @@
 
 <footer>
   <a href="index.html">TOE Connect</a> — a directory by Time of Essence Global Group, LLC
-  <div style="margin-top:10px;">Questions? <a href="mailto:toeconnect4@gmail.com" style="text-decoration:underline;">toeconnect4@gmail.com</a> · <a href="tel:4143480307" style="text-decoration:underline;">414-348-0307</a></div>
+  <div style="margin-top:10px;">Questions? <a href="mailto:toeconnect4@gmail.com" style="text-decoration:underline;">toeconnect4@gmail.com</a> · <a href="tel:4143480307,1" style="text-decoration:underline;">414-348-0307 ext. 1</a></div>
   <div style="margin-top:10px;"><a href="about.html" style="text-decoration:underline;">About</a> · <a href="faq.html" style="text-decoration:underline;">FAQ</a> · <a href="contact.html" style="text-decoration:underline;">Contact</a> · <a href="privacy.html" style="text-decoration:underline;">Privacy Policy</a> · <a href="terms.html" style="text-decoration:underline;">Terms of Use</a></div>
 </footer>
 
@@ -185,6 +186,8 @@
     category: 'Beauty & wellness',
     city: 'Wauwatosa',
     address: '1234 W Main St, Wauwatosa, WI 53213',
+    mapLat: 43.0494,
+    mapLng: -88.0076,
     homeBased: false,
     hoursType: 'Set hours',
     hours: [
@@ -262,7 +265,19 @@
     let locationBox = '';
     if (b.address) {
       const mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(b.address);
-      locationBox = `<div class="info-box"><div class="info-title">Location</div><div style="font-size:14px;">📍 ${esc(b.address)}</div><a class="directions" href="${mapUrl}" target="_blank" rel="noopener">Get directions →</a></div>`;
+      // Map: only when the address is public and its coordinates are known.
+      let mapHtml = '';
+      const lat = Number(b.mapLat), lng = Number(b.mapLng);
+      if (b.mapLat !== null && b.mapLng !== null && Number.isFinite(lat) && Number.isFinite(lng)) {
+        const dLat = 0.004, dLng = 0.0065;
+        const bbox = [lng - dLng, lat - dLat, lng + dLng, lat + dLat].map(n => n.toFixed(6)).join(',');
+        const marker = lat.toFixed(6) + ',' + lng.toFixed(6);
+        const mapSrc = 'https://www.openstreetmap.org/export/embed.html?bbox=' + encodeURIComponent(bbox) + '&layer=mapnik&marker=' + encodeURIComponent(marker);
+        const bigMap = `https://www.openstreetmap.org/?mlat=${lat.toFixed(6)}&mlon=${lng.toFixed(6)}#map=16/${lat.toFixed(6)}/${lng.toFixed(6)}`;
+        mapHtml = `<iframe class="map-frame" src="${mapSrc}" title="Map showing ${esc(b.name)}" loading="lazy" referrerpolicy="no-referrer"></iframe>
+          <a class="directions" href="${bigMap}" target="_blank" rel="noopener noreferrer" style="margin-right:16px;">View larger map →</a>`;
+      }
+      locationBox = `<div class="info-box"><div class="info-title">Location</div><div style="font-size:14px;">📍 ${esc(b.address)}</div>${mapHtml}<a class="directions" href="${mapUrl}" target="_blank" rel="noopener">Get directions →</a></div>`;
     } else if (b.homeBased) {
       locationBox = `<div class="info-box"><div class="info-title">Location</div><div style="font-size:14px;">🏠 Home-based business — address kept private. Contact them to arrange a visit.</div></div>`;
     }
