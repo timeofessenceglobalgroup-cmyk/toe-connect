@@ -143,7 +143,9 @@ exports.handler = async function (event) {
   if (!addressMode) missing.push('addressMode');
   if (addressMode === 'public' && !street) missing.push('street');
   if (hoursInvalid) missing.push('hours');
-  if (!data.shortdesc) missing.push('shortdesc');
+  if (!data.shortdesc || String(data.shortdesc).length > 300) missing.push('shortdesc');
+  // The form limits the bio to 250 words; the server allows a little extra so counting differences never reject a valid bio.
+  if (String(data.fullbio || '').trim().split(/\s+/).filter(Boolean).length > 300) missing.push('fullbio');
   if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) missing.push('email');
   if (!data.blackOwned) missing.push('blackOwned');
   if (needsLicense && !data.license) missing.push('license');
