@@ -29,6 +29,81 @@ function locationFields(f) {
   };
 }
 
+
+// ---- Map coordinates ----
+// Only a public street address is ever mapped. Coordinates are looked up once, then saved
+// to the Latitude and Longitude columns in Airtable so later page views are instant.
+function validCoords(lat, lng) {
+  return Number.isFinite(lat) && Number.isFinite(lng) && lat > 24 && lat < 50 && lng > -125 && lng < -66;
+}
+
+function addressQuery(f) {
+  const street = String(f['Address'] || '').trim();
+  const city = String(f['City'] || '').trim();
+  const state = String(f['State'] || 'WI').trim();
+  const zip = String(f['ZIP'] || '').trim();
+  if (street && city && street.toLowerCase().includes(city.toLowerCase())) return street;
+  return [street, city, `${state} ${zip}`.trim()].filter(Boolean).join(', ');
+}
+
+async function fetchJson(url, headers) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 4000);
+  try {
+    const res = await fetch(url, { headers, signal: controller.signal });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (e) {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+// U.S. Census geocoder first (free, no key), then OpenStreetMap's Nominatim as a backup.
+async function geocode(query) {
+  if (!query) return null;
+  const census = await fetchJson(
+    'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?benchmark=Public_AR_Current&format=json&address=' + encodeURIComponent(query)
+  );
+  const m = census && census.result && census.result.addressMatches && census.result.addressMatches[0];
+  if (m && m.coordinates) {
+    const lat = Number(m.coordinates.y), lng = Number(m.coordinates.x);
+    if (validCoords(lat, lng)) return { lat, lng };
+  }
+  const osm = await fetchJson(
+    'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=us&q=' + encodeURIComponent(query),
+    { 'User-Agent': 'TOEConnect/1.0 (toeconnect4@gmail.com)' }
+  );
+  if (Array.isArray(osm) && osm[0]) {
+    const lat = Number(osm[0].lat), lng = Number(osm[0].lon);
+    if (validCoords(lat, lng)) return { lat, lng };
+  }
+  return null;
+}
+
+// Returns { lat, lng } for a listing with a public address, or null. Saves new coordinates to Airtable (best effort).
+async function mapCoordinates({ fields, recordId, baseId, apiKey, table }) {
+  const visibility = fields['Address Visibility'];
+  if (visibility === 'Private' || visibility === 'None') return null;
+  if (!String(fields['Address'] || '').trim()) return null;
+
+  const savedLat = parseFloat(fields['Latitude']);
+  const savedLng = parseFloat(fields['Longitude']);
+  if (validCoords(savedLat, savedLng)) return { lat: savedLat, lng: savedLng };
+
+  const found = await geocode(addressQuery(fields));
+  if (!found) return null;
+  try {
+    await fetch(`https://api.airtable.com/v0/${baseId}/${encodeURIComponent(table)}/${recordId}`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: { Latitude: found.lat, Longitude: found.lng }, typecast: true })
+    });
+  } catch (e) { /* the map still shows; it will just look the address up again next time */ }
+  return found;
+}
+
 exports.handler = async function (event) {
   const baseId = process.env.AIRTABLE_BASE_ID;
   const apiKey = process.env.AIRTABLE_API_KEY;
@@ -61,12 +136,16 @@ exports.handler = async function (event) {
       return { statusCode: 404, body: JSON.stringify({ error: 'Listing not found' }) };
     }
 
+    const coords = await mapCoordinates({ fields: record.fields, recordId: record.id, baseId, apiKey, table });
+
     const business = {
       id: record.id,
       name: record.fields['Business Name'] || '',
       category: record.fields['Category'] || '',
       city: record.fields['City'] || '',
       ...locationFields(record.fields),
+      mapLat: coords ? coords.lat : null,
+      mapLng: coords ? coords.lng : null,
       description: record.fields['Short Description'] || '',
       fullBio: record.fields['Full Bio'] || '',
       website: record.fields['Website / Social'] || '',
