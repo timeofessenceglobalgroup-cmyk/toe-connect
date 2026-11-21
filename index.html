@@ -492,6 +492,8 @@
   .spot-btn.primary:hover{background:var(--charcoal);}
   .spot-btn.gold{background:var(--gold);color:var(--matte-black);}
   .spot-btn.gold:hover{background:var(--gold-light);}
+  .spot-btn.outline{background:#fff;color:var(--matte-black);border:2px solid var(--matte-black);padding:11px 24px;}
+  .spot-btn.outline:hover{background:var(--paper);}
   .spot-btn:focus-visible{outline:3px solid var(--gold-dark);outline-offset:3px;}
 
   /* ---------- responsive ---------- */
@@ -1032,6 +1034,7 @@
         : `<div class="spot-photo" aria-hidden="true">${esc(initials(f.businessName))}</div>`;
 
       const actions = [`<a class="spot-btn primary" href="profile.html?id=${encodeURIComponent(f.id)}">View full profile</a>`];
+      if (f.videoUrl) actions.push(`<a class="spot-btn outline" href="${esc(f.videoUrl)}" target="_blank" rel="noopener">▶ Watch the 30-second video</a>`);
       if (f.bookingUrl) actions.push(`<a class="spot-btn gold" href="${esc(f.bookingUrl)}" target="_blank" rel="noopener">Book now</a>`);
 
       box.innerHTML = `
