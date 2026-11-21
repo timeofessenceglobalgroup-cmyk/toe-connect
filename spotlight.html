@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOE Connect — 30 Seconds to Connect</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="favicon-180.png">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="TOE Connect — 30 Seconds to Connect">
+<meta property="og:description" content="Be featured on TOE Connect with a 30-second video. Free for Wisconsin Black-owned businesses.">
+<meta property="og:image" content="https://toeconnectwi.com/og-image.png">
+<meta property="og:url" content="https://toeconnectwi.com/spotlight.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TOE Connect — 30 Seconds to Connect">
+<meta name="twitter:description" content="Be featured on TOE Connect with a 30-second video. Free for Wisconsin Black-owned businesses.">
+<meta name="twitter:image" content="https://toeconnectwi.com/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --matte-black:#0E0E0C;
+    --charcoal:#242220;
+    --white:#FBFAF7;
+    --gold:#C9A227;
+    --gold-light:#E8C468;
+    --line-dark:rgba(14,14,12,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Jost',sans-serif;background:var(--white);color:var(--matte-black);}
+  h1,h2,.wordmark{font-family:'Fraunces',serif;}
+  a{color:inherit;text-decoration:none;}
+
+  header{
+    background:var(--matte-black);color:var(--white);
+    padding:22px 48px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .wordmark{font-size:22px;font-weight:500;}
+  .wordmark span{color:var(--gold-light);}
+  header a{font-size:14px;color:rgba(251,250,247,0.78);}
+
+  .wrap{max-width:640px;margin:0 auto;padding:64px 24px 96px;}
+  .eyebrow{font-size:15px;color:var(--gold);font-weight:500;margin-bottom:14px;}
+  h1{font-size:34px;font-weight:500;margin-bottom:12px;line-height:1.2;}
+  .lede{font-size:17px;color:#5c5a54;margin-bottom:40px;max-width:480px;}
+
+  fieldset{border:none;margin-bottom:36px;}
+  legend{font-family:'Fraunces',serif;font-size:22px;font-weight:500;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--line-dark);width:100%;}
+  .field{margin-bottom:18px;}
+  label{display:block;font-size:15px;color:#5c5a54;margin-bottom:6px;}
+  input[type=text], input[type=email], input[type=tel], input[type=url], input[type=time], select, textarea{
+    width:100%;border:1px solid #D8D5CA;border-radius:2px;padding:13px 14px;
+    font-family:'Jost',sans-serif;font-size:16px;background:var(--white);color:var(--matte-black);
+  }
+  textarea{resize:vertical;min-height:110px;}
+  input:focus, select:focus, textarea:focus{outline:none;border-color:var(--gold);}
+  .hint{font-size:14px;color:#6b6860;margin-top:5px;}
+  .hint .count{float:right;margin-left:12px;}
+  .hint .count.over{color:#B3401F;font-weight:500;}
+  .error{font-size:14px;color:#B3401F;margin-top:5px;display:none;}
+  .field.invalid input, .field.invalid textarea{border-color:#B3401F;}
+  .field.invalid .error{display:block;}
+
+  .row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;}
+  .row .field{margin-bottom:18px;}
+  .choice{display:flex;align-items:flex-start;gap:8px;cursor:pointer;margin-bottom:8px;font-size:16px;color:var(--matte-black);}
+  .choice input{width:auto;margin-top:3px;}
+  input:disabled{background:#F1EFE8;color:#5c5a54;}
+  .hours-row{display:grid;grid-template-columns:96px 1fr 24px 1fr 86px;gap:8px;align-items:center;margin-bottom:8px;font-size:16px;}
+  .hours-row .to{text-align:center;color:#6b6860;font-size:15px;}
+  .hours-row label{display:flex;align-items:center;gap:6px;margin:0;font-size:15px;cursor:pointer;}
+  .hours-row input[type=checkbox]{width:auto;}
+  .hours-row input[type=time]:disabled{opacity:.45;}
+  .link-btn{background:none;border:none;color:#5c5a54;text-decoration:underline;font-family:'Jost',sans-serif;font-size:15px;cursor:pointer;padding:0;margin:4px 0 8px;}
+  .link-btn:hover{color:var(--gold);}
+  @media(max-width:560px){
+    .row{grid-template-columns:1fr;}
+    .hours-row{grid-template-columns:1fr 1fr;}
+    .hours-row .day{grid-column:1 / -1;font-weight:500;}
+    .hours-row .to{display:none;}
+  }
+
+  .free-banner{
+    background:var(--charcoal);color:var(--white);
+    padding:16px 20px;border-radius:2px;margin-bottom:36px;
+    font-size:16px;display:flex;align-items:center;gap:10px;
+  }
+  .free-banner b{color:var(--gold-light);}
+
+  .donate-box{
+    border:1px solid #D8D5CA;padding:22px;border-radius:2px;background:#F6F4EC;
+  }
+  .donate-box p{font-size:15px;color:#5c5a54;margin-bottom:14px;}
+  .donate-options{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+  .donate-chip{
+    border:1px solid #D8D5CA;padding:9px 18px;font-size:16px;border-radius:20px;
+    cursor:pointer;background:var(--white);
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .donate-chip:hover{border-color:var(--gold);}
+  .donate-chip.active{background:var(--gold);border-color:var(--gold);color:var(--matte-black);font-weight:500;}
+
+  button[type=submit]{
+    background:var(--matte-black);color:var(--white);border:none;
+    padding:15px 32px;font-family:'Jost',sans-serif;font-size:17px;font-weight:500;
+    border-radius:2px;cursor:pointer;width:100%;
+    transition:background .18s ease;
+  }
+  button[type=submit]:hover{background:var(--charcoal);}
+  .submit-hint{font-size:14px;color:#6b6860;text-align:center;margin-top:12px;}
+  .contribute-btn{transition:background .18s ease;}
+  .contribute-btn:hover{background:var(--charcoal) !important;}
+  @media(max-width:860px){
+    header{flex-wrap:wrap;padding:14px 22px;row-gap:10px;}
+    header nav{width:100%;flex-wrap:wrap;gap:8px 18px !important;}
+  }
+</style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E0E0C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TOE Connect">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="wordmark" style="display:flex;align-items:center;gap:10px;color:#FBFAF7;" aria-label="TOE Connect home">
+    <svg width="30" height="30" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+      <rect width="128" height="128" rx="20" fill="#0E0E0C"/>
+      <rect x="10" y="10" width="108" height="108" rx="12" fill="none" stroke="#C9A227" stroke-width="2" opacity="0.6"/>
+      <text x="64" y="88" font-family="Fraunces, serif" font-size="64" font-weight="600" fill="#E8C468" text-anchor="middle">T</text>
+    </svg>
+    <span>TOE <span style="color:#E8C468;">Connect</span></span>
+  </a>
+  <nav style="display:flex;gap:24px;align-items:center;">
+    <a href="about.html" style="font-size:14px;color:rgba(251,250,247,0.78);">About</a>
+    <a href="index.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Home</a>
+    <a href="tips.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Tips for Business Owners</a>
+    <a href="resources.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Free Tools &amp; Resources</a>
+    <a href="events.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Community Events</a>
+    <a href="verification.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Verification &amp; Badges</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="eyebrow">Owner spotlight</div>
+  <a href="index.html" style="display:inline-block;margin-bottom:18px;font-size:16px;color:#4a4842;text-decoration:underline;">← Back to the directory</a>
+  <h1>30 Seconds to Connect</h1>
+  <p class="lede">Introduce yourself and your business in a short video on TOE Connect. It's free, you record it on your phone, and we add the captions.</p>
+
+  <div class="free-banner">
+    <span><b>How it works:</b> sign up below, we confirm within a few days, you send a ~30 second video, and we send you a preview before anything goes live.</span>
+  </div>
+
+  <p style="font-size:16px;color:#4a4842;margin:-12px 0 32px;">Questions first? <a href="contact.html" style="color:#8A6A0E;text-decoration:underline;">Send us a message</a>. Need another way to take part, such as a phone interview or help recording? Tell us in the form and we'll work with you.</p>
+
+  <form id="spotlight-form" name="spotlight-signup" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+    <input type="hidden" name="form-name" value="spotlight-signup">
+    <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+
+    <fieldset>
+      <legend>About you</legend>
+      <div class="field" data-required="true">
+        <label for="bizname">Business name</label>
+        <input type="text" id="bizname" name="business-name" autocomplete="organization">
+        <div class="error">Enter your business name.</div>
+      </div>
+      <div class="field" data-required="true">
+        <label for="ownername">Your name</label>
+        <input type="text" id="ownername" name="owner-name" autocomplete="name">
+        <div class="error">Enter your name.</div>
+      </div>
+      <div class="field" data-required="true">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" autocomplete="email" placeholder="you@yourbusiness.com">
+        <div class="error">Enter a valid email.</div>
+      </div>
+      <div class="field">
+        <label for="phone">Phone <span style="color:#6b6860">(optional)</span></label>
+        <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="(414) 555-0100">
+      </div>
+      <div class="field" data-required="true" id="listing-field">
+        <label style="margin-bottom:8px;">Is your business listed on TOE Connect?</label>
+        <label class="choice"><input type="radio" name="listing-status" value="Yes, approved"><span>Yes, my listing is live</span></label>
+        <label class="choice"><input type="radio" name="listing-status" value="Submitted, waiting for review"><span>I submitted it and I'm waiting for approval</span></label>
+        <label class="choice"><input type="radio" name="listing-status" value="Not yet"><span>Not yet. I'll list it now at toeconnectwi.com/submit</span></label>
+        <div class="error">Choose one.</div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Your feature</legend>
+      <div class="field" data-required="true">
+        <label for="about">In one or two sentences, what does your business do?</label>
+        <textarea id="about" name="about-business" maxlength="400"></textarea>
+        <div class="error">Add a sentence about your business.</div>
+      </div>
+      <div class="field" data-required="true" id="format-field">
+        <label style="margin-bottom:8px;">How would you like to take part?</label>
+        <label class="choice"><input type="radio" name="format" value="Record on my phone"><span>I'll record the video on my phone</span></label>
+        <label class="choice"><input type="radio" name="format" value="Need help"><span>I'd like help (a phone interview, or recording together)</span></label>
+        <label class="choice"><input type="radio" name="format" value="Already have a video"><span>I already have a short video</span></label>
+        <div class="error">Choose one.</div>
+      </div>
+      <div class="field" id="video-field">
+        <label for="video">Link to your video <span style="color:#6b6860">(optional, if you already have one)</span></label>
+        <input type="url" id="video" name="video-link" placeholder="https://">
+        <div class="hint">YouTube, Vimeo, TikTok, Instagram or Facebook. It must be public.</div>
+        <div class="error">Enter a link that starts with https://</div>
+      </div>
+      <div class="field">
+        <label for="access">Is there anything that would make this easier for you? <span style="color:#6b6860">(optional)</span></label>
+        <textarea id="access" name="accessibility-or-notes" maxlength="400"></textarea>
+        <div class="hint">For example: large-print instructions, a phone call instead of email, or help with recording.</div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Permission</legend>
+      <div class="donate-box">
+        <p><b>In plain words:</b> TOE Connect (a directory of Time of Essence Global Group, LLC) may show my video, name, business name, logo and listing details on the TOE Connect website and TOE Connect's social media pages to promote my business and the directory. It may trim the video and add captions, titles and branding, but will not change what I say in a way that changes its meaning. I am not paid, being featured is not guaranteed, and it is not an endorsement of my business. The video is mine to share and has no music or material owned by someone else. I can withdraw permission anytime by emailing toeconnect4@gmail.com, and TOE Connect will remove the video from its website and new posts within 14 days. I am 18 or older and allowed to speak for this business.</p>
+        <div class="field" data-required="true" id="consent-field" style="margin-bottom:12px;">
+          <label class="choice" style="font-size:16px;color:var(--matte-black);"><input type="checkbox" id="consent" name="permission-granted" value="Yes"><span>I agree to the permission above.</span></label>
+          <div class="error">Check this box to continue.</div>
+        </div>
+        <div class="field" data-required="true" id="sign-field" style="margin-bottom:0;">
+          <label for="signature">Type your full name as your signature</label>
+          <input type="text" id="signature" name="signature" autocomplete="name">
+          <div class="error">Type your name to sign.</div>
+        </div>
+      </div>
+    </fieldset>
+
+    <button type="submit">Sign up to be featured</button>
+    <p class="submit-hint">Signing up does not guarantee a feature. We'll contact you within a few days.</p>
+    <p class="submit-hint" style="margin-top:6px;">See our <a href="terms.html" style="color:#4a4842;text-decoration:underline;">Terms of Use</a> and <a href="privacy.html" style="color:#4a4842;text-decoration:underline;">Privacy Policy</a>.</p>
+    <p class="submit-hint" style="margin-top:6px;">Need help? Email <a href="mailto:toeconnect4@gmail.com" style="color:#4a4842;text-decoration:underline;">toeconnect4@gmail.com</a> or call <a href="tel:4143480307,1" style="color:#4a4842;text-decoration:underline;">414-348-0307 ext. 1</a>.</p>
+  </form>
+
+  <div id="success-message" style="display:none;text-align:center;padding:40px 20px;" role="status" tabindex="-1">
+    <h2 style="font-size:26px;margin-bottom:12px;">Thank you!</h2>
+    <p style="font-size:17px;color:#4a4842;max-width:440px;margin:0 auto;">We got your sign-up. We'll email you within a few days with the next steps and a feature window.</p>
+    <div style="margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+      <a href="index.html" style="display:inline-block;background:#C9A227;color:#0E0E0C;padding:12px 24px;font-size:17px;font-weight:500;text-decoration:none;border-radius:2px;">Back to the directory</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('spotlight-form');
+  const urlRe = /^https:\/\/\S+\.\S+$/i;
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    let valid = true;
+
+    this.querySelectorAll('[data-required="true"]').forEach(field => {
+      let bad = false;
+      const radios = field.querySelectorAll('input[type=radio]');
+      if (radios.length) {
+        bad = !field.querySelector('input[type=radio]:checked');
+      } else {
+        const input = field.querySelector('input, textarea, select');
+        if (input.type === 'checkbox') bad = !input.checked;
+        else bad = !input.value.trim() || (input.type === 'email' && !emailRe.test(input.value.trim()));
+      }
+      field.classList.toggle('invalid', bad);
+      if (bad) valid = false;
+    });
+
+    const videoField = document.getElementById('video-field');
+    const videoVal = document.getElementById('video').value.trim();
+    const videoBad = videoVal !== '' && !urlRe.test(videoVal);
+    videoField.classList.toggle('invalid', videoBad);
+    if (videoBad) valid = false;
+
+    if (!valid) {
+      const firstBad = this.querySelector('.field.invalid');
+      if (firstBad) firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    const btn = this.querySelector('button[type=submit]');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      const body = new URLSearchParams(new FormData(this)).toString();
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body
+      });
+      if (!res.ok) throw new Error('Submission failed');
+      this.style.display = 'none';
+      const done = document.getElementById('success-message');
+      done.style.display = 'block';
+      done.focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Sign up to be featured';
+      alert('Something went wrong sending your sign-up. Please try again in a moment, or email toeconnect4@gmail.com.');
+    }
+  });
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>

@@ -74,17 +74,6 @@
     transition:background .18s ease, color .18s ease;
   }
   .nav-cta:hover{background:var(--gold);color:var(--matte-black) !important;}
-  .menu-btn{
-    display:none;
-    background:transparent;
-    color:var(--gold-light);
-    border:1px solid var(--gold);
-    padding:10px 20px;
-    font-size:17px;
-    border-radius:2px;
-    cursor:pointer;
-  }
-  .menu-btn:focus-visible,nav a:focus-visible{outline:3px solid var(--gold-light);outline-offset:3px;}
 
   /* ---------- hero ---------- */
   .hero{
@@ -378,6 +367,43 @@
 
   .status-msg{grid-column:1/-1;font-size:16px;color:var(--muted-2);padding:12px 0;}
 
+
+  /* ---------- 30 Seconds to Connect ---------- */
+  .spotlight{background:var(--matte-black);color:var(--white);padding:56px 48px;border-top:1px solid rgba(201,162,39,0.35);}
+  .spot-inner{max-width:1100px;margin:0 auto;}
+  .spot-eyebrow{font-size:15px;color:var(--gold-light);font-weight:500;letter-spacing:0.4px;margin-bottom:10px;}
+  .spotlight h2{font-size:30px;font-weight:500;line-height:1.2;margin-bottom:10px;}
+  .spot-sub{font-size:17px;color:rgba(251,250,247,0.85);max-width:640px;margin-bottom:30px;}
+  .spot-feature{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;}
+  .spot-video{position:relative;width:100%;aspect-ratio:16/9;background:var(--charcoal);border:1px solid var(--line);}
+  .spot-embed{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+  .spot-embed.tall{position:static;display:block;width:100%;max-width:380px;height:640px;margin:0 auto;}
+  .spot-video.is-tall{aspect-ratio:auto;border:none;background:none;}
+  .spot-social{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;text-align:center;}
+  .spot-video.is-tall .spot-social{height:auto;min-height:220px;border:1px solid var(--line);background:var(--charcoal);}
+  .spot-play{background:var(--gold);color:var(--matte-black);border:none;border-radius:2px;padding:13px 24px;font-size:16px;font-weight:500;cursor:pointer;}
+  .spot-play:hover{background:var(--gold-light);}
+  .spot-note{font-size:14px;color:rgba(251,250,247,0.75);}
+  .spot-open{font-size:16px;color:var(--gold-light);text-decoration:underline;}
+  .spot-now{font-size:14px;color:var(--gold-light);font-weight:500;letter-spacing:0.6px;text-transform:uppercase;margin-bottom:8px;}
+  .spot-text h3{font-size:28px;font-weight:500;line-height:1.2;margin-bottom:6px;}
+  .spot-meta{font-size:16px;color:rgba(251,250,247,0.8);margin-bottom:14px;}
+  .spot-blurb{font-size:17px;color:rgba(251,250,247,0.92);margin-bottom:20px;}
+  .spot-actions{display:flex;flex-wrap:wrap;gap:12px;}
+  .spot-btn{display:inline-block;background:var(--gold);color:var(--matte-black);padding:13px 24px;font-size:16px;font-weight:500;border-radius:2px;transition:background .18s ease;}
+  .spot-btn:hover{background:var(--gold-light);}
+  .spot-btn.alt{background:transparent;color:var(--gold-light);border:1px solid var(--gold);}
+  .spot-btn.alt:hover{background:var(--gold);color:var(--matte-black);}
+  .spot-soon{border:1px solid var(--line);background:rgba(251,250,247,0.05);padding:28px;max-width:720px;}
+  .spot-soon p{font-size:17px;color:rgba(251,250,247,0.9);margin-bottom:18px;}
+  .spot-past{margin-top:40px;padding-top:26px;border-top:1px solid var(--line);}
+  .spot-past h3{font-size:20px;font-weight:500;margin-bottom:14px;}
+  .spot-past-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
+  .spot-past-card{border:1px solid var(--line);background:rgba(251,250,247,0.05);padding:16px 18px;}
+  .spot-past-card .pn{font-family:'Fraunces',serif;font-size:18px;margin-bottom:2px;}
+  .spot-past-card .pm{font-size:15px;color:rgba(251,250,247,0.78);margin-bottom:8px;}
+  .spot-past-card a{font-size:15px;color:var(--gold-light);text-decoration:underline;}
+
   /* ---------- how it works / CTA ---------- */
   .steps{
     background:var(--white);
@@ -446,67 +472,6 @@
   .foot-links{display:flex;gap:24px;flex-wrap:wrap;}
   .disclaimer-bar{background:var(--charcoal);color:rgba(251,250,247,0.78);font-size:13px;padding:14px 48px;text-align:center;}
 
-  /* ---------- 30 Seconds to Connect ---------- */
-  .spotlight{
-    background:var(--white);
-    border-bottom:1px solid var(--border);
-    padding:36px 48px;
-  }
-  .spotlight-inner{
-    max-width:1360px;
-    margin:0 auto;
-    background:#fff;
-    border:1px solid var(--border);
-    border-top:4px solid var(--gold);
-    display:grid;
-    grid-template-columns:260px minmax(0,1fr);
-  }
-  .spot-photo{
-    background:var(--charcoal);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:var(--gold-light);
-    font-family:'Fraunces',serif;
-    font-size:56px;
-    min-height:260px;
-    overflow:hidden;
-  }
-  .spot-photo.has-img{background:#fff;border-right:1px solid var(--border);}
-  .spot-photo img{width:100%;height:100%;object-fit:cover;}
-  .spot-photo.has-img.logo img{object-fit:contain;padding:18px;}
-  .spot-body{padding:28px 32px 30px;}
-  .spot-eyebrow{
-    font-size:16px;
-    font-weight:500;
-    letter-spacing:0.8px;
-    text-transform:uppercase;
-    color:var(--gold-dark);
-    margin-bottom:6px;
-  }
-  .spot-title{font-size:30px;font-weight:500;line-height:1.2;margin-bottom:4px;}
-  .spot-sub{font-size:18px;color:var(--muted);margin-bottom:18px;}
-  .spot-qa{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-bottom:22px;}
-  .spot-q{font-size:15px;font-weight:500;color:var(--gold-dark);margin-bottom:4px;}
-  .spot-a{font-size:18px;line-height:1.5;color:var(--matte-black);}
-  .spot-desc{font-size:18px;line-height:1.5;color:var(--matte-black);margin-bottom:22px;max-width:820px;}
-  .spot-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
-  .spot-btn{
-    display:inline-block;
-    font-size:18px;
-    font-weight:500;
-    padding:13px 26px;
-    border-radius:2px;
-    transition:background .18s ease;
-  }
-  .spot-btn.primary{background:var(--matte-black);color:var(--gold-light);}
-  .spot-btn.primary:hover{background:var(--charcoal);}
-  .spot-btn.gold{background:var(--gold);color:var(--matte-black);}
-  .spot-btn.gold:hover{background:var(--gold-light);}
-  .spot-btn.outline{background:#fff;color:var(--matte-black);border:2px solid var(--matte-black);padding:11px 24px;}
-  .spot-btn.outline:hover{background:var(--paper);}
-  .spot-btn:focus-visible{outline:3px solid var(--gold-dark);outline-offset:3px;}
-
   /* ---------- responsive ---------- */
   .wordmark, nav a{white-space:nowrap;}
   @media(max-width:1120px){
@@ -521,21 +486,11 @@
     .sidebar.open{display:block;}
     .filter-toggle{display:inline-block;}
     .grid{grid-template-columns:1fr 1fr;}
-    .spot-qa{grid-template-columns:1fr;gap:16px;}
   }
   @media(max-width:860px){
-    header,.hero,.steps,.founder-section,footer,.disclaimer-bar,.spotlight{padding-left:22px;padding-right:22px;}
-    .spotlight-inner{grid-template-columns:1fr;}
-    .spot-photo{min-height:0;height:220px;}
-    .spot-photo.has-img{border-right:none;border-bottom:1px solid var(--border);}
-    .spot-body{padding:22px 20px 24px;}
-    .spot-title{font-size:26px;}
+    header,.hero,.steps,.founder-section,footer,.disclaimer-bar{padding-left:22px;padding-right:22px;}
     .crumbs{padding-left:22px;padding-right:22px;}
-    .menu-btn{display:inline-block;}
-    nav{display:none;flex-direction:column;align-items:stretch;gap:0;}
-    header.open nav{display:flex;}
-    nav a{font-size:18px;padding:14px 4px;border-top:1px solid var(--line);}
-    nav a.nav-cta{text-align:center;margin-top:10px;padding:12px 16px;}
+    nav{display:none;}
     .hero-inner{grid-template-columns:minmax(0,1fr);gap:20px;}
     .logo-crop{width:150px;}
     .hero h1{font-size:30px;}
@@ -546,6 +501,9 @@
     .grid.list .card-photo{width:100%;height:140px;min-height:0;}
     .step-row{grid-template-columns:1fr;}
     .founder-inner{grid-template-columns:1fr;gap:24px;}
+    .spotlight{padding-left:22px;padding-right:22px;}
+    .spot-feature{grid-template-columns:1fr;gap:24px;}
+    .spotlight h2{font-size:26px;}
     footer{flex-direction:column;}
   }
 </style>
@@ -566,9 +524,7 @@
     </svg>
     <span>TOE <em>Connect</em></span>
   </a>
-  <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="siteNav">Menu</button>
-  <nav id="siteNav">
-    <a href="index.html">Home</a>
+  <nav>
     <a href="about.html">About</a>
     <a href="tips.html">Tips for Business Owners</a>
     <a href="resources.html">Free Tools &amp; Resources</a>
@@ -597,9 +553,6 @@
     </div>
   </div>
 </section>
-
-<!-- 30 Seconds to Connect: stays hidden until a business is marked "30 Seconds Feature" in Airtable -->
-<section class="spotlight" id="spotlight" hidden aria-labelledby="spotTitle"></section>
 
 <div class="crumbs"><a href="index.html">Home</a><span>/</span><a href="index.html">Wisconsin</a><span>/</span>Black-owned business directory</div>
 
@@ -662,6 +615,20 @@
 
 </div>
 
+<section class="spotlight" id="spotlight" aria-labelledby="spotlight-title">
+  <div class="spot-inner">
+    <div class="spot-eyebrow">30 Seconds to Connect</div>
+    <h2 id="spotlight-title">Meet a Wisconsin business owner in 30 seconds</h2>
+    <p class="spot-sub">One owner at a time, in their own words. Free to be featured.</p>
+    <div id="spotlightBody">
+      <div class="spot-soon">
+        <p>Our first 30 Seconds to Connect is coming soon. Want to be featured? It's free.</p>
+        <a href="spotlight.html" class="spot-btn">Be featured</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="steps">
   <div class="steps-inner">
     <h2>Own a business? Get listed — no cost, ever.</h2>
@@ -702,6 +669,7 @@
     <a href="events.html">Community Events</a>
     <a href="verification.html">Verification &amp; Badges</a>
     <a href="submit.html">Get listed</a>
+    <a href="spotlight.html">30 Seconds to Connect</a>
     <a href="about.html">About</a>
     <a href="faq.html">FAQ</a>
     <a href="contact.html">Contact</a>
@@ -1022,61 +990,122 @@
     sidebar.classList.toggle('open');
   });
 
-  // ---- 30 Seconds to Connect ----
-  // Shows one featured owner under the search bar. If nobody is featured (or the lookup fails), the section stays hidden.
-  async function loadSpotlight() {
-    const box = document.getElementById('spotlight');
-    try {
-      const res = await fetch('/.netlify/functions/get-featured');
-      if (!res.ok) return;
-      const data = await res.json();
-      const f = data && data.featured;
-      if (!f) return;
 
-      const place = cityLine(f);
-      const sub = [f.businessName, f.category, place].filter(Boolean).join(' · ');
-      const heading = f.ownerName || f.businessName;
-
-      const qa = [
-        ['What I do', f.answer1],
-        ['What people should know', f.answer2],
-        ['How to connect with me', f.answer3]
-      ].filter(x => x[1]);
-      const body = qa.length
-        ? `<div class="spot-qa">${qa.map(x => `<div><div class="spot-q">${esc(x[0])}</div><div class="spot-a">${esc(x[1])}</div></div>`).join('')}</div>`
-        : (f.description ? `<p class="spot-desc">${esc(f.description)}</p>` : '');
-
-      const photo = f.photoUrl
-        ? `<div class="spot-photo has-img${f.photoIsLogo ? ' logo' : ''}"><img src="${esc(f.photoUrl)}" alt="${esc(f.ownerName ? f.ownerName + ' of ' + f.businessName : f.businessName)}"></div>`
-        : `<div class="spot-photo" aria-hidden="true">${esc(initials(f.businessName))}</div>`;
-
-      const actions = [`<a class="spot-btn primary" href="profile.html?id=${encodeURIComponent(f.id)}">View full profile</a>`];
-      if (f.videoUrl) actions.push(`<a class="spot-btn outline" href="${esc(f.videoUrl)}" target="_blank" rel="noopener">▶ Watch the 30-second video</a>`);
-      if (f.bookingUrl) actions.push(`<a class="spot-btn gold" href="${esc(f.bookingUrl)}" target="_blank" rel="noopener">Book now</a>`);
-
-      box.innerHTML = `
-        <div class="spotlight-inner">
-          ${photo}
-          <div class="spot-body">
-            <div class="spot-eyebrow">30 Seconds to Connect</div>
-            <h2 class="spot-title" id="spotTitle">${esc(heading)}</h2>
-            <div class="spot-sub">${esc(sub)}</div>
-            ${body}
-            <div class="spot-actions">${actions.join('')}</div>
-          </div>
-        </div>`;
-      box.hidden = false;
-    } catch (err) {
-      /* leave the section hidden */
+  // ---- 30 Seconds to Connect (reads spotlight.json; edit that file to change the feature) ----
+  function parseVideo(url) {
+    let u;
+    try { u = new URL(String(url || '').trim()); } catch (e) { return null; }
+    if (u.protocol !== 'https:') return null;
+    const host = u.hostname.toLowerCase().replace(/^(www\.|m\.|web\.|mobile\.)/, '');
+    const path = u.pathname;
+    const link = u.href;
+    if (host === 'youtube.com' || host === 'youtu.be') {
+      let id = null, m;
+      if (host === 'youtu.be') { m = path.match(/^\/([\w-]{11})/); id = m && m[1]; }
+      else if ((m = path.match(/^\/(?:shorts|embed|live)\/([\w-]{11})/))) id = m[1];
+      else if (path === '/watch') { const v = u.searchParams.get('v'); if (v && /^[\w-]{11}$/.test(v)) id = v; }
+      if (id) return { kind: 'direct', embed: `https://www.youtube.com/embed/${id}`, link, label: 'YouTube', tall: false };
     }
+    if (host === 'vimeo.com') {
+      const m = path.match(/^\/(?:\w+\/)*(\d{6,})/);
+      if (m) return { kind: 'direct', embed: `https://player.vimeo.com/video/${m[1]}`, link, label: 'Vimeo', tall: false };
+    }
+    if (host === 'tiktok.com') {
+      const m = path.match(/^\/@[\w.\-]+\/video\/(\d{8,25})/);
+      if (m) return { kind: 'social', embed: `https://www.tiktok.com/embed/v2/${m[1]}`, link, label: 'TikTok', tall: true };
+    }
+    if (host === 'instagram.com') {
+      const m = path.match(/^\/(?:[\w.]+\/)?(p|reel|reels|tv)\/([\w-]{5,})/);
+      if (m) return { kind: 'social', embed: `https://www.instagram.com/${m[1] === 'reels' ? 'reel' : m[1]}/${m[2]}/embed`, link, label: 'Instagram', tall: true };
+    }
+    if (host === 'facebook.com' || host === 'fb.watch') {
+      const isVideo = host === 'fb.watch' || /\/(videos|reel)\/\d+/.test(path) || (path.replace(/\/$/, '') === '/watch' && /^\d+$/.test(u.searchParams.get('v') || ''));
+      if (isVideo) return { kind: 'social', embed: `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(link)}&show_text=false`, link, label: 'Facebook', tall: false };
+    }
+    return { kind: 'link', embed: '', link, label: host.replace(/^www\./, ''), tall: false };
   }
 
-  // phone menu button
-  document.getElementById('menuBtn').addEventListener('click', function () {
-    const open = document.querySelector('header').classList.toggle('open');
-    this.setAttribute('aria-expanded', open ? 'true' : 'false');
-    this.textContent = open ? 'Close' : 'Menu';
+  function spotVideoHTML(c) {
+    const v = parseVideo(c.videoUrl);
+    if (!v) return '';
+    if (v.kind === 'direct') {
+      return `<div class="spot-video"><iframe class="spot-embed" src="${esc(v.embed)}" title="${esc(c.businessName)} video" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+    }
+    if (v.kind === 'social') {
+      return `<div class="spot-video${v.tall ? ' is-tall' : ''}"><div class="spot-social" data-embed="${esc(v.embed)}" data-title="${esc(c.businessName)} video" data-tall="${v.tall ? '1' : ''}">
+        <button type="button" class="spot-play">Play video</button>
+        <a class="spot-open" href="${esc(v.link)}" target="_blank" rel="noopener noreferrer">Open on ${esc(v.label)} ↗</a>
+        <p class="spot-note">Playing this video loads content from ${esc(v.label)}.</p>
+      </div></div>`;
+    }
+    return `<div class="spot-video"><div class="spot-social"><a class="spot-btn" href="${esc(v.link)}" target="_blank" rel="noopener noreferrer">Watch the video ↗</a></div></div>`;
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.spot-play');
+    if (!btn) return;
+    const box = btn.closest('.spot-social');
+    const src = box && box.getAttribute('data-embed');
+    if (!src || !/^https:\/\/(www\.tiktok\.com|www\.instagram\.com|www\.facebook\.com)\//.test(src)) return;
+    const frame = document.createElement('iframe');
+    const tall = box.getAttribute('data-tall') === '1';
+    frame.className = 'spot-embed' + (tall ? ' tall' : '');
+    frame.src = src;
+    frame.title = box.getAttribute('data-title') || 'Video';
+    frame.setAttribute('allow', 'encrypted-media; picture-in-picture; fullscreen');
+    frame.setAttribute('allowfullscreen', '');
+    box.replaceWith(frame);
   });
+
+  const spotProfileId = (id) => /^rec[A-Za-z0-9]{10,20}$/.test(String(id || '')) ? String(id) : '';
+  function spotDate(d) {
+    const t = new Date(String(d || '') + 'T12:00:00');
+    return isNaN(t) ? '' : t.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'America/Chicago' });
+  }
+
+  async function loadSpotlight() {
+    const body = document.getElementById('spotlightBody');
+    let data;
+    try {
+      const res = await fetch('spotlight.json', { cache: 'no-cache' });
+      if (!res.ok) return;
+      data = await res.json();
+    } catch (e) { return; }   // keep the "coming soon" message
+
+    const cur = data && data.current;
+    const past = Array.isArray(data && data.past) ? data.past : [];
+    let html = '';
+
+    if (cur && cur.businessName) {
+      const pid = spotProfileId(cur.profileId);
+      const meta = [cur.ownerName, cur.category, cur.city ? cur.city + ', WI' : ''].filter(Boolean).join(' · ');
+      html += `<div class="spot-feature">
+        ${spotVideoHTML(cur)}
+        <div class="spot-text">
+          <div class="spot-now">Now featuring</div>
+          <h3>${esc(cur.businessName)}</h3>
+          <div class="spot-meta">${esc(meta)}</div>
+          ${cur.blurb ? `<p class="spot-blurb">${esc(cur.blurb)}</p>` : ''}
+          <div class="spot-actions">
+            ${pid ? `<a class="spot-btn" href="profile.html?id=${encodeURIComponent(pid)}">View full profile →</a>` : ''}
+            <a class="spot-btn alt" href="spotlight.html">Be featured next</a>
+          </div>
+        </div>
+      </div>`;
+    } else {
+      html += `<div class="spot-soon"><p>Our next 30 Seconds to Connect is coming soon. Want to be featured? It's free.</p><a href="spotlight.html" class="spot-btn">Be featured</a></div>`;
+    }
+
+    if (past.length) {
+      html += `<div class="spot-past"><h3>Past features</h3><div class="spot-past-grid">` + past.map(p => {
+        const pid = spotProfileId(p.profileId);
+        const when = spotDate(p.date);
+        const meta = [p.ownerName, when].filter(Boolean).join(' · ');
+        return `<div class="spot-past-card"><div class="pn">${esc(p.businessName)}</div><div class="pm">${esc(meta)}</div>${pid ? `<a href="profile.html?id=${encodeURIComponent(pid)}">View profile →</a>` : ''}</div>`;
+      }).join('') + `</div></div>`;
+    }
+    body.innerHTML = html;
+  }
 
   buildCatSelect();
   loadListings();

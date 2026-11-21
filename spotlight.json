@@ -1,0 +1,5 @@
+{
+  "_how_to_use": "Edit this file on GitHub to change the home-page spotlight. 'current' is the owner being featured now (set it to null to show the 'coming soon' message). When a feature ends, copy that person's details into the top of 'past' and replace 'current'. videoUrl must be a public https link (YouTube, Vimeo, TikTok, Instagram or Facebook). profileId is optional: the id at the end of their profile link, profile.html?id=recXXXXXXXXXXXXXX. date format: YYYY-MM-DD.",
+  "current": null,
+  "past": []
+}

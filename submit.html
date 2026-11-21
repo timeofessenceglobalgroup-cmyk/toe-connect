@@ -117,24 +117,6 @@
     header{flex-wrap:wrap;padding:14px 22px;row-gap:10px;}
     header nav{width:100%;flex-wrap:wrap;gap:8px 18px !important;}
   }
-
-  /* ---- shared site menu ---- */
-  header{flex-wrap:wrap;row-gap:10px;}
-  header nav{display:flex;gap:10px 24px;align-items:center;flex-wrap:wrap;justify-content:flex-end;}
-  header nav a{font-size:14px;color:rgba(251,250,247,0.78);text-decoration:none;white-space:nowrap;}
-  header nav a:hover,header nav a.current{color:#E8C468;}
-  header nav a.nav-cta{border:1px solid #C9A227;color:#E8C468;padding:9px 20px;border-radius:2px;}
-  header nav a.nav-cta:hover{background:#C9A227;color:#0E0E0C;}
-  .menu-btn{display:none;background:transparent;color:#E8C468;border:1px solid #C9A227;padding:10px 20px;font-family:'Jost',sans-serif;font-size:17px;border-radius:2px;cursor:pointer;}
-  .menu-btn:focus-visible,header nav a:focus-visible{outline:3px solid #E8C468;outline-offset:3px;}
-  @media(max-width:1120px){header nav{width:100%;justify-content:flex-start;}}
-  @media(max-width:860px){
-    .menu-btn{display:inline-block;}
-    header nav{display:none;flex-direction:column;align-items:stretch;gap:0 !important;}
-    header.open nav{display:flex;}
-    header nav a{font-size:18px;padding:14px 4px;border-top:1px solid rgba(251,250,247,0.14);white-space:normal;}
-    header nav a.nav-cta{text-align:center;margin-top:10px;padding:12px 16px;}
-  }
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0E0E0C">
@@ -153,15 +135,13 @@
     </svg>
     <span>TOE <span style="color:#E8C468;">Connect</span></span>
   </a>
-  <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="siteNav">Menu</button>
-  <nav id="siteNav">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="tips.html">Tips for Business Owners</a>
-    <a href="resources.html">Free Tools &amp; Resources</a>
-    <a href="events.html">Community Events</a>
-    <a href="verification.html">Verification &amp; Badges</a>
-    <a href="submit.html" class="nav-cta">Get listed</a>
+  <nav style="display:flex;gap:24px;align-items:center;">
+    <a href="about.html" style="font-size:14px;color:rgba(251,250,247,0.78);">About</a>
+    <a href="index.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Home</a>
+    <a href="tips.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Tips for Business Owners</a>
+    <a href="resources.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Free Tools &amp; Resources</a>
+    <a href="events.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Community Events</a>
+    <a href="verification.html" style="font-size:14px;color:rgba(251,250,247,0.78);">Verification &amp; Badges</a>
   </nav>
 </header>
 
@@ -604,13 +584,6 @@
       navigator.serviceWorker.register('/service-worker.js').catch(() => {});
     });
   }
-</script>
-<script>
-  document.getElementById('menuBtn').addEventListener('click', function () {
-    var open = document.querySelector('header').classList.toggle('open');
-    this.setAttribute('aria-expanded', open ? 'true' : 'false');
-    this.textContent = open ? 'Close' : 'Menu';
-  });
 </script>
 </body>
 </html>
