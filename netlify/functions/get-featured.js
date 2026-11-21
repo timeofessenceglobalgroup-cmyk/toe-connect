@@ -70,6 +70,7 @@ exports.handler = async function () {
       photoUrl: firstAttachmentUrl(f['Spotlight Photo']) || firstAttachmentUrl(f['Logo/Photo']),
       photoIsLogo: !firstAttachmentUrl(f['Spotlight Photo']) && !!firstAttachmentUrl(f['Logo/Photo']),
       bookingUrl: safeUrl(f['Booking Link']),
+      videoUrl: safeUrl(f['Video URL']),
       websiteUrl: safeUrl(f['Website / Social'])
     };
 
