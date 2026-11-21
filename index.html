@@ -435,6 +435,65 @@
   .foot-links{display:flex;gap:24px;flex-wrap:wrap;}
   .disclaimer-bar{background:var(--charcoal);color:rgba(251,250,247,0.78);font-size:13px;padding:14px 48px;text-align:center;}
 
+  /* ---------- 30 Seconds to Connect ---------- */
+  .spotlight{
+    background:var(--white);
+    border-bottom:1px solid var(--border);
+    padding:36px 48px;
+  }
+  .spotlight-inner{
+    max-width:1360px;
+    margin:0 auto;
+    background:#fff;
+    border:1px solid var(--border);
+    border-top:4px solid var(--gold);
+    display:grid;
+    grid-template-columns:260px minmax(0,1fr);
+  }
+  .spot-photo{
+    background:var(--charcoal);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--gold-light);
+    font-family:'Fraunces',serif;
+    font-size:56px;
+    min-height:260px;
+    overflow:hidden;
+  }
+  .spot-photo.has-img{background:#fff;border-right:1px solid var(--border);}
+  .spot-photo img{width:100%;height:100%;object-fit:cover;}
+  .spot-photo.has-img.logo img{object-fit:contain;padding:18px;}
+  .spot-body{padding:28px 32px 30px;}
+  .spot-eyebrow{
+    font-size:16px;
+    font-weight:500;
+    letter-spacing:0.8px;
+    text-transform:uppercase;
+    color:var(--gold-dark);
+    margin-bottom:6px;
+  }
+  .spot-title{font-size:30px;font-weight:500;line-height:1.2;margin-bottom:4px;}
+  .spot-sub{font-size:18px;color:var(--muted);margin-bottom:18px;}
+  .spot-qa{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-bottom:22px;}
+  .spot-q{font-size:15px;font-weight:500;color:var(--gold-dark);margin-bottom:4px;}
+  .spot-a{font-size:18px;line-height:1.5;color:var(--matte-black);}
+  .spot-desc{font-size:18px;line-height:1.5;color:var(--matte-black);margin-bottom:22px;max-width:820px;}
+  .spot-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+  .spot-btn{
+    display:inline-block;
+    font-size:18px;
+    font-weight:500;
+    padding:13px 26px;
+    border-radius:2px;
+    transition:background .18s ease;
+  }
+  .spot-btn.primary{background:var(--matte-black);color:var(--gold-light);}
+  .spot-btn.primary:hover{background:var(--charcoal);}
+  .spot-btn.gold{background:var(--gold);color:var(--matte-black);}
+  .spot-btn.gold:hover{background:var(--gold-light);}
+  .spot-btn:focus-visible{outline:3px solid var(--gold-dark);outline-offset:3px;}
+
   /* ---------- responsive ---------- */
   .wordmark, nav a{white-space:nowrap;}
   @media(max-width:1120px){
@@ -449,9 +508,15 @@
     .sidebar.open{display:block;}
     .filter-toggle{display:inline-block;}
     .grid{grid-template-columns:1fr 1fr;}
+    .spot-qa{grid-template-columns:1fr;gap:16px;}
   }
   @media(max-width:860px){
-    header,.hero,.steps,.founder-section,footer,.disclaimer-bar{padding-left:22px;padding-right:22px;}
+    header,.hero,.steps,.founder-section,footer,.disclaimer-bar,.spotlight{padding-left:22px;padding-right:22px;}
+    .spotlight-inner{grid-template-columns:1fr;}
+    .spot-photo{min-height:0;height:220px;}
+    .spot-photo.has-img{border-right:none;border-bottom:1px solid var(--border);}
+    .spot-body{padding:22px 20px 24px;}
+    .spot-title{font-size:26px;}
     .crumbs{padding-left:22px;padding-right:22px;}
     nav{display:none;}
     .hero-inner{grid-template-columns:minmax(0,1fr);gap:20px;}
@@ -513,6 +578,9 @@
     </div>
   </div>
 </section>
+
+<!-- 30 Seconds to Connect: stays hidden until a business is marked "30 Seconds Feature" in Airtable -->
+<section class="spotlight" id="spotlight" hidden aria-labelledby="spotTitle"></section>
 
 <div class="crumbs"><a href="index.html">Home</a><span>/</span><a href="index.html">Wisconsin</a><span>/</span>Black-owned business directory</div>
 
@@ -935,8 +1003,57 @@
     sidebar.classList.toggle('open');
   });
 
+  // ---- 30 Seconds to Connect ----
+  // Shows one featured owner under the search bar. If nobody is featured (or the lookup fails), the section stays hidden.
+  async function loadSpotlight() {
+    const box = document.getElementById('spotlight');
+    try {
+      const res = await fetch('/.netlify/functions/get-featured');
+      if (!res.ok) return;
+      const data = await res.json();
+      const f = data && data.featured;
+      if (!f) return;
+
+      const place = cityLine(f);
+      const sub = [f.businessName, f.category, place].filter(Boolean).join(' · ');
+      const heading = f.ownerName || f.businessName;
+
+      const qa = [
+        ['What I do', f.answer1],
+        ['What people should know', f.answer2],
+        ['How to connect with me', f.answer3]
+      ].filter(x => x[1]);
+      const body = qa.length
+        ? `<div class="spot-qa">${qa.map(x => `<div><div class="spot-q">${esc(x[0])}</div><div class="spot-a">${esc(x[1])}</div></div>`).join('')}</div>`
+        : (f.description ? `<p class="spot-desc">${esc(f.description)}</p>` : '');
+
+      const photo = f.photoUrl
+        ? `<div class="spot-photo has-img${f.photoIsLogo ? ' logo' : ''}"><img src="${esc(f.photoUrl)}" alt="${esc(f.ownerName ? f.ownerName + ' of ' + f.businessName : f.businessName)}"></div>`
+        : `<div class="spot-photo" aria-hidden="true">${esc(initials(f.businessName))}</div>`;
+
+      const actions = [`<a class="spot-btn primary" href="profile.html?id=${encodeURIComponent(f.id)}">View full profile</a>`];
+      if (f.bookingUrl) actions.push(`<a class="spot-btn gold" href="${esc(f.bookingUrl)}" target="_blank" rel="noopener">Book now</a>`);
+
+      box.innerHTML = `
+        <div class="spotlight-inner">
+          ${photo}
+          <div class="spot-body">
+            <div class="spot-eyebrow">30 Seconds to Connect</div>
+            <h2 class="spot-title" id="spotTitle">${esc(heading)}</h2>
+            <div class="spot-sub">${esc(sub)}</div>
+            ${body}
+            <div class="spot-actions">${actions.join('')}</div>
+          </div>
+        </div>`;
+      box.hidden = false;
+    } catch (err) {
+      /* leave the section hidden */
+    }
+  }
+
   buildCatSelect();
   loadListings();
+  loadSpotlight();
 </script>
 
 <script>
