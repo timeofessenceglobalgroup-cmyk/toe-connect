@@ -148,6 +148,7 @@ exports.handler = async function (event) {
   if (String(data.fullbio || '').trim().split(/\s+/).filter(Boolean).length > 300) missing.push('fullbio');
   if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) missing.push('email');
   if (!data.blackOwned) missing.push('blackOwned');
+  if (!data.termsAccepted) missing.push('termsAccepted');
   if (needsLicense && !data.license) missing.push('license');
   if (bookingInvalid) missing.push('booking');
   if (videoInvalid) missing.push('video');
@@ -198,6 +199,9 @@ exports.handler = async function (event) {
   // This never blocks a submission: a lookup problem is ignored, and a match only adds a flag for you to review.
   // The owner is not told whether a match was found (that would reveal who is already listed).
   const duplicateFields = {};
+  // Record the date the owner agreed to the Terms of Use (Chicago time, YYYY-MM-DD).
+  // If the "Terms Accepted" column has not been added in Airtable yet, the listing is still saved without it.
+  duplicateFields['Terms Accepted'] = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Chicago' });
   try {
     const dups = await findPossibleDuplicates({ baseId, apiKey, table, email: data.email, phone: data.phone });
     if (dups.length) {
@@ -221,7 +225,7 @@ exports.handler = async function (event) {
     let res = await createRecord({ ...fields, ...duplicateFields });
     let result = await res.json();
 
-    // If the two flag columns haven't been added in Airtable yet, save the listing without them rather than lose it.
+    // If the extra columns (duplicate flags, Terms Accepted) haven't been added in Airtable yet, save the listing without them rather than lose it.
     if (!res.ok && res.status === 422 && Object.keys(duplicateFields).length) {
       res = await createRecord(fields);
       result = await res.json();
