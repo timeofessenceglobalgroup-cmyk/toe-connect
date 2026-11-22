@@ -175,6 +175,10 @@
   </div>
 
   <form id="listing-form" novalidate>
+    <div aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+      <label for="fax_number">Leave this field empty</label>
+      <input type="text" id="fax_number" name="fax_number" tabindex="-1" autocomplete="off">
+    </div>
     <fieldset>
       <legend>Business details</legend>
       <div class="field" data-required="true">
@@ -373,6 +377,7 @@
 
 <script>
   const isRemote = document.getElementById('is-remote');
+  const formStartedAt = Date.now();
 
   const categorySelect = document.getElementById('category');
   const licenseField = document.getElementById('license-field');
@@ -567,6 +572,8 @@
       womenOwned: document.getElementById('women-owned').checked,
       mbeCert: document.getElementById('mbeCert').value.trim(),
       termsAccepted: document.getElementById('terms').checked,
+      hp: document.getElementById('fax_number').value,
+      elapsedMs: Date.now() - formStartedAt,
       donationAmount: donateAmount === 'other' ? Number(otherInput.value) || 0 : (donateAmount || 0)
     };
 

@@ -74,6 +74,8 @@
     transition:background .18s ease, color .18s ease;
   }
   .nav-cta:hover{background:var(--gold);color:var(--matte-black) !important;}
+  .menu-btn{display:none;background:transparent;color:var(--gold-light);border:1px solid var(--gold);padding:10px 20px;font-family:'Jost',sans-serif;font-size:17px;border-radius:2px;cursor:pointer;}
+  .menu-btn:focus-visible,nav a:focus-visible{outline:3px solid var(--gold-light);outline-offset:3px;}
 
   /* ---------- hero ---------- */
   .hero{
@@ -182,20 +184,28 @@
     margin-bottom:10px;
   }
   .cat-list{list-style:none;max-height:none;overflow-y:auto;margin:0 -6px;padding:0 6px;}
-  .cat-list li{
+  .cat-btn{
     display:flex;
     justify-content:space-between;
     gap:8px;
+    width:100%;
+    font-family:inherit;
     font-size:15px;
+    line-height:1.5;
+    text-align:left;
     padding:8px 10px;
+    border:none;
     border-radius:2px;
+    background:none;
     cursor:pointer;
     color:#3a3833;
     transition:background .12s ease;
   }
-  .cat-list li:hover{background:var(--paper);}
-  .cat-list li.active{background:var(--matte-black);color:var(--gold-light);font-weight:500;}
-  .cat-list li.more{color:var(--gold-dark);text-decoration:underline;font-size:14px;justify-content:flex-start;}
+  .cat-btn:hover{background:var(--paper);}
+  .cat-btn:focus-visible{outline:3px solid var(--gold-dark);outline-offset:1px;}
+  .cat-btn.active{background:var(--matte-black);color:var(--gold-light);font-weight:500;}
+  .cat-btn.active:focus-visible{outline-color:var(--gold);}
+  .cat-btn.more{color:var(--gold-dark);text-decoration:underline;font-size:14px;justify-content:flex-start;}
   .more-btn{
     background:var(--matte-black);
     color:var(--gold-light);
@@ -207,10 +217,10 @@
     cursor:pointer;
   }
   .more-btn:hover{background:var(--charcoal);}
-  .cat-list li.empty{color:#4a4842;}
-  .cat-list li.empty.active{color:var(--gold-light);}
-  .cat-list li .n{color:#5c5a54;font-size:13px;align-self:center;}
-  .cat-list li.active .n{color:rgba(232,196,104,0.7);}
+  .cat-list .cat-btn.empty{color:#4a4842;}
+  .cat-list .cat-btn.empty.active{color:var(--gold-light);}
+  .cat-btn .n{color:#5c5a54;font-size:13px;align-self:center;}
+  .cat-btn.active .n{color:rgba(232,196,104,0.7);}
   .check{
     display:flex;
     align-items:center;
@@ -491,7 +501,11 @@
   @media(max-width:860px){
     header,.hero,.steps,.founder-section,footer,.disclaimer-bar,.copyright-bar{padding-left:22px;padding-right:22px;}
     .crumbs{padding-left:22px;padding-right:22px;}
-    nav{display:none;}
+    .menu-btn{display:inline-block;}
+    nav{display:none;flex-direction:column;align-items:stretch;gap:0;}
+    header.open nav{display:flex;}
+    nav a{font-size:18px;padding:14px 4px;border-top:1px solid rgba(251,250,247,0.14);white-space:normal;}
+    nav a.nav-cta{text-align:center;margin-top:10px;padding:12px 16px;}
     .hero-inner{grid-template-columns:minmax(0,1fr);gap:20px;}
     .logo-crop{width:150px;}
     .hero h1{font-size:30px;}
@@ -525,7 +539,8 @@
     </svg>
     <span>TOE <em>Connect</em></span>
   </a>
-  <nav>
+  <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="siteNav">Menu</button>
+  <nav id="siteNav">
     <a href="about.html">About</a>
     <a href="tips.html">Tips for Business Owners</a>
     <a href="resources.html">Free Tools &amp; Resources</a>
@@ -594,7 +609,7 @@
       <div><span id="count">0</span> businesses listed</div>
       <div class="bar-right">
         <select id="sortSelect" aria-label="Sort results">
-          <option value="default">Sort: Featured</option>
+          <option value="default">Sort: Default</option>
           <option value="az">Name A–Z</option>
           <option value="za">Name Z–A</option>
           <option value="verified">Most verified</option>
@@ -784,7 +799,6 @@
   }
 
   function cardHTML(item) {
-    const flag = item.supporter ? '<div class="featured-flag">Supporter</div>' : '';
     const modeTags = [];
     if (item.inPersonService) modeTags.push('in-person');
     if (item.servesRemotely) modeTags.push('also serves clients virtually');
@@ -824,7 +838,6 @@
       <div class="card" data-cat="${esc(item.category)}">
         ${cardPhoto}
         <div class="card-body">
-          ${flag}
           <div class="card-tag">${esc(item.category)}${womenTag}</div>
           <h3>${esc(item.name)}</h3>
           <div class="card-loc">${esc(loc)}</div>
@@ -874,12 +887,22 @@
     if (!catExpanded && activeCat !== 'all' && !ordered.includes(activeCat)) ordered = ordered.concat(activeCat);
     const total = Object.values(counts).reduce((a, b) => a + b, 0);
 
-    let html = `<li data-cat="all" class="${activeCat === 'all' ? 'active' : ''}"><span>All categories</span><span class="n">${total}</span></li>`;
-    html += ordered.map(c => `<li data-cat="${esc(c)}" class="${activeCat === c ? 'active' : ''}${counts[c] ? '' : ' empty'}"><span>${esc(c)}</span><span class="n">${counts[c] || 0}</span></li>`).join('');
+    // remember which button had keyboard focus, because the list is rebuilt below
+    const prev = document.activeElement;
+    const focusKey = prev && prev.closest && prev.closest('#catList') ? (prev.dataset.more ? '__more__' : prev.dataset.cat) : null;
+
+    let html = `<li><button type="button" class="cat-btn${activeCat === 'all' ? ' active' : ''}" data-cat="all" aria-pressed="${activeCat === 'all'}"><span>All categories</span><span class="n">${total}</span></button></li>`;
+    html += ordered.map(c => `<li><button type="button" class="cat-btn${activeCat === c ? ' active' : ''}${counts[c] ? '' : ' empty'}" data-cat="${esc(c)}" aria-pressed="${activeCat === c}"><span>${esc(c)}</span><span class="n">${counts[c] || 0}</span></button></li>`).join('');
     if (all.length > LIMIT) {
-      html += `<li class="more" data-more="1">${catExpanded ? 'Show fewer categories' : 'Show all ' + all.length + ' categories'}</li>`;
+      html += `<li><button type="button" class="cat-btn more" data-more="1" aria-expanded="${catExpanded}">${catExpanded ? 'Show fewer categories' : 'Show all ' + all.length + ' categories'}</button></li>`;
     }
     catList.innerHTML = html;
+
+    if (focusKey) {
+      const btns = Array.from(catList.querySelectorAll('.cat-btn'));
+      const target = btns.find(b => focusKey === '__more__' ? b.dataset.more === '1' : b.dataset.cat === focusKey);
+      if (target) target.focus();
+    }
   }
 
   function buildCatSelect() {
@@ -935,9 +958,9 @@
 
   // ---- events ----
   catList.addEventListener('click', (e) => {
-    const more = e.target.closest('li[data-more]');
+    const more = e.target.closest('button[data-more]');
     if (more) { catExpanded = !catExpanded; renderCategories(); return; }
-    const li = e.target.closest('li[data-cat]');
+    const li = e.target.closest('button[data-cat]');
     if (!li) return;
     activeCat = li.dataset.cat;
     render();
@@ -1108,6 +1131,12 @@
     }
     body.innerHTML = html;
   }
+
+  document.getElementById('menuBtn').addEventListener('click', function () {
+    const open = document.querySelector('header').classList.toggle('open');
+    this.setAttribute('aria-expanded', open ? 'true' : 'false');
+    this.textContent = open ? 'Close' : 'Menu';
+  });
 
   buildCatSelect();
   loadListings();
