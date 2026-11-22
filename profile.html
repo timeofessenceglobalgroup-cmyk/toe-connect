@@ -9,6 +9,12 @@
 <link rel="apple-touch-icon" href="favicon-180.png">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0E0E0C">
+<meta name="description" content="Find and support Wisconsin Black-owned businesses on TOE Connect, a free directory.">
+<meta property="og:site_name" content="TOE Connect">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TOE Connect — Business Profile">
+<meta property="og:description" content="Find and support Wisconsin Black-owned businesses on TOE Connect, a free directory.">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Jost:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -112,8 +118,7 @@
 
 <script>
   // Works out how to show a video link. Returns { kind, embed, link, label } or null.
-  //  kind 'direct'  = YouTube/Vimeo, plays straight away
-  //  kind 'social'  = TikTok/Instagram/Facebook, plays only after a click (loads content from that company)
+  //  kind 'social'  = YouTube/Vimeo/TikTok/Instagram/Facebook, plays only after a click (loads content from that company)
   //  kind 'link'    = any other https link, shown as a "Watch video" button
   function parseVideo(url) {
     let u;
@@ -128,11 +133,11 @@
       if (host === 'youtu.be') { m = path.match(/^\/([\w-]{11})/); id = m && m[1]; }
       else if ((m = path.match(/^\/(?:shorts|embed|live)\/([\w-]{11})/))) id = m[1];
       else if (path === '/watch') { const v = u.searchParams.get('v'); if (v && /^[\w-]{11}$/.test(v)) id = v; }
-      if (id) return { kind: 'direct', embed: `https://www.youtube.com/embed/${id}`, link, label: 'YouTube', ratio: 'wide' };
+      if (id) return { kind: 'social', embed: `https://www.youtube-nocookie.com/embed/${id}`, link, label: 'YouTube', ratio: 'wide' };
     }
     if (host === 'vimeo.com') {
       const m = path.match(/^\/(?:\w+\/)*(\d{6,})/);
-      if (m) return { kind: 'direct', embed: `https://player.vimeo.com/video/${m[1]}`, link, label: 'Vimeo', ratio: 'wide' };
+      if (m) return { kind: 'social', embed: `https://player.vimeo.com/video/${m[1]}?dnt=1`, link, label: 'Vimeo', ratio: 'wide' };
     }
     if (host === 'tiktok.com') {
       const m = path.match(/^\/@[\w.\-]+\/video\/(\d{8,25})/);
@@ -173,12 +178,12 @@
     if (!btn || btn.tagName !== 'BUTTON') return;
     const box = btn.closest('.video-social');
     const src = box && box.getAttribute('data-embed');
-    if (!src || !/^https:\/\/(www\.tiktok\.com|www\.instagram\.com|www\.facebook\.com)\//.test(src)) return;
+    if (!src || !/^https:\/\/(www\.tiktok\.com|www\.instagram\.com|www\.facebook\.com|www\.youtube-nocookie\.com|player\.vimeo\.com)\//.test(src)) return;
     const frame = document.createElement('iframe');
     frame.className = 'video-embed ' + (box.classList.contains('tall') ? 'tall' : 'wide');
-    frame.src = src;
+    frame.src = /^https:\/\/(www\.youtube-nocookie\.com|player\.vimeo\.com)\//.test(src) ? src + (src.includes('?') ? '&' : '?') + 'autoplay=1' : src;
     frame.title = box.getAttribute('data-title') || 'Video';
-    frame.setAttribute('allow', 'encrypted-media; picture-in-picture; fullscreen');
+    frame.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
     frame.setAttribute('allowfullscreen', '');
     box.replaceWith(frame);
   });
@@ -252,7 +257,21 @@
 
   const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
+  // Updates the tab title and description for this business (browsers and search engines that run scripts).
+  function setPageMeta(b) {
+    const name = String(b.name || '').trim();
+    if (!name) return;
+    const where = [b.category, b.city].filter(Boolean).join(' in ');
+    const desc = (where ? name + ' — ' + where + ', Wisconsin. ' : name + '. ') + 'Listed free on TOE Connect, the Wisconsin Black-owned business directory.';
+    document.title = name + ' — TOE Connect';
+    const set = (sel, attr, val) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
+    set('meta[name="description"]', 'content', desc);
+    set('meta[property="og:title"]', 'content', document.title);
+    set('meta[property="og:description"]', 'content', desc);
+  }
+
   function render(b) {
+    setPageMeta(b);
     const content = document.getElementById('content');
 
     const videoHTML = videoHtml(b);
