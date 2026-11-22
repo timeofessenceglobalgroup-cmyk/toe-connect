@@ -344,6 +344,14 @@
       </div>
     </fieldset>
 
+    <div class="field" data-required="true" id="terms-field" style="border:1px solid #D8D5CA;padding:16px 18px;background:#F6F4EC;">
+      <label style="display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--matte-black);cursor:pointer;margin-bottom:0;">
+        <input type="checkbox" id="terms" name="terms" style="width:auto;margin-top:5px;">
+        <span>I agree to the <a href="terms.html" target="_blank" rel="noopener" style="color:#8A6A0E;text-decoration:underline;">Terms of Use</a> and give TOE Connect permission to display my listing details, name and logo on the directory and in materials that promote it. I keep ownership of my content and can ask to update or remove my listing anytime.</span>
+      </label>
+      <div class="error">Check this box to submit your listing.</div>
+    </div>
+
     <button type="submit">Submit for review</button>
     <p class="submit-hint">Listings are reviewed before they appear publicly.</p>
     <p class="submit-hint" style="margin-top:6px;">By submitting, you agree to our verification process — see full <a href="verification.html" style="color:#5c5a54;text-decoration:underline;">Verification Notice</a>.</p>
@@ -558,6 +566,7 @@
       blackOwned: document.getElementById('black-owned').checked,
       womenOwned: document.getElementById('women-owned').checked,
       mbeCert: document.getElementById('mbeCert').value.trim(),
+      termsAccepted: document.getElementById('terms').checked,
       donationAmount: donateAmount === 'other' ? Number(otherInput.value) || 0 : (donateAmount || 0)
     };
 
