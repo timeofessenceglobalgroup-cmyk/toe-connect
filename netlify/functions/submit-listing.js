@@ -81,6 +81,11 @@ exports.handler = async function (event) {
     };
   }
 
+  // A real listing is a few kilobytes at most; refuse anything much larger.
+  if (String(event.body || '').length > 30000) {
+    return { statusCode: 413, body: JSON.stringify({ error: 'Request too large' }) };
+  }
+
   let data;
   try {
     data = JSON.parse(event.body || '{}');
@@ -157,6 +162,18 @@ exports.handler = async function (event) {
     return {
       statusCode: 400,
       body: JSON.stringify({ error: 'Missing or invalid fields', missing })
+    };
+  }
+
+  // --- Bot checks ---
+  // A hidden field that real visitors never see, and a form submitted in under 3 seconds, are treated as bots.
+  // Bots get a normal-looking success reply so they cannot tell what tripped the check. Nothing is saved.
+  const elapsed = Number(data.elapsedMs);
+  if (data.hp || !Number.isFinite(elapsed) || elapsed < 3000) {
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({ success: true })
     };
   }
 
