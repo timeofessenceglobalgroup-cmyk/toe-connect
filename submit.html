@@ -167,6 +167,12 @@
       <input type="checkbox" id="women-owned" name="women-owned" style="width:auto;margin-top:3px;">
       <span>This business is also majority women-owned <span style="color:#6b6860;">(optional)</span></span>
     </label>
+    <label style="display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--matte-black);cursor:pointer;margin-top:12px;padding-top:12px;border-top:1px solid #E4E1D8;">
+      <input type="checkbox" id="veteran-owned" name="veteran-owned" style="width:auto;margin-top:3px;">
+      <span>Veteran Owned <span style="color:#6b6860;">(optional)</span>
+        <span class="hint" style="display:block;">Check this if you are a veteran who owns this business. It is shown as reported by you and is not verified by TOE Connect.</span>
+      </span>
+    </label>
     <div style="margin-top:12px;padding-top:12px;border-top:1px solid #E4E1D8;">
       <label for="mbeCert" style="font-size:15px;color:#5c5a54;margin-bottom:6px;display:block;">WI MBE or other third-party certification number <span style="color:#6b6860">(optional)</span></label>
       <input type="text" id="mbeCert" name="mbeCert" placeholder="Certification number, if you have one" style="width:100%;border:1px solid #D8D5CA;border-radius:2px;padding:10px 12px;font-family:'Jost',sans-serif;font-size:16px;">
@@ -217,7 +223,7 @@
       <div class="field" id="license-field" style="display:none;">
         <label for="license">License or certification number</label>
         <input type="text" id="license" name="license" placeholder="State license or certification #">
-        <div class="hint">Required for childcare and home health listings — this earns your listing a verified badge.</div>
+        <div class="hint">Required for childcare, home health, medical and dental care, and mental health listings. Please enter a current, valid license number. This can earn your listing a verified badge.</div>
         <div class="error">Enter a license or certification number.</div>
       </div>
       <div class="field">
@@ -570,6 +576,7 @@
       isMobile: document.getElementById('is-mobile').checked,
       blackOwned: document.getElementById('black-owned').checked,
       womenOwned: document.getElementById('women-owned').checked,
+      veteranOwned: document.getElementById('veteran-owned').checked,
       mbeCert: document.getElementById('mbeCert').value.trim(),
       termsAccepted: document.getElementById('terms').checked,
       hp: document.getElementById('fax_number').value,
