@@ -159,6 +159,7 @@ exports.handler = async function (event) {
       inPersonService: !!record.fields['In-Person Service'],
       supporter: !!record.fields['Supporter'],
       womenOwned: !!record.fields['Women-Owned'],
+      veteranOwned: !!record.fields['Veteran-Owned'],
       businessVerified: !!record.fields['DFI Checked'],
       licenseVerified: !!record.fields['License Checked'],
       ownershipReviewed: !!record.fields['Ownership Reviewed'],

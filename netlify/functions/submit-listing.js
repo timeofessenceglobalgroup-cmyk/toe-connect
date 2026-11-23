@@ -219,6 +219,8 @@ exports.handler = async function (event) {
   // Record the date the owner agreed to the Terms of Use (Chicago time, YYYY-MM-DD).
   // If the "Terms Accepted" column has not been added in Airtable yet, the listing is still saved without it.
   duplicateFields['Terms Accepted'] = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Chicago' });
+  // Optional, owner-reported tag. Kept with the extra columns so a listing still saves if the "Veteran-Owned" column is not in Airtable yet.
+  if (data.veteranOwned) duplicateFields['Veteran-Owned'] = true;
   try {
     const dups = await findPossibleDuplicates({ baseId, apiKey, table, email: data.email, phone: data.phone });
     if (dups.length) {
