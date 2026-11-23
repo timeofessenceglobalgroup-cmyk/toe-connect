@@ -71,6 +71,7 @@ exports.handler = async function (event) {
       supporter: !!r.fields['Supporter'],
       verified: !!r.fields['Verified'],
       womenOwned: !!r.fields['Women-Owned'],
+      veteranOwned: !!r.fields['Veteran-Owned'],
       videoUrl: r.fields['Video URL'] || '',
       bookingUrl: safeUrl(r.fields['Booking Link']),
       logoUrl: (r.fields['Logo/Photo'] && r.fields['Logo/Photo'][0] && r.fields['Logo/Photo'][0].url) || '',
