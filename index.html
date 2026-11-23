@@ -367,7 +367,8 @@
     margin-bottom:8px;
     align-self:flex-start;
   }
-  .women-tag{font-size:13px;color:var(--gold-dark);border:1px solid var(--gold);padding:2px 8px;border-radius:10px;margin-left:8px;}
+  .owner-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+  .women-tag{font-size:13px;color:var(--gold-dark);border:1px solid var(--gold);padding:2px 10px;border-radius:10px;white-space:nowrap;}
 
   /* list view */
   .grid.list{grid-template-columns:1fr;gap:16px;}
@@ -817,8 +818,9 @@
       : (item.homeBased ? '<div class="card-line">🏠 Home-based · address private</div>' : '');
     const hoursText = hoursLine(item);
     const hoursRow = hoursText ? `<div class="card-line">🕒 ${esc(hoursText)}</div>` : '';
-    const womenTag = (item.womenOwned ? '<span class="women-tag">Women-owned</span>' : '') +
+    const ownerTags = (item.womenOwned ? '<span class="women-tag">Women-owned</span>' : '') +
       (item.veteranOwned ? '<span class="women-tag">Veteran-owned</span>' : '');
+    const ownerTagRow = ownerTags ? `<div class="owner-tags">${ownerTags}</div>` : '';
     const videoLink = item.videoUrl ? `<a href="${esc(item.videoUrl)}" target="_blank" rel="noopener" class="video-link">▶ Meet the Owner</a>` : '';
 
     const badges = [];
@@ -846,7 +848,8 @@
       <div class="card" data-cat="${esc(item.category)}">
         ${cardPhoto}
         <div class="card-body">
-          <div class="card-tag">${esc(item.category)}${womenTag}</div>
+          <div class="card-tag">${esc(item.category)}</div>
+          ${ownerTagRow}
           <h3>${esc(item.name)}</h3>
           <div class="card-loc">${esc(loc)}</div>
           ${addressLine}
