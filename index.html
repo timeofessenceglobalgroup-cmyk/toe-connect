@@ -368,6 +368,15 @@
     align-self:flex-start;
   }
   .owner-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+  /* Grid view: every card reserves the same space for each section so all cards line up row for row. */
+  .grid:not(.list) .owner-tags{min-height:26px;align-content:flex-start;}
+  .grid:not(.list) .card h3{min-height:57px;}
+  .grid:not(.list) .card-loc{min-height:45px;}
+  .grid:not(.list) .card-info{min-height:50px;}
+  .grid:not(.list) .card-desc{min-height:72px;}
+  .grid:not(.list) .badges{min-height:32px;}
+  .grid:not(.list) .contact{min-height:52px;}
+  .grid:not(.list) .book-slot{min-height:56px;}
   .women-tag{font-size:13px;color:var(--gold-dark);border:1px solid var(--gold);padding:2px 10px;border-radius:10px;white-space:nowrap;}
 
   /* list view */
@@ -829,15 +838,16 @@
     if (item.ownershipReviewed) badges.push('<span class="badge b-green">✓ Black-Owned — Attested &amp; Reviewed</span>');
     if (item.mbeCertified) badges.push('<span class="badge b-gold">🏆 WI MBE Certified</span>');
     if (item.videoUrl) badges.push('<span class="badge b-purple">🎥 Owner Spotlight</span>');
-    const badgeRow = badges.length ? `<div class="badges">${badges.join('')}</div>` : '';
+    const badgeRow = `<div class="badges">${badges.join('')}</div>`;
 
     const contactLines = [];
     if (item.phone) contactLines.push(`<a href="tel:${esc(phoneDigits(item.phone))}">📞 ${esc(formatPhone(item.phone))}</a>`);
     if (item.email) contactLines.push(`<a href="mailto:${esc(item.email)}">✉ ${esc(item.email)}</a>`);
-    const contactRow = contactLines.length ? `<div class="contact">${contactLines.join('')}</div>` : '';
+    const contactRow = `<div class="contact">${contactLines.join('')}</div>`;
 
     const bookBtn = (item.bookingUrl && /^https:\/\//i.test(item.bookingUrl))
       ? `<a href="${esc(item.bookingUrl)}" target="_blank" rel="noopener" class="book-btn">Book now</a>` : '';
+    const bookSlot = `<div class="book-slot">${bookBtn}</div>`;
 
     const profileLink = `<a href="profile.html?id=${encodeURIComponent(item.id)}" class="card-link">View full profile →</a>`;
     const cardPhoto = item.logoUrl
@@ -852,12 +862,11 @@
           ${ownerTagRow}
           <h3>${esc(item.name)}</h3>
           <div class="card-loc">${esc(loc)}</div>
-          ${addressLine}
-          ${hoursRow}
+          <div class="card-info">${addressLine}${hoursRow}</div>
           <div class="card-desc">${esc(item.description)}</div>
           ${badgeRow}
           ${contactRow}
-          ${bookBtn}
+          ${bookSlot}
           ${videoLink}
           <div class="spacer"></div>
           ${profileLink}
