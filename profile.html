@@ -218,6 +218,7 @@
     inPersonService: true,
     supporter: true,
     womenOwned: true,
+    veteranOwned: true,
     businessVerified: true,
     licenseVerified: false,
     ownershipReviewed: true,
@@ -323,7 +324,8 @@
       [b.licenseVerified, '✓ License Verified', '#EFF6EC', '#2F6B3A'],
       [b.ownershipReviewed, '✓ Black-Owned — Attested & Reviewed', '#EFF6EC', '#2F6B3A'],
       [b.mbeCertified, '🏆 WI MBE Certified', '#FBF3DC', '#8A6A0E'],
-      [b.womenOwned, 'Women-owned', '#FBF3DC', '#8A6A0E']
+      [b.womenOwned, 'Women-owned', '#FBF3DC', '#8A6A0E'],
+      [b.veteranOwned, 'Veteran-owned', '#FBF3DC', '#8A6A0E']
     ];
     const badgesHTML = badgeDefs
       .filter(([show]) => show)

@@ -817,7 +817,8 @@
       : (item.homeBased ? '<div class="card-line">🏠 Home-based · address private</div>' : '');
     const hoursText = hoursLine(item);
     const hoursRow = hoursText ? `<div class="card-line">🕒 ${esc(hoursText)}</div>` : '';
-    const womenTag = item.womenOwned ? '<span class="women-tag">Women-owned</span>' : '';
+    const womenTag = (item.womenOwned ? '<span class="women-tag">Women-owned</span>' : '') +
+      (item.veteranOwned ? '<span class="women-tag">Veteran-owned</span>' : '');
     const videoLink = item.videoUrl ? `<a href="${esc(item.videoUrl)}" target="_blank" rel="noopener" class="video-link">▶ Meet the Owner</a>` : '';
 
     const badges = [];
