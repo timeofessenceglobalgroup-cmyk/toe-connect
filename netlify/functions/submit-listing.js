@@ -177,8 +177,6 @@ exports.handler = async function (event) {
     };
   }
 
-  const donationAmount = Number(data.donationAmount) || 0;
-
   const fields = {
     'Business Name': data.bizname,
     'Category': data.category,
@@ -203,8 +201,6 @@ exports.handler = async function (event) {
     'In-Person Service': !!data.isInPerson,
     'Serves Remotely': !!data.isRemote,
     'Mobile Service': !!data.isMobile,
-    'Donation Amount': donationAmount,
-    'Supporter': donationAmount > 0,
     'Black-Owned Confirmed': !!data.blackOwned,
     'Women-Owned': !!data.womenOwned,
     'MBE Certification Number': data.mbeCert || '',
