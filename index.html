@@ -388,7 +388,7 @@
   .status-msg{grid-column:1/-1;font-size:16px;color:var(--muted-2);padding:12px 0;}
 
 
-  /* ---------- 30 Seconds to Connect ---------- */
+  /* ---------- Owner Spotlight ---------- */
   .spotlight{background:var(--matte-black);color:var(--white);padding:56px 48px;border-top:1px solid rgba(201,162,39,0.35);}
   .spot-inner{max-width:1100px;margin:0 auto;}
   .spot-eyebrow{font-size:15px;color:var(--gold-light);font-weight:500;letter-spacing:0.4px;margin-bottom:10px;}
@@ -646,12 +646,12 @@
 
 <section class="spotlight" id="spotlight" aria-labelledby="spotlight-title">
   <div class="spot-inner">
-    <div class="spot-eyebrow">30 Seconds to Connect</div>
+    <div class="spot-eyebrow">Owner Spotlight</div>
     <h2 id="spotlight-title">Meet a Wisconsin business owner in 30 seconds</h2>
     <p class="spot-sub">One owner at a time, in their own words. Free to be featured.</p>
     <div id="spotlightBody">
       <div class="spot-soon">
-        <p>Our first 30 Seconds to Connect is coming soon. Want to be featured? It's free.</p>
+        <p>Our first Owner Spotlight is coming soon. Want to be featured? It's free.</p>
         <a href="spotlight.html" class="spot-btn">Be featured</a>
       </div>
     </div>
@@ -703,7 +703,7 @@
     <a href="verification.html">Verification &amp; Badges</a>
     <a href="submit.html">Get listed</a>
     <a href="support.html">Support TOE Connect</a>
-    <a href="spotlight.html">30 Seconds to Connect</a>
+    <a href="spotlight.html">Owner Spotlight</a>
     <a href="about.html">About</a>
     <a href="faq.html">FAQ</a>
     <a href="contact.html">Contact</a>
@@ -1037,7 +1037,7 @@
   });
 
 
-  // ---- 30 Seconds to Connect (reads spotlight.json; edit that file to change the feature) ----
+  // ---- Owner Spotlight (reads spotlight.json; edit that file to change the feature) ----
   function parseVideo(url) {
     let u;
     try { u = new URL(String(url || '').trim()); } catch (e) { return null; }
@@ -1155,7 +1155,7 @@
         </div>
       </div>`;
     } else {
-      html += `<div class="spot-soon"><p>Our next 30 Seconds to Connect is coming soon. Want to be featured? It's free.</p><a href="spotlight.html" class="spot-btn">Be featured</a></div>`;
+      html += `<div class="spot-soon"><p>Our next Owner Spotlight is coming soon. Want to be featured? It's free.</p><a href="spotlight.html" class="spot-btn">Be featured</a></div>`;
     }
 
     if (past.length) {
