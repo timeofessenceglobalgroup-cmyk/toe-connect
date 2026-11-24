@@ -90,19 +90,6 @@
   }
   .free-banner b{color:var(--gold-light);}
 
-  .donate-box{
-    border:1px solid #D8D5CA;padding:22px;border-radius:2px;background:#F6F4EC;
-  }
-  .donate-box p{font-size:15px;color:#5c5a54;margin-bottom:14px;}
-  .donate-options{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
-  .donate-chip{
-    border:1px solid #D8D5CA;padding:9px 18px;font-size:16px;border-radius:20px;
-    cursor:pointer;background:var(--white);
-    transition:border-color .15s ease, background .15s ease;
-  }
-  .donate-chip:hover{border-color:var(--gold);}
-  .donate-chip.active{background:var(--gold);border-color:var(--gold);color:var(--matte-black);font-weight:500;}
-
   button[type=submit]{
     background:var(--matte-black);color:var(--white);border:none;
     padding:15px 32px;font-family:'Jost',sans-serif;font-size:17px;font-weight:500;
@@ -337,23 +324,6 @@
       </div>
     </fieldset>
 
-    <fieldset>
-      <legend>Support the directory <span style="color:#6b6860;font-weight:400;font-size:16px;">(optional)</span></legend>
-      <div class="donate-box">
-        <p>Whatever stage your business is at, if you'd like to help keep this free for the next new business owner, you can add a one-time contribution. This is never required to be listed. Time of Essence Global Group, LLC is not a registered nonprofit, so contributions are not tax-deductible.</p>
-        <div class="donate-options">
-          <div class="donate-chip" data-amt="0">No thanks</div>
-          <div class="donate-chip" data-amt="10">$10</div>
-          <div class="donate-chip" data-amt="25">$25</div>
-          <div class="donate-chip" data-amt="50">$50</div>
-          <div class="donate-chip" data-amt="other">Other amount</div>
-        </div>
-        <input type="text" id="donate-other" placeholder="Enter an amount" style="display:none;max-width:200px;margin-bottom:14px;">
-        <a href="https://square.link/u/6SFe8Qel" target="_blank" rel="noopener" class="contribute-btn" style="display:inline-block;background:var(--matte-black);color:var(--white);padding:11px 22px;font-size:15px;font-weight:500;border-radius:2px;">Contribute now →</a>
-        <div class="hint" style="margin-top:8px;">Opens a secure payment page in a new tab. Come back here to finish your listing after.</div>
-      </div>
-    </fieldset>
-
     <div class="field" data-required="true" id="terms-field" style="border:1px solid #D8D5CA;padding:16px 18px;background:#F6F4EC;">
       <label style="display:flex;align-items:flex-start;gap:10px;font-size:16px;color:var(--matte-black);cursor:pointer;margin-bottom:0;">
         <input type="checkbox" id="terms" name="terms" style="width:auto;margin-top:5px;">
@@ -372,6 +342,11 @@
   <div id="success-message" style="display:none;text-align:center;padding:40px 20px;">
     <h2 style="font-size:26px;margin-bottom:12px;">Thank you!</h2>
     <p style="font-size:17px;color:#5c5a54;max-width:400px;margin:0 auto;">Your listing has been submitted for review. You'll see it live on the directory once it's approved, usually within a few days.</p>
+    <div style="max-width:440px;margin:28px auto 0;padding:18px 20px;border:1px solid #D8D5CA;background:#F6F4EC;text-align:left;">
+      <p style="font-size:16px;color:#3a3833;margin:0 0 12px;">Listings are always free. If you'd like to help keep TOE Connect running, a voluntary contribution is welcome. It doesn't affect your listing.</p>
+      <a href="https://square.link/u/Py9sfqWC" target="_blank" rel="noopener noreferrer" class="contribute-btn" style="display:inline-block;background:var(--matte-black);color:var(--white);padding:11px 22px;font-size:15px;font-weight:500;border-radius:2px;">Contribute to TOE Connect →</a>
+      <p style="font-size:14px;color:#5c5a54;margin:10px 0 0;">Opens in a new tab. <a href="support.html" style="color:#8A6A0E;text-decoration:underline;">Learn more</a></p>
+    </div>
     <div style="margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
       <a href="index.html" style="display:inline-block;background:#C9A227;color:#0E0E0C;padding:12px 24px;font-size:17px;font-weight:500;text-decoration:none;border-radius:2px;">Back to the directory</a>
       <a href="submit.html" style="display:inline-block;border:1px solid #0E0E0C;color:#0E0E0C;padding:12px 24px;font-size:17px;text-decoration:none;border-radius:2px;">Submit another business</a>
@@ -379,7 +354,7 @@
   </div>
 </div>
 
-<footer style="background:#0E0E0C;color:rgba(251,250,247,0.78);padding:24px 22px;font-size:14px;line-height:1.6;text-align:center;">© 2026 TOE Connect™, an initiative of Time of Essence Global Group, LLC. All rights reserved.</footer>
+<footer style="background:#0E0E0C;color:rgba(251,250,247,0.78);padding:24px 22px;font-size:14px;line-height:1.6;text-align:center;"><a href="support.html" style="text-decoration:underline;">Support TOE Connect</a><br>© 2026 TOE Connect™, an initiative of Time of Essence Global Group, LLC. All rights reserved.</footer>
 
 <script>
   const isRemote = document.getElementById('is-remote');
@@ -456,20 +431,6 @@
       close: row.querySelector('.h-close').value
     }));
   }
-
-  const donateChips = document.querySelectorAll('.donate-chip');
-  const otherInput = document.getElementById('donate-other');
-  let donateAmount = 0;
-
-  donateChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      donateChips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      const amt = chip.dataset.amt;
-      otherInput.style.display = amt === 'other' ? 'block' : 'none';
-      donateAmount = amt === 'other' ? null : Number(amt);
-    });
-  });
 
   // Live counters for the short description (characters) and full bio (words).
   const BIO_MAX_WORDS = 250;
@@ -580,8 +541,7 @@
       mbeCert: document.getElementById('mbeCert').value.trim(),
       termsAccepted: document.getElementById('terms').checked,
       hp: document.getElementById('fax_number').value,
-      elapsedMs: Date.now() - formStartedAt,
-      donationAmount: donateAmount === 'other' ? Number(otherInput.value) || 0 : (donateAmount || 0)
+      elapsedMs: Date.now() - formStartedAt
     };
 
     try {
