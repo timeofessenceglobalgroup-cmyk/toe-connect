@@ -51,7 +51,6 @@ exports.handler = async function (event) {
     'Tip Text': data.tipText,
     'Topic': data.topic,
     'Business Name': data.businessName,
-    'Business Category': data.category || '',
     'Contact Email': data.email,
     'Status': 'Pending'
   };
