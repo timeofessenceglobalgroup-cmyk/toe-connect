@@ -23,6 +23,17 @@ exports.handler = async function (event) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Invalid request body' }) };
   }
 
+  // Bot checks: a hidden field real visitors never fill, and a form sent in under 3 seconds, are treated as bots.
+  // Bots get a normal-looking success reply and nothing is saved.
+  const elapsed = Number(data.elapsedMs);
+  if (data.hp || !Number.isFinite(elapsed) || elapsed < 3000) {
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({ success: true })
+    };
+  }
+
   const missing = [];
   if (!data.tipText) missing.push('tipText');
   if (!data.topic) missing.push('topic');
