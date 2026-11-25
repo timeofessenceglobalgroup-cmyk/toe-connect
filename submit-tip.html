@@ -77,6 +77,10 @@
   <p class="lede">One real lesson for the next business owner starting out. Keep it short and specific — the things nobody tells you before you start.</p>
 
   <form id="tip-form" novalidate>
+    <div aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+      <label for="fax_number">Leave this field empty</label>
+      <input type="text" id="fax_number" name="fax_number" tabindex="-1" autocomplete="off">
+    </div>
     <div class="field" data-required="true">
       <label for="tipText">Your tip</label>
       <textarea id="tipText" name="tipText" placeholder="I priced my first year based on what I thought people would pay, not what the work actually cost me..."></textarea>
@@ -126,6 +130,7 @@
 </div>
 
 <script>
+  const formStartedAt = Date.now();
   document.getElementById('tip-form').addEventListener('submit', async function(e){
     e.preventDefault();
     let valid = true;
@@ -152,7 +157,9 @@
       topic: document.getElementById('topic').value,
       businessName: document.getElementById('businessName').value.trim(),
       category: document.getElementById('category').value.trim(),
-      email: document.getElementById('email').value.trim()
+      email: document.getElementById('email').value.trim(),
+      hp: document.getElementById('fax_number').value,
+      elapsedMs: Date.now() - formStartedAt
     };
 
     try {

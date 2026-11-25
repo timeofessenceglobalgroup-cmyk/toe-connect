@@ -204,6 +204,7 @@
     <a href="contact.html">Contact</a>
     <a href="privacy.html">Privacy Policy</a>
     <a href="terms.html">Terms of Use</a>
+    <a href="support.html">Support TOE Connect</a>
   </div>
 </footer>
 <div class="disclaimer-bar">Listings are reviewed before approval, but businesses are responsible for maintaining their own licenses, certifications, and conduct. <a href="verification.html" style="color:rgba(251,250,247,0.75);text-decoration:underline;">See our full Verification Notice →</a></div>
@@ -216,16 +217,20 @@
   let allTips = [];
   let activeTopic = 'all';
 
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
   function tipHTML(item) {
     const meta = item.businessName
-      ? `<div class="tip-meta"><b>${item.businessName}</b>${item.category ? ' · ' + item.category : ''}</div>`
+      ? `<div class="tip-meta"><b>${esc(item.businessName)}</b>${item.category ? ' · ' + esc(item.category) : ''}</div>`
       : '';
     return `
       <div class="tip-card">
         <div class="tip-mark">&ldquo;</div>
         <div class="tip-body">
-          <div class="tip-cat">${item.topic}</div>
-          <p class="tip-text">${item.text}</p>
+          <div class="tip-cat">${esc(item.topic)}</div>
+          <p class="tip-text">${esc(item.text)}</p>
           ${meta}
         </div>
       </div>`;

@@ -149,26 +149,31 @@
     <a href="contact.html">Contact</a>
     <a href="privacy.html">Privacy Policy</a>
     <a href="terms.html">Terms of Use</a>
+    <a href="support.html">Support TOE Connect</a>
   </div>
 </footer>
 
 <script>
   const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
   function eventHTML(item) {
     const d = item.date ? new Date(item.date + 'T00:00:00') : null;
     const month = d ? MONTHS[d.getMonth()] : '';
     const day = d ? d.getDate() : '?';
-    const rsvp = item.rsvpLink
-      ? `<a href="${item.rsvpLink}" target="_blank" rel="noopener" class="event-rsvp">RSVP →</a>`
+    const rsvp = /^https?:\/\//i.test(item.rsvpLink || '')
+      ? `<a href="${esc(item.rsvpLink)}" target="_blank" rel="noopener" class="event-rsvp">RSVP →</a>`
       : '';
     return `
       <div class="event-card">
         <div class="event-date"><div class="month">${month}</div><div class="day">${day}</div></div>
         <div class="event-body">
-          <h3>${item.name}</h3>
-          <div class="event-meta">${item.location || ''}</div>
-          <div class="event-desc">${item.description || ''}</div>
+          <h3>${esc(item.name)}</h3>
+          <div class="event-meta">${esc(item.location)}</div>
+          <div class="event-desc">${esc(item.description)}</div>
           ${rsvp}
         </div>
       </div>`;
