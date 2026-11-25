@@ -565,13 +565,16 @@
 
 <section class="hero">
   <div class="hero-inner">
-    <!-- Founder photo: upload founder.jpg next to index.html. If it's missing, this block hides itself. -->
+      <!-- Upload the logo as toe-connect-logo.png next to index.html. If it's missing, this block hides itself. -->
     <div class="logo-crop" id="logoCrop">
-      <img src="founder.jpg" alt="Kim Watt-Daniels, founder of TOE Connect" onerror="document.getElementById('logoCrop').style.display='none';document.querySelector('.hero-inner').style.gridTemplateColumns='1fr';">
+      <img src="toe-connect-logo.png" alt="Time of Essence Connect" onerror="document.getElementById('logoCrop').style.display='none';document.querySelector('.hero-inner').style.gridTemplateColumns='1fr';">
     </div>
     <div>
       <div class="hero-eyebrow">A Time of Essence Global Group directory · Free to list, always</div>
-      <h1>Find Black-owned businesses across Wisconsin</h1>
+           <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:12px;">
+        <h1 style="margin:0;flex:1 1 280px;">Find Black-owned businesses across Wisconsin</h1>
+        <img src="founder.jpg" alt="Kim Watt-Daniels, founder of TOE Connect" style="width:130px;height:130px;border-radius:50%;object-fit:cover;object-position:center top;" onerror="this.style.display='none';">
+      </div>
       <p class="lede">Search a growing network of Wisconsin entrepreneurs, service providers, and creatives — many available in person, some serving clients virtually across state lines.</p>
       <form class="search-bar" id="searchForm" autocomplete="off">
         <input type="text" class="kw" id="kw" placeholder="Business name or keyword" aria-label="Business name or keyword">
