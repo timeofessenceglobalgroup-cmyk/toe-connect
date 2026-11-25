@@ -107,10 +107,6 @@
       <div class="error">Enter your business name.</div>
     </div>
 
-    <div class="field">
-      <label for="category">Business category <span style="color:#a5a297">(optional)</span></label>
-      <input type="text" id="category" name="category" placeholder="e.g. Consulting">
-    </div>
 
     <div class="field" data-required="true">
       <label for="email">Email</label>
@@ -157,7 +153,6 @@
       tipText: document.getElementById('tipText').value.trim(),
       topic: document.getElementById('topic').value,
       businessName: document.getElementById('businessName').value.trim(),
-      category: document.getElementById('category').value.trim(),
       email: document.getElementById('email').value.trim(),
       hp: document.getElementById('fax_number').value,
       elapsedMs: Date.now() - formStartedAt
